@@ -1,0 +1,33 @@
+{
+  "name": "quran",
+  "version": "0.1.0",
+  "description": "Quran App",
+  "main": "build/main/main.js",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "build": "node scripts/build.js && electron-builder -c config/electron-builder.json",
+    "build:win": "node scripts/build.js && electron-builder -c config/electron-builder.json --win",
+    "build:mac": "node scripts/build.js && electron-builder -c config/electron-builder.json --mac",
+    "build:linux": "node scripts/build.js && electron-builder -c config/electron-builder.json --linux"
+  },
+  "author": "md.kazimsadiq@gmail.com",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.4",
+    "@vue/cli": "^5.0.1",
+    "autoprefixer": "^10.4.7",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "electron": "^19.0.0",
+    "electron-builder": "^23.0.3",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.6",
+    "typescript": "^4.6.2",
+    "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "pinia": "^2.0.16",
+    "sqlite3": "^5.0.9",
+    "vue": "^3.2.36",
+    "vue-router": "^4.1.2"
+  }
+}
