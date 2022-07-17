@@ -1,19 +1,28 @@
 import { defineStore } from 'pinia'
-import { ipcRenderer } from '../electron'
+import Chapter from '../model/Chapter'
+import Verse from '../model/Verse'
 
 export const useStore = defineStore("main", {
   state: () => ({
-    users: []
+    chapters: [],
+    verses: [],
    }),
 
    getters: {
+      getVersesByChapter: (state) => (chapterId) => state.verses.filter(verse => verse.chapter_id == chapterId),
 
+      getChapter: (state) => (id) => state.chapters.find(chapter => chapter.id == id),
    },
 
    actions: {
-      async getUsers() {
-          ipcRenderer.send('request', 'SELECT * FROM users')
-          ipcRenderer.receive('response', (users) => this.users = users)
+      fetchChapters() {
+            Chapter.all()
+            .then(chapters => this.chapters = chapters)
+      },
+
+      fetchVerses() {
+         Verse.all()
+            .then(verses => this.verses = verses)
       }
    }
 })

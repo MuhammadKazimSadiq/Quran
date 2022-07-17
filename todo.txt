@@ -1,0 +1,21 @@
+- pinia state management structure + fetching data 
+- skeleton loaders?
+- navigation guards 
+- dark theme 
+- sidebar? top navigation?
+- list view recycle  
+
+
+# Data Stricture 
+  - chapters: [all chapters]
+  - verses: [all verses]
+  - translations: [all translations]
+
+
+# Side Navigation
+  - Home
+  - Read 
+  - Search 
+  - Bookmarked 
+  - Topics 
+  - Vocab 
