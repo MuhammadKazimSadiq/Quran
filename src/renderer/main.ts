@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import './index.css'
@@ -8,6 +8,8 @@ const routes = [
   { path: '/', name: 'Home', component: () => import('./views/Home.vue')},
   { path: '/read/:id', name: 'Read', component: () => import('./views/Read.vue')},
   { path: '/search', name: 'Search', component: () => import('./views/Search.vue')},
+  { path: '/bookmarks', name: 'Bookmarks', component: () => import('./views/Bookmarks.vue')},
+  { path: '/settings', name: 'Settings', component: () => import('./views/Settings.vue')},
 ]
 
 const router = createRouter({

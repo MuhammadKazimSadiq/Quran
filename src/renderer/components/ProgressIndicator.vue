@@ -1,11 +1,16 @@
 <template>
-  <div class="w-full bg-gray-300 h-1 z-10 rounded-lg">
-    <div class="h-1 bg-gray-600 rounded-lg" :style="{ width: progress }"></div>
+  <div v-if="route.name === 'Read'" class="px-1">
+    <div class="w-full bg-gray-300 h-1 z-10 rounded-lg">
+      <div class="h-1 bg-gray-600 rounded-lg" :style="{ width: progress }"></div>
+    </div>
   </div>
 </template>
 
 <script setup>
-  import {ref, onMounted} from 'vue' 
+  import {ref, onMounted} from 'vue'
+  import { useRoute } from 'vue-router'
+
+  const route = useRoute() 
 
   onMounted(() => {
     window.addEventListener("scroll", updateProgressIndicator);
@@ -20,6 +25,3 @@
     progress.value = (windowScroll / height) * 100 + "%";
   }
 </script>
-
-<style scoped>
-</style>

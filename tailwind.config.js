@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'display': ['B Nazanin'],
-        'quran': ['Usman_Taha'],
+        'farsi': ['B Nazanin'],
+        'arabic': ['Usman_Taha'],
       },
     },
   },
