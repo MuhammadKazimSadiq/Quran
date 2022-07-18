@@ -6,6 +6,8 @@ export const useStore = defineStore("main", {
   state: () => ({
     chapters: [],
     verses: [],
+
+    chapterId: 1
    }),
 
    getters: {

@@ -10,8 +10,17 @@
         <div class="text-xs text-gray-600 self-center">{{ chapter.translation }}</div>
       </div>
     </div>
-    <div class="text-xs">
-      {{ chapter.verses_count }} آیه
+
+    <!-- left side  -->
+    <div class="flex flex-col justify-between gap-3">
+      <!-- revelation place image -->
+      <div class="flex justify-center">
+        <img class="w-4" :src="`../assets/${chapter.revelation_place}.png`" alt="Revelation place image">
+      </div>
+      <!-- verse count -->
+      <div class="text-xs">
+        {{ chapter.verses_count }} آیه
+      </div>
     </div>
   </div>
 </template>

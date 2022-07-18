@@ -4,22 +4,20 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import './index.css'
 
-import Home from './views/Home.vue'
-import Chapter from './views/Chapter.vue'
-
 const routes = [
-  { path: '/', component: Home },
-  { path: '/chapter/:id', component: Chapter },
+  { path: '/', name: 'Home', component: () => import('./views/Home.vue')},
+  { path: '/read/:id', name: 'Read', component: () => import('./views/Read.vue')},
+  { path: '/search', name: 'Search', component: () => import('./views/Search.vue')},
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+  linkActiveClass: "bg-gray-200",
+  linkExactActiveClass: "bg-gray-200",
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
   },
-  linkActiveClass: "bg-gray-300",
-  linkExactActiveClass: "bg-gray-300",
 })
 
 const pinia = createPinia()
