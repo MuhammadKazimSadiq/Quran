@@ -1,13 +1,17 @@
 <template>
   <div class="mb-4 flex justify-between gap-12">
     <!-- verse -->
-    <div class="gap-2 flex-1">
-      <div class="text-3xl my-12 leading-loose">
+    <div class="flex-1 gap-2">
+      <div class="my-12 text-3xl leading-loose">
         <span class="font-arabic">{{ verse.text_original }}</span>
         <span> ({{ verse.verse_id }}) </span>
       </div>
-      <Translation v-for="translation in translations" :translation="verse[translation.id]"
-        :translator="translation.name" :language="translation.language" />
+      <Translation
+        v-for="translation in translations"
+        :translation="verse[translation.id]"
+        :translator="translation.name"
+        :language="translation.language"
+      />
     </div>
 
     <!-- left side -->
@@ -18,15 +22,21 @@
       </div>
       <!-- copy icon -->
       <div>
-        <CopyToClipboardIcon class="w-5 text-gray-600 text-opacity-70 cursor-pointer hover:text-gray-900" />
+        <CopyToClipboardIcon
+          class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+        />
       </div>
       <!-- bookmark icon -->
       <div>
-        <BookmarkIcon class="w-5 text-gray-600 text-opacity-70 cursor-pointer hover:text-gray-900" />
+        <BookmarkIcon
+          class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+        />
       </div>
       <!-- options icon -->
       <div>
-        <OptionsIcon class="w-5 text-gray-600 text-opacity-70 cursor-pointer hover:text-gray-900" />
+        <OptionsIcon
+          class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+        />
       </div>
     </div>
   </div>
@@ -35,25 +45,25 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { defineProps, onMounted } from "vue";
 
-import Translation from '../components/Translation.vue'
-import CopyToClipboardIcon from '../components/CopyToClipboardIcon.vue'
-import BookmarkIcon from '../components/BookmarkIcon.vue'
-import OptionsIcon from '../components/OptionsIcon.vue'
+import Translation from "../components/Translation.vue";
+import CopyToClipboardIcon from "../components/CopyToClipboardIcon.vue";
+import BookmarkIcon from "../components/BookmarkIcon.vue";
+import OptionsIcon from "../components/OptionsIcon.vue";
 
 defineProps({
-    verse: {
-        type: Object,
-        required: true
-    }
-})
+  verse: {
+    type: Object,
+    required: true,
+  },
+});
 
 const translations = [
   // { id: 'en_shakir', name: 'Shakir', language: 'en'},
   // { id: 'fa_ansarian', name: 'انصاریان', language: 'fa'},
-  { id: 'fa_bahrampour', name: 'بهرامپور', language: 'fa'},
+  { id: "fa_bahrampour", name: "بهرامپور", language: "fa" },
   // { id: 'fa_makarem', name: 'مکارم', language: 'fa'},
   // { id: 'fa_qaraati', name: 'قرائتی', language: 'fa'},
-]
+];
 </script>

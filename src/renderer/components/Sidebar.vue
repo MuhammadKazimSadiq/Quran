@@ -1,8 +1,14 @@
 <template>
-  <aside class="h-screen sticky top-0 w-12 flex-none bg-gray-100 flex flex-col items-center">
+  <aside
+    class="sticky top-0 flex h-screen w-12 flex-none flex-col items-center bg-gray-100"
+  >
     <!-- logo -->
     <div class="my-4">
-      <img class="object-contain w-10" src=" ./assets/quran.png" alt="Quran Logo">
+      <img
+        class="w-10 object-contain"
+        src=" ./assets/quran.png"
+        alt="Quran Logo"
+      />
     </div>
     <!-- hr -->
     <div class="h-px w-full bg-gray-200"></div>
@@ -25,12 +31,12 @@
 </template>
 
 <script setup>
-import { useStore } from '../store/useStore'
+import { useStore } from "../store/useStore";
 
-import HomeIcon from '../components/HomeIcon.vue'
-import ReadIcon from '../components/ReadIcon.vue'
-import SearchIcon from '../components/SearchIcon.vue'
-import BookmarkIcon from '../components/BookmarkIcon.vue'
+import HomeIcon from "../components/HomeIcon.vue";
+import ReadIcon from "../components/ReadIcon.vue";
+import SearchIcon from "../components/SearchIcon.vue";
+import BookmarkIcon from "../components/BookmarkIcon.vue";
 
-const store = useStore()
+const store = useStore();
 </script>

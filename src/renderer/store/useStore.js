@@ -1,30 +1,30 @@
-import { defineStore } from 'pinia'
-import Chapter from '../model/Chapter'
-import Verse from '../model/Verse'
+import { defineStore } from "pinia";
+import Chapter from "../model/Chapter";
+import Verse from "../model/Verse";
 
 export const useStore = defineStore("main", {
   state: () => ({
     chapters: [],
     verses: [],
 
-    chapterId: 1
-   }),
+    chapterId: 1,
+  }),
 
-   getters: {
-      getVersesByChapter: (state) => (chapterId) => state.verses.filter(verse => verse.chapter_id == chapterId),
+  getters: {
+    getVersesByChapter: (state) => (chapterId) =>
+      state.verses.filter((verse) => verse.chapter_id == chapterId),
 
-      getChapter: (state) => (id) => state.chapters.find(chapter => chapter.id == id),
-   },
+    getChapter: (state) => (id) =>
+      state.chapters.find((chapter) => chapter.id == id),
+  },
 
-   actions: {
-      fetchChapters() {
-            Chapter.all()
-            .then(chapters => this.chapters = chapters)
-      },
+  actions: {
+    fetchChapters() {
+      Chapter.all().then((chapters) => (this.chapters = chapters));
+    },
 
-      fetchVerses() {
-         Verse.all()
-            .then(verses => this.verses = verses)
-      }
-   }
-})
+    fetchVerses() {
+      Verse.all().then((verses) => (this.verses = verses));
+    },
+  },
+});
