@@ -8,6 +8,8 @@ export const useStore = defineStore("main", {
     verses: [],
 
     chapterId: 1,
+
+    commandPalette: false,
   }),
 
   getters: {

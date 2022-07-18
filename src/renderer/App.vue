@@ -1,4 +1,5 @@
 <template>
+  <CommandPalette />
   <div class="box-border flex font-farsi">
     <!-- sidebar -->
     <Sidebar />
@@ -12,13 +13,12 @@
       </main>
     </div>
   </div>
-  <CommandPalette />
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useStore } from "./store/useStore";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
 import Nav from "./components/Nav.vue";
@@ -29,10 +29,20 @@ const store = useStore();
 const { fetchChapters, fetchVerses } = store;
 
 const route = useRoute();
+const router = useRouter();
 
 onMounted(() => {
   fetchChapters();
   fetchVerses();
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "k" && (event.metaKey || event.ctrlKey)) {
+    store.commandPalette = !store.commandPalette;
+  }
+  if (e.key === "," && (event.metaKey || event.ctrlKey)) {
+    router.push("/settings");
+  }
 });
 </script>
 

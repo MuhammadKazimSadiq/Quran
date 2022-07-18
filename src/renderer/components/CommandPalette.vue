@@ -1,11 +1,10 @@
 <template>
   <!-- transition root -->
-  <TransitionRoot :show="isOpen" @afterLeave="onClose">
+  <TransitionRoot :show="store.commandPalette" @afterLeave="onClose">
     <!-- dialog -->
     <Dialog
       dir="rtl"
-      :open="isOpen"
-      @close="isOpen = false"
+      @close="store.commandPalette = false"
       class="fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
     >
       <TransitionChild
@@ -32,8 +31,8 @@
           <!-- combobox -->
           <Combobox
             as="div"
-            v-model="selectedPerson"
-            @update:modelValue="onSelect(this)"
+            v-model="selectedChapter"
+            @update:modelValue="onSelect"
             class="relative mx-auto max-w-xl divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-black/5"
           >
             <div class="flex items-center px-4">
@@ -42,7 +41,7 @@
               <!-- combobox input -->
               <ComboboxInput
                 @change="search = $event.target.value"
-                class="h-12 w-full border-0 bg-transparent font-farsi text-sm text-gray-800 placeholder-gray-400 focus:ring-0"
+                class="h-16 w-full border-0 bg-transparent font-farsi text-lg text-gray-800 placeholder-gray-400 focus:ring-0"
                 placeholder="جستجو"
               />
             </div>
@@ -50,14 +49,14 @@
             <!-- combobox options -->
             <ComboboxOptions
               static
-              v-if="filteredPeople.length"
+              v-if="filteredChapters.length"
               class="max-h-80 overflow-y-auto py-4 text-sm"
             >
               <!-- combobox option -->
               <ComboboxOption
-                v-for="person in filteredPeople"
+                v-for="chapter in filteredChapters"
                 v-slot="{ active, selected }"
-                :value="person"
+                :value="chapter.name"
                 class="cursor-pointer"
               >
                 <div
@@ -65,14 +64,16 @@
                   :class="{ 'bg-gray-100': active }"
                 >
                   <span class="font-medium">
-                    {{ person }}
+                    {{ chapter.name }}
                   </span>
-                  <span> in {{ person }} </span>
                 </div>
               </ComboboxOption>
             </ComboboxOptions>
             <!-- no results found -->
-            <div v-else class="p-4 font-farsi text-sm text-gray-500">
+            <div
+              v-else
+              class="p-4 text-center font-farsi text-lg text-gray-500"
+            >
               <p>موردی یافت نشد!</p>
             </div>
           </Combobox>
@@ -94,57 +95,31 @@ import {
   TransitionRoot,
   TransitionChild,
 } from "@headlessui/vue";
+import { useStore } from "../store/useStore";
+
 import SearchIcon from "../components/SearchIcon.vue";
 
-const isOpen = ref(false);
+const emit = defineEmits(["toggle"]);
 
-const people = [
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
-];
-const selectedPerson = ref();
+const store = useStore();
+
+const selectedChapter = ref();
 const search = ref("");
 
-const filteredPeople = computed(() =>
+const filteredChapters = computed(() =>
   search.value === ""
-    ? people
-    : people.filter((person) => {
-        return person.toLowerCase().includes(search.value.toLowerCase());
+    ? store.chapters
+    : store.chapters.filter((chapter) => {
+        return chapter.name.includes(search.value);
       })
 );
 
-window.addEventListener("keydown", onKeyDown);
-
-function onKeyDown(e) {
-  if (e.key === "k" && (event.metaKey || event.ctrlKey)) {
-    isOpen.value = !isOpen.value;
-  }
-}
-
 const onClose = () => {
-  selectedPerson.value = "";
+  selectedChapter.value = "";
 };
 
-const onSelect = (e) => {
-  console.log(selectedPerson.value);
-  isOpen.value = false;
+const onSelect = () => {
+  // console.log(selectedChapter.value);
+  store.commandPalette = false;
 };
 </script>

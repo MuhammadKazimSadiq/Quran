@@ -6,13 +6,39 @@
         <span class="font-arabic">{{ verse.text_original }}</span>
         <span> ({{ verse.verse_id }}) </span>
       </div>
+      <!-- translations -->
       <Translation
         v-for="translation in translations"
         :translation="verse[translation.id]"
         :translator="translation.name"
         :language="translation.language"
       />
+
+      <!-- topics -->
+      <!-- <div class="flex gap-3">
+        <span
+          class="flex w-max cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500"
+        >
+          توحید
+        </span>
+        <span
+          class="flex w-max cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500"
+        >
+          عصمت
+        </span>
+      </div> -->
     </div>
+
+    <!-- <div class="mt-6 flex flex-col gap-3">
+      <div class="flex gap-1">
+        <div class="font-bold text-blue-800">بسم:</div>
+        <div>به نام</div>
+      </div>
+      <div class="flex gap-1">
+        <div class="font-bold text-blue-800">الرحمن:</div>
+        <div>بخشنده</div>
+      </div>
+    </div> -->
 
     <!-- left side -->
     <div class="mt-8 flex flex-col gap-6">
