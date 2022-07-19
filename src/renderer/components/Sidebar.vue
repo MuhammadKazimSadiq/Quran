@@ -4,11 +4,7 @@
   >
     <!-- logo -->
     <div class="my-4">
-      <img
-        class="w-10 object-contain"
-        src=" ./assets/quran.png"
-        alt="Quran Logo"
-      />
+      <img class="w-10 object-contain" :src="QuranLogo" alt="Quran Logo" />
     </div>
     <!-- hr -->
     <div class="h-px w-full bg-gray-200"></div>
@@ -37,6 +33,8 @@ import HomeIcon from "../components/HomeIcon.vue";
 import ReadIcon from "../components/ReadIcon.vue";
 import SearchIcon from "../components/SearchIcon.vue";
 import BookmarkIcon from "../components/BookmarkIcon.vue";
+
+import QuranLogo from "../assets/Quran.png";
 
 const store = useStore();
 </script>

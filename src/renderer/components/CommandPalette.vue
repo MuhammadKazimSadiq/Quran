@@ -49,12 +49,12 @@
             <!-- combobox options -->
             <ComboboxOptions
               static
-              v-if="filteredChapters.length"
+              v-if="!noResults"
               class="max-h-80 overflow-y-auto py-4 text-sm"
             >
               <!-- combobox option -->
               <ComboboxOption
-                v-for="chapter in filteredChapters"
+                v-for="chapter in search.length ? results : chapters"
                 v-slot="{ active, selected }"
                 :value="chapter.name"
                 class="cursor-pointer"
@@ -85,6 +85,8 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useVueFuse } from "vue-fuse";
+import { storeToRefs } from "pinia";
 import {
   Dialog,
   DialogPanel,
@@ -99,20 +101,16 @@ import { useStore } from "../store/useStore";
 
 import SearchIcon from "../components/SearchIcon.vue";
 
-const emit = defineEmits(["toggle"]);
-
 const store = useStore();
 
 const selectedChapter = ref();
-const search = ref("");
 
-const filteredChapters = computed(() =>
-  search.value === ""
-    ? store.chapters
-    : store.chapters.filter((chapter) => {
-        return chapter.name.includes(search.value);
-      })
-);
+const { chapters } = storeToRefs(store);
+
+const { search, results, noResults } = useVueFuse(chapters, {
+  keys: ["name"],
+  threshold: 0.4,
+});
 
 const onClose = () => {
   selectedChapter.value = "";

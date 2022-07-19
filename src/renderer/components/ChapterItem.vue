@@ -22,7 +22,7 @@
       <div class="flex justify-center">
         <img
           class="w-4"
-          :src="`../assets/${chapter.revelation_place}.png`"
+          :src="revelationPlace(chapter.revelation_place)"
           alt="Revelation place image"
         />
       </div>
@@ -34,6 +34,13 @@
 
 <script setup>
 import { defineProps } from "vue";
+
+import MakkiImg from "../assets/Makki.png";
+import MadaniImg from "../assets/Madani.png";
+
+const revelationPlace = (place) => {
+  return place === "makki" ? MakkiImg : MadaniImg;
+};
 
 defineProps({
   chapter: {
