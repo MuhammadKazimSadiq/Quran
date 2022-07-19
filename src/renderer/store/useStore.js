@@ -4,10 +4,14 @@ import Verse from "../model/Verse";
 
 export const useStore = defineStore("main", {
   state: () => ({
+    theme: "dark",
+
     chapters: [],
     verses: [],
 
     chapterId: 1,
+
+    scrollTo: {},
 
     commandPalette: false,
   }),
@@ -27,6 +31,13 @@ export const useStore = defineStore("main", {
 
     fetchVerses() {
       Verse.all().then((verses) => (this.verses = verses));
+    },
+
+    changeTheme() {
+      const newThemeValue = this.theme === "light" ? "dark" : "light";
+      document.getElementById("root").classList.remove(this.theme);
+      document.getElementById("root").classList.add(newThemeValue);
+      this.theme = newThemeValue;
     },
   },
 });

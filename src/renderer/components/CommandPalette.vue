@@ -5,7 +5,7 @@
     <Dialog
       dir="rtl"
       @close="store.commandPalette = false"
-      class="fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
+      class="dark fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
     >
       <TransitionChild
         enter="duration-300 ease-out"
@@ -33,7 +33,7 @@
             as="div"
             v-model="selectedChapter"
             @update:modelValue="onSelect"
-            class="relative mx-auto max-w-xl divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-black/5"
+            class="relative mx-auto max-w-xl divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-black/5 dark:bg-gray-800"
           >
             <div class="flex items-center px-4">
               <!-- search icon -->
@@ -41,8 +41,9 @@
               <!-- combobox input -->
               <ComboboxInput
                 @change="search = $event.target.value"
-                class="h-16 w-full border-0 bg-transparent font-farsi text-lg text-gray-800 placeholder-gray-400 focus:ring-0"
+                class="h-16 w-full border-0 bg-transparent font-farsi text-lg text-gray-800 placeholder-gray-400 focus:ring-0 dark:text-gray-200 dark:placeholder-gray-700"
                 placeholder="جستجو"
+                :displayValue="(chapter) => chapter?.name"
               />
             </div>
 
@@ -56,14 +57,14 @@
               <ComboboxOption
                 v-for="chapter in search.length ? results : chapters"
                 v-slot="{ active, selected }"
-                :value="chapter.name"
+                :value="chapter"
                 class="cursor-pointer"
               >
                 <div
                   class="mx-2 space-x-1 rounded-lg p-4"
-                  :class="{ 'bg-gray-100': active }"
+                  :class="{ 'bg-gray-100 dark:bg-gray-700': active }"
                 >
-                  <span class="font-medium">
+                  <span class="font-medium dark:text-gray-200">
                     {{ chapter.name }}
                   </span>
                 </div>
@@ -72,7 +73,7 @@
             <!-- no results found -->
             <div
               v-else
-              class="p-4 text-center font-farsi text-lg text-gray-500"
+              class="p-4 text-center font-farsi text-lg text-gray-500 dark:text-gray-300"
             >
               <p>موردی یافت نشد!</p>
             </div>
@@ -98,10 +99,12 @@ import {
   TransitionChild,
 } from "@headlessui/vue";
 import { useStore } from "../store/useStore";
+import { useRouter } from "vue-router";
 
 import SearchIcon from "../components/SearchIcon.vue";
 
 const store = useStore();
+const router = useRouter();
 
 const selectedChapter = ref();
 
@@ -113,11 +116,12 @@ const { search, results, noResults } = useVueFuse(chapters, {
 });
 
 const onClose = () => {
+  search.value = "";
   selectedChapter.value = "";
 };
 
 const onSelect = () => {
-  // console.log(selectedChapter.value);
+  router.push(`/read/${selectedChapter.value.id}`);
   store.commandPalette = false;
 };
 </script>

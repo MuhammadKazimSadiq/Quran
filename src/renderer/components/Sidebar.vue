@@ -1,13 +1,13 @@
 <template>
   <aside
-    class="sticky top-0 flex h-screen w-12 flex-none flex-col items-center bg-gray-100"
+    class="sticky top-0 flex h-screen w-12 flex-none flex-col items-center bg-gray-100 dark:bg-gray-800"
   >
     <!-- logo -->
     <div class="my-4">
       <img class="w-10 object-contain" :src="QuranLogo" alt="Quran Logo" />
     </div>
     <!-- hr -->
-    <div class="h-px w-full bg-gray-200"></div>
+    <div class="h-px w-full bg-gray-200 dark:bg-gray-900"></div>
     <!-- icons -->
     <div class="mt-4 flex flex-col gap-4">
       <router-link to="/" class="rounded-md p-2">

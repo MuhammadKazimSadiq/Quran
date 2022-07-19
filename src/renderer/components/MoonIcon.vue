@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="w-6 text-gray-600 hover:text-gray-900"
+    class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"

@@ -2,8 +2,10 @@
   <div class="mb-4 flex justify-between gap-12">
     <!-- verse -->
     <div class="flex-1 gap-2">
-      <div class="my-12 text-3xl leading-loose">
-        <span class="font-arabic">{{ verse.text_original }}</span>
+      <div class="my-12 text-3xl leading-loose dark:text-white">
+        <span class="font-arabic">
+          {{ verse.text_original }}
+        </span>
         <span> ({{ verse.verse_id }}) </span>
       </div>
       <!-- translations -->
@@ -43,7 +45,7 @@
     <!-- left side -->
     <div class="mt-8 flex flex-col gap-6">
       <!-- chapter:verse -->
-      <div class="text-md text-gray-600 text-opacity-70">
+      <div class="text-md text-gray-600 text-opacity-70 dark:text-gray-200">
         {{ verse.chapter_id }}:{{ verse.verse_id }}
       </div>
       <!-- copy icon -->

@@ -4,13 +4,15 @@
   >
     <div class="flex justify-start gap-8">
       <div
-        class="flex h-10 w-10 rotate-45 items-center justify-center bg-gray-100 group-hover:bg-teal-600 group-hover:text-white"
+        class="flex h-10 w-10 rotate-45 items-center justify-center bg-gray-100 group-hover:bg-teal-600 group-hover:text-white dark:bg-gray-700"
       >
-        <div class="-rotate-45">{{ chapter.id }}</div>
+        <div class="-rotate-45 dark:text-white">{{ chapter.id }}</div>
       </div>
       <div class="flex flex-col gap-2">
-        <div class="self-center font-bold">{{ chapter.name }}</div>
-        <div class="self-center text-xs text-gray-600">
+        <div class="self-center font-bold dark:text-white">
+          {{ chapter.name }}
+        </div>
+        <div class="self-center text-xs text-gray-600 dark:text-gray-200">
           {{ chapter.translation }}
         </div>
       </div>
@@ -27,7 +29,9 @@
         />
       </div>
       <!-- verse count -->
-      <div class="text-xs">{{ chapter.verses_count }} آیه</div>
+      <div class="text-xs dark:text-gray-200">
+        {{ chapter.verses_count }} آیه
+      </div>
     </div>
   </div>
 </template>

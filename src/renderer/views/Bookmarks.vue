@@ -1,3 +1,3 @@
 <template>
-  <h1>نشان شده ها</h1>
+  <h1 class="dark:text-white">نشان شده ها</h1>
 </template>

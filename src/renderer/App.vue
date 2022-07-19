@@ -1,16 +1,18 @@
 <template>
-  <CommandPalette />
-  <div class="box-border flex font-farsi">
-    <!-- sidebar -->
-    <Sidebar />
+  <div id="root" :class="store.theme">
+    <CommandPalette />
+    <div class="box-border flex font-farsi">
+      <!-- sidebar -->
+      <Sidebar />
 
-    <div class="flex-1">
-      <!-- navigation -->
-      <Nav />
-      <!-- main view -->
-      <main class="p-6">
-        <router-view></router-view>
-      </main>
+      <div class="flex-1">
+        <!-- navigation -->
+        <Nav />
+        <!-- main view -->
+        <main class="bg-white p-6 dark:bg-gray-900">
+          <router-view></router-view>
+        </main>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +44,10 @@ window.addEventListener("keydown", (e) => {
   }
   if (e.key === "," && (event.metaKey || event.ctrlKey)) {
     router.push("/settings");
+  }
+
+  if (e.key === "t" && (event.metaKey || event.ctrlKey)) {
+    store.changeTheme();
   }
 });
 </script>

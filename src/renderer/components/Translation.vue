@@ -1,7 +1,13 @@
 <template>
-  <div class="mb-8" :class="{ 'text-left': language === 'en' }" :dir="dir">
-    <div class="mb-2 text-xl">{{ translation }}</div>
-    <div class="text-xs text-gray-600 text-opacity-70">- {{ translator }}</div>
+  <div
+    class="mb-8 dark:text-white"
+    :class="{ 'text-left': language === 'en' }"
+    :dir="dir"
+  >
+    <div class="mb-2 text-xl dark:text-white">{{ translation }}</div>
+    <div class="text-xs text-gray-600 text-opacity-70 dark:text-gray-300">
+      - {{ translator }}
+    </div>
   </div>
 </template>
 
