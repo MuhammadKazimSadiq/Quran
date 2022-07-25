@@ -38,7 +38,7 @@ import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 
 import ChapterItem from "../components/ChapterItem.vue";
-import SearchIcon from "../components/SearchIcon.vue";
+import SearchIcon from "../components/icons/SearchIcon.vue";
 
 const store = useStore();
 const { chapters } = storeToRefs(store);

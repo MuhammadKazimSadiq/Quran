@@ -9,8 +9,8 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "../store/useStore";
-import SunIcon from "./SunIcon.vue";
-import MoonIcon from "./MoonIcon.vue";
+import SunIcon from "./icons/SunIcon.vue";
+import MoonIcon from "./icons/MoonIcon.vue";
 
 const store = useStore();
 </script>

@@ -29,10 +29,10 @@
 <script setup>
 import { useStore } from "../store/useStore";
 
-import HomeIcon from "../components/HomeIcon.vue";
-import ReadIcon from "../components/ReadIcon.vue";
-import SearchIcon from "../components/SearchIcon.vue";
-import BookmarkIcon from "../components/BookmarkIcon.vue";
+import HomeIcon from "../components/icons/HomeIcon.vue";
+import ReadIcon from "../components/icons/ReadIcon.vue";
+import SearchIcon from "../components/icons/SearchIcon.vue";
+import BookmarkIcon from "../components/icons/BookmarkIcon.vue";
 
 import QuranLogo from "../assets/Quran.png";
 

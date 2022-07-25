@@ -98,10 +98,11 @@ import {
   TransitionRoot,
   TransitionChild,
 } from "@headlessui/vue";
+
 import { useStore } from "../store/useStore";
 import { useRouter } from "vue-router";
 
-import SearchIcon from "../components/SearchIcon.vue";
+import SearchIcon from "../components/icons/SearchIcon.vue";
 
 const store = useStore();
 const router = useRouter();

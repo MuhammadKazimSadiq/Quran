@@ -19,6 +19,6 @@
 
 <script setup>
 import ProgressIndicator from "../components/ProgressIndicator.vue";
-import SettingsIcon from "../components/SettingsIcon.vue";
+import SettingsIcon from "../components/icons/SettingsIcon.vue";
 import ToggleThemeSwitch from "../components/ToggleThemeSwitch.vue";
 </script>

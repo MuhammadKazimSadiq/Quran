@@ -9,9 +9,16 @@
     "allowToChangeInstallationDirectory": true,
     "shortcutName": "Quran"
   },
+  // "win": {
+  //   "target": "nsis",
+  //   "icon": "icons/icon.ico"
+  // },
   "win": {
-    "target": "nsis",
+    "target": ["portable"],
     "icon": "icons/icon.ico"
+  },
+  "portable": {
+    "artifactName": "quran_portable.exe"
   },
   "linux": {
     "target": ["snap"]

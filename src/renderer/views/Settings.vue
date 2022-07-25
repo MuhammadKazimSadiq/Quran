@@ -16,7 +16,14 @@
       </div>
     </div>
   </section>
+
   <hr />
+
+  <!-- search section -->
+  <section></section>
+
+  <!-- shortcuts section -> view-only -->
+  <section></section>
 </template>
 
 <script setup>
