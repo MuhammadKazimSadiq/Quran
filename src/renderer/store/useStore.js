@@ -4,7 +4,7 @@ import Verse from "../model/Verse";
 
 export const useStore = defineStore("main", {
   state: () => ({
-    theme: "dark",
+    theme: "light",
 
     chapters: [],
     verses: [],

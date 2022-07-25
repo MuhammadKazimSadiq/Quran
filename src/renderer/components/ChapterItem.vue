@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group mt-2 flex items-center justify-between rounded-md border border-gray-200 p-4 hover:border-teal-600"
+    class="group mt-2 flex items-center justify-between rounded-md border-2 border-gray-200 p-4 hover:border-teal-600"
   >
     <div class="flex justify-start gap-8">
       <div

@@ -5,7 +5,7 @@
     <Dialog
       dir="rtl"
       @close="store.commandPalette = false"
-      class="dark fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
+      class="fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
     >
       <TransitionChild
         enter="duration-300 ease-out"

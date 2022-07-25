@@ -31,8 +31,8 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
-  linkActiveClass: "bg-gray-200 dark:bg-slate-700",
-  linkExactActiveClass: "bg-gray-200 dark:bg-slate-700",
+  linkActiveClass: "bg-gray-200 dark:bg-gray-700",
+  linkExactActiveClass: "bg-gray-200 dark:bg-gray-700",
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 };
   },
