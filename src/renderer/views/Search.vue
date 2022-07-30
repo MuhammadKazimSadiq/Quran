@@ -126,8 +126,14 @@ import Verse from "../components/Verse.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 import ClearIcon from "../components/icons/ClearIcon.vue";
 
+// composables
+import { useNotification } from "../composables/notification";
+
 // store
 const store = useStore();
+
+// number of tabs allowed
+const TABS_ALLOWED = 5;
 
 // search - tabs
 const searchString = ref("");
@@ -135,6 +141,9 @@ const selectedTab = ref(0);
 
 const keypressed = (e) => {
   if (e.key === "Enter") {
+    if (store.searchResults.length >= 5) {
+      return useNotification("حداکثر 5 جستجو ممکن است", { type: "error" });
+    }
     store.search(searchString.value).then(() => {
       selectedTab.value = store.searchResults.length - 1;
     });

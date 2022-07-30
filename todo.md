@@ -2,8 +2,8 @@
 
 - search tabs overflow scroll
 - command palette functionality
-- scrollTo only works on onMounted
-- scrollTo with use virtual scroll
+- scrollTo only works on onMounted --> check
+- scrollTo with use virtual scroll --> important in search because of many results
 - save theme in localstorage
 - settings (save to localstorage?)
 

@@ -12,7 +12,13 @@
       class="pointer-events-none fixed bottom-0 right-10 left-0 flex items-end justify-center px-4 py-6 sm:items-start sm:justify-start sm:p-6"
     >
       <div
-        class="pointer-events-auto w-full max-w-sm rounded-lg bg-green-200 shadow-lg dark:bg-green-800"
+        class="pointer-events-auto w-full max-w-sm rounded-lg shadow-lg"
+        :class="[
+          { 'bg-green-200 dark:bg-green-800': isType('success') },
+          { 'bg-red-200 dark:bg-red-800': isType('error') },
+          { 'bg-yellow-200 dark:bg-yellow-800': isType('warning') },
+          { 'bg-blue-200 dark:bg-blue-800': isType('info') },
+        ]"
       >
         <div class="shadow-xs overflow-hidden rounded-lg">
           <div class="p-4">
@@ -43,9 +49,16 @@
 </template>
 
 <script setup>
+// vue
+import { computed } from "vue";
+
 import { TransitionRoot } from "@headlessui/vue";
 import { useStore } from "../store/useStore";
 import ClearIcon from "./icons/ClearIcon.vue";
 
 const store = useStore();
+
+const isType = (type) => {
+  return store.notification.type === type;
+};
 </script>
