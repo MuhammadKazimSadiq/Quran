@@ -6,8 +6,13 @@
     <div
       class="flex w-full items-center justify-between rounded border-2 border-gray-400 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
     >
+      <!-- right side -->
       <div class="flex flex-1 justify-start">
+        <!-- search icon -->
         <SearchIcon class="mr-2 text-gray-400 dark:text-gray-100" />
+        <!-- search icon end -->
+
+        <!-- input -->
         <input
           @keypress="keypressed"
           class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-white"
@@ -15,7 +20,11 @@
           v-model="searchString"
           placeholder="جستجو"
         />
+        <!-- input end -->
       </div>
+      <!-- right side end -->
+
+      <!-- clear icon -->
       <div>
         <ClearIcon
           class="ml-1 w-8 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
@@ -23,12 +32,15 @@
           @click="searchString = ''"
         />
       </div>
+      <!-- clear icon end -->
     </div>
   </section>
+  <!-- Search Panel End -->
 
   <!-- Results -->
   <section class="mt-12">
     <TabGroup :selectedIndex="selectedTab" v-if="store.searchResults.length">
+      <!-- tabs -->
       <TabList
         class="flex space-x-1 overflow-x-auto rounded-xl bg-gray-200 p-1 dark:bg-gray-700"
       >
@@ -46,17 +58,24 @@
                 : 'text-gray-500 hover:bg-white/[0.12] hover:text-gray-800 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100',
             ]"
           >
+            <!-- tab title  -->
             <div class="flex-1">{{ searchResult.query }}</div>
+            <!-- tab title end -->
+
             <div>
+              <!-- clear icon -->
               <ClearIcon
                 @click="removeSearchResult(i)"
                 class="w-6 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
               />
+              <!-- clear icon end -->
             </div>
           </button>
         </Tab>
       </TabList>
+      <!-- tabs -->
 
+      <!-- tab content -->
       <TabPanels>
         <TabPanel
           v-for="searchResult in store.searchResults"
@@ -66,39 +85,51 @@
           ]"
         >
           <div class="p-12">
+            <!-- search results count -->
             <p class="p-4 text-center text-2xl dark:text-white">
               {{ searchResult.verses.length }} مورد
             </p>
+            <!-- search results count -->
 
+            <!-- search results -->
             <ul>
               <li
                 v-for="verse in searchResult.verses"
                 :class="`verse-${verse.verse_id}`"
               >
                 <Verse
-                  :verse="verse"
-                  :icons="['goToVerse', 'copyToClipboard']"
+                  :verse="store.getVerseById(verse)"
+                  :highlightText="searchResult.query"
+                  :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
                 />
               </li>
             </ul>
+            <!-- search results end -->
           </div>
         </TabPanel>
       </TabPanels>
+      <!-- tab content end -->
     </TabGroup>
   </section>
+  <!-- Results End -->
 </template>
 
 <script setup>
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-import { ref, nextTick } from "vue";
+// vue
+import { ref } from "vue";
+// store
 import { useStore } from "../store/useStore";
 
+// components
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import Verse from "../components/Verse.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 import ClearIcon from "../components/icons/ClearIcon.vue";
 
+// store
 const store = useStore();
 
+// search - tabs
 const searchString = ref("");
 const selectedTab = ref(0);
 
@@ -110,6 +141,7 @@ const keypressed = (e) => {
   }
 };
 
+// onClose Tab
 const removeSearchResult = (index) => {
   store.searchResults.splice(index, 1);
   // if closed tab !== activeTab --> return

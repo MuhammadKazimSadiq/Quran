@@ -1,47 +1,64 @@
 <template>
+  <!-- Root -->
   <div id="root" :class="store.theme">
     <!-- Command Palette -->
     <CommandPalette />
+    <!-- Command Palette end -->
+
     <div class="box-border flex bg-white font-farsi dark:bg-gray-900">
       <!-- sidebar -->
       <Sidebar />
+      <!-- sidebar end -->
 
       <div class="flex-1">
         <!-- navigation -->
         <Nav />
+        <!-- navigation end -->
+
         <!-- main view -->
         <main class="p-6">
           <router-view></router-view>
         </main>
+        <!-- main view end -->
       </div>
     </div>
     <!-- Notification -->
     <Notification />
+    <!-- Notification End -->
   </div>
+  <!-- Root end -->
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+// vue
+import { onMounted } from "vue";
+// router
+import { useRouter } from "vue-router";
+// store
 import { useStore } from "./store/useStore";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
 
+// components
 import Nav from "./components/Nav.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CommandPalette from "./components/CommandPalette.vue";
 import Notification from "./components/Notification.vue";
 
+// store
 const store = useStore();
-const { fetchChapters, fetchVerses } = store;
+const { fetchChapters, fetchVerses, fetchVocabulary } = store;
 
-const route = useRoute();
+// router
 const router = useRouter();
 
-onMounted(() => {
-  fetchChapters();
-  fetchVerses();
+// onMount --> fetch all chapters, verses
+onMounted(async () => {
+  await fetchChapters();
+  await fetchVerses();
+  await fetchVocabulary();
+  // await fetchTranslations();
 });
 
+// keyboard shortcuts
 window.addEventListener("keydown", (e) => {
   if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
     store.commandPalette = !store.commandPalette;
@@ -65,11 +82,23 @@ window.addEventListener("keydown", (e) => {
   background: rgb(224, 224, 224);
 }
 
+*::-webkit-scrollbar-thumb {
+  background-color: #adadad;
+}
+
 *::-webkit-scrollbar-thumb:hover {
   background-color: rgb(116, 116, 116);
 }
 
-*::-webkit-scrollbar-thumb {
-  background-color: #adadad;
+*.dark::-webkit-scrollbar {
+  background: rgb(17 24 39);
+}
+
+.dark::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99);
+}
+
+.dark::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107 114 128);
 }
 </style>

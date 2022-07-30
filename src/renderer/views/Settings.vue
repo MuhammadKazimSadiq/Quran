@@ -7,12 +7,19 @@
       <h3 class="text-2xl dark:text-white">ترجمه ها</h3>
     </div>
     <div class="mr-2 flex flex-col gap-4">
-      <div v-for="translation in translations" class="flex items-center">
+      <div
+        v-for="translation in store.getTranslationsList"
+        class="flex items-center"
+      >
         <input
           class="rounded border border-gray-400 text-gray-600"
           type="checkbox"
+          :checked="translation.enabled"
+          @change="
+            store.translations[translation.name].enabled = $event.target.checked
+          "
         />
-        <span class="mr-4 dark:text-white">{{ translation.name }}</span>
+        <span class="mr-4 dark:text-white">{{ translation.translator }}</span>
       </div>
     </div>
   </section>
@@ -27,11 +34,10 @@
 </template>
 
 <script setup>
-const translations = [
-  { id: "en_shakir", name: "Shakir", language: "en" },
-  { id: "fa_ansarian", name: "انصاریان", language: "fa" },
-  { id: "fa_bahrampour", name: "بهرامپور", language: "fa" },
-  { id: "fa_makarem", name: "مکارم", language: "fa" },
-  { id: "fa_qaraati", name: "قرائتی", language: "fa" },
-];
+import { computed } from "vue";
+// store
+import { useStore } from "../store/useStore";
+
+// store
+const store = useStore();
 </script>

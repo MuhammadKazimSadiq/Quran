@@ -84,11 +84,11 @@ export default class Model {
     });
   }
 
-  static sync(oldRelations, newRelations) {
-    const toDelete = this.difference(oldRelations, newRelations);
-    const toAdd = this.difference(newRelations, oldRelations);
-    return { toDelete, toAdd };
-  }
+  // static sync(oldRelations, newRelations) {
+  //   const toDelete = this.difference(oldRelations, newRelations);
+  //   const toAdd = this.difference(newRelations, oldRelations);
+  //   return { toDelete, toAdd };
+  // }
 
   static buildQueryString({ joins, conditions, order }) {
     const selectString = this.formSelectString(joins);
@@ -104,7 +104,7 @@ export default class Model {
     if (joins.length) {
       let joinArray = [`${this.table}.*`];
       joins.forEach((table) =>
-        table.cols.forEach((col) =>
+        table?.cols?.forEach((col) =>
           joinArray.push(`${table.to_table}.${col[0]} as ${col[1]}`)
         )
       );
@@ -151,7 +151,7 @@ export default class Model {
     return order.length ? `ORDER BY ${order.join(" , ")}` : "";
   }
 
-  static difference(a, b) {
-    return a.filter((x) => !b.includes(x));
-  }
+  // static difference(a, b) {
+  //   return a.filter((x) => !b.includes(x));
+  // }
 }

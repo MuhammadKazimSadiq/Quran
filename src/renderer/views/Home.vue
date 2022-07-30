@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- search bar -->
     <div class="m-6">
       <div class="flex cursor-pointer justify-center">
         <div
@@ -16,30 +17,33 @@
         </div>
       </div>
     </div>
+    <!-- search bar end -->
 
+    <!-- chapters list -->
     <h1 class="text-center text-2xl font-bold dark:text-white">سوره ها</h1>
     <div class="p-4">
       <ul
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
-        <li v-for="chapter in chapters" class="text-right">
+        <li v-for="chapter in store.chapters" class="text-right">
           <router-link :to="`read/${chapter.id}`">
             <ChapterItem :chapter="chapter" />
           </router-link>
         </li>
       </ul>
     </div>
+    <!-- chapters list end -->
   </div>
 </template>
 
 <script setup>
+// store
 import { useStore } from "../store/useStore";
-import { ref, onMounted } from "vue";
-import { storeToRefs } from "pinia";
 
+// components
 import ChapterItem from "../components/ChapterItem.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 
+// store
 const store = useStore();
-const { chapters } = storeToRefs(store);
 </script>

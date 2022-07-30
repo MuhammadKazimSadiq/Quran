@@ -1,10 +1,12 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "path";
+import Database from "./database/Database";
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    // fullscreen: true,
     autoHideMenuBar: true,
     icon: join(__dirname, "./static/icon.ico"),
     webPreferences: {
@@ -36,23 +38,16 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-// sqlite3
-const sqlite3 = require("sqlite3").verbose();
-
+// database
 const pathToDbFile =
   process.env.NODE_ENV === "development"
     ? join(__dirname, "./static/database.sqlite")
     : "./resources/database/database.sqlite";
 
-const database = new sqlite3.Database(pathToDbFile, (err) => {
-  if (err) console.error("Database opening error: ", err);
-});
+const db = new Database(pathToDbFile);
+db.init();
 
-ipcMain.on("request", (event, arg) => {
-  const sql = arg;
-  database.serialize(() => {
-    database.all(sql, (err, rows) => {
-      event.reply("response", (err && err.message) || rows);
-    });
-  });
+ipcMain.on("request", async (event, query) => {
+  const response = await db.query(query);
+  event.reply("response", response);
 });

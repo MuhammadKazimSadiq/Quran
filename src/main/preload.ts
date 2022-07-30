@@ -1,16 +1,16 @@
-import {contextBridge, ipcRenderer} from 'electron'
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld('ipcRenderer', {
+contextBridge.exposeInMainWorld("ipcRenderer", {
   send: (channel, data) => {
-    let validChannels = ['request']
+    let validChannels = ["request"];
     if (validChannels.includes(channel)) {
-      ipcRenderer.send(channel, data)
+      ipcRenderer.send(channel, data);
     }
   },
   receive: (channel, func) => {
-    let validChannels = ['response']
+    let validChannels = ["response"];
     if (validChannels.includes(channel)) {
-      ipcRenderer.on(channel, (event, ...args) => func(...args))
+      ipcRenderer.on(channel, (event, ...args) => func(...args));
     }
-  }
-})
+  },
+});

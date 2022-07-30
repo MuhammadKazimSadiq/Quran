@@ -1,9 +1,12 @@
 <template>
   <div>
+    <!-- title -->
     <div class="text-center text-3xl font-bold dark:text-white">
-      سوره {{ getChapter(params.id).name }}
+      سوره {{ getChapter(params.id)?.name }}
     </div>
+    <!-- title end -->
 
+    <!-- verses section end -->
     <div class="p-12">
       <ul>
         <li v-for="verse in getVersesByChapter(params.id)">
@@ -11,6 +14,7 @@
         </li>
       </ul>
     </div>
+    <!-- verses section end -->
 
     <!-- Navigation Buttons -->
     <NavigationButtons :index="params.id" />
@@ -18,46 +22,90 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { useRoute, onBeforeRouteUpdate } from "vue-router";
+// vue
+import { ref, onMounted, toRefs, watch } from "vue";
+// router
+import { useRoute, onBeforeRouteUpdate, onBeforeRouteLeave } from "vue-router";
+// pinia
 import { storeToRefs } from "pinia";
-
+// store
 import { useStore } from "../store/useStore";
 
+// composables
+import { useScroll } from "@vueuse/core";
 import { useScrollTo } from "../composables/scrollTo";
 
+// components
 import Verse from "../components/Verse.vue";
 import NavigationButtons from "../components/NavigationButtons.vue";
 
+// route
 const route = useRoute();
 const { params } = storeToRefs(route);
 
+// store
 const store = useStore();
 const { getVersesByChapter, getChapter } = store;
 
-// change chapterId in store on mount
+// change chapterId and pageId in store on mount
 onMounted(() => {
   store.chapterId = route.params.id;
+  store.pageId = getChapter(route.params.id)?.page;
 
-  // scroll to verse/ page
+  // scroll to verse/ page - after slight delay
   setTimeout(() => {
-    if (
-      Object.keys(store.scrollTo).length &&
-      store.scrollTo.hasOwnProperty("verse") &&
-      document.querySelector(`.verse-${store.scrollTo.verse}`)
-    ) {
-      const el = document.querySelector(`.verse-${store.scrollTo.verse}`);
-      useScrollTo(el);
+    store.fetchVerses().then(() => {
+      if (
+        Object.keys(store.scrollTo).length &&
+        store.scrollTo.hasOwnProperty("verse") &&
+        document.querySelector(`.verse-${store.scrollTo.verse}`)
+      ) {
+        const el = document.querySelector(`.verse-${store.scrollTo.verse}`);
+        useScrollTo(el);
 
-      el.classList.add("bg-yellow-100", "dark:bg-yellow-800/60");
+        el.classList.add("bg-yellow-100", "dark:bg-yellow-800/60");
 
-      store.scrollTo = {};
-    }
+        store.scrollTo = {};
+      }
+    });
   }, 500);
 });
 
-// change chapterId in store when navigating to next/ previous chapter
+// change chapterId and pageId in store when navigating to next/ previous chapter
 onBeforeRouteUpdate((to, from) => {
   store.chapterId = to.params.id;
+  store.pageId = getChapter(to.params.id)?.page;
+});
+
+// on scroll - show/ hide nav
+const el = ref(document);
+const { directions } = useScroll(el);
+const { top, bottom } = toRefs(directions); // get the scroll directions
+
+const nav = document.querySelector("nav");
+watch(directions, (newVal, oldVal) => {
+  if (!newVal) return;
+
+  if (top.value) nav.classList.remove("-translate-y-[68px]");
+  if (bottom.value) nav.classList.add("-translate-y-[68px]");
+});
+
+// on routeLeave --> remove class from nav
+onBeforeRouteLeave(() => {
+  nav.classList.remove("-translate-y-[68px]");
+});
+
+// intersection observer for current page
+store.fetchVerses().then(() => {
+  const options = { threshold: 0.5 };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      store.pageId = entry.target.dataset.pageId;
+    });
+  }, options);
+
+  const elements = document.querySelectorAll(".verse");
+  elements.forEach((elem) => observer.observe(elem));
 });
 </script>

@@ -1,11 +1,11 @@
-import Model from './Model'
+import Model from "./Model";
 
-export default class Chapters extends Model {
+export default class Chapter extends Model {
   constructor() {
-    super()
+    super();
   }
 
-  static table = 'chapters'
+  static table = "chapters";
 
   //  static order = ['chapters.id'];
 }

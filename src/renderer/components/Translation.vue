@@ -1,12 +1,15 @@
 <template>
   <div
-    class="mb-8 dark:text-white"
-    :class="{ 'text-left': language === 'en' }"
+    class="container mb-8 dark:text-white"
+    :class="{ 'text-left': translation.language === 'en' }"
     :dir="dir"
+    v-if="translation.enabled"
   >
-    <div class="mb-2 text-xl dark:text-white">{{ translation }}</div>
+    <div class="mb-2 min-w-0 text-xl dark:text-white">
+      {{ translation.text }}
+    </div>
     <div class="text-xs text-gray-600 text-opacity-70 dark:text-gray-300">
-      - {{ translator }}
+      - {{ translation.translator }}
     </div>
   </div>
 </template>
@@ -14,22 +17,20 @@
 <script setup>
 import { defineProps, computed } from "vue";
 
+// store
+import { useStore } from "../store/useStore";
+
+// store
+const store = useStore();
+
 const props = defineProps({
   translation: {
-    type: String,
-    required: true,
-  },
-  translator: {
-    type: String,
-    required: true,
-  },
-  language: {
-    type: String,
+    type: Object,
     required: true,
   },
 });
 
 const dir = computed(() => {
-  return props.language === "en" ? "ltr" : "rtl";
+  return props.translation.language === "en" ? "ltr" : "rtl";
 });
 </script>

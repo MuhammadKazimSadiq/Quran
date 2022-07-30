@@ -3,6 +3,7 @@
   <TransitionRoot :show="store.commandPalette" @afterLeave="onClose">
     <!-- dialog -->
     <Dialog
+      :class="store.theme"
       dir="rtl"
       @close="store.commandPalette = false"
       class="fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"
@@ -41,7 +42,7 @@
               <!-- combobox input -->
               <ComboboxInput
                 @change="search = $event.target.value"
-                class="h-16 w-full border-0 bg-transparent font-farsi text-lg text-gray-800 placeholder-gray-400 focus:ring-0 dark:text-gray-200 dark:placeholder-gray-700"
+                class="h-16 w-full border-0 bg-transparent font-farsi text-lg text-gray-800 placeholder-gray-400 focus:ring-0 dark:text-gray-200 dark:placeholder-gray-400"
                 placeholder="جستجو"
                 :displayValue="(chapter) => chapter?.name"
               />

@@ -1,19 +1,11 @@
 <template>
-  <div v-if="route.name === 'Read'" class="px-1">
-    <div class="z-10 h-1 w-full rounded-lg bg-gray-300">
-      <div
-        class="h-1 rounded-lg bg-gray-600"
-        :style="{ width: progress }"
-      ></div>
-    </div>
+  <div class="z-10 h-1 w-full rounded-lg bg-gray-300">
+    <div class="h-1 rounded-lg bg-gray-600" :style="{ width: progress }"></div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
 
 onMounted(() => {
   window.addEventListener("scroll", updateProgressIndicator);

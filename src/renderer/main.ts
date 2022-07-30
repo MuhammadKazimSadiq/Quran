@@ -22,6 +22,16 @@ const routes = [
     component: () => import("./views/Bookmarks.vue"),
   },
   {
+    path: "/topics",
+    name: "Topics",
+    component: () => import("./views/Topics.vue"),
+  },
+  {
+    path: "/vocabulary",
+    name: "Vocabulary",
+    component: () => import("./views/Vocabulary.vue"),
+  },
+  {
     path: "/settings",
     name: "Settings",
     component: () => import("./views/Settings.vue"),
