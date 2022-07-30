@@ -7,14 +7,9 @@
     <!-- verse -->
     <div class="flex-1 gap-2">
       <div
-        class="my-12 flex items-center gap-6 text-3xl leading-loose dark:text-white"
+        class="my-12 flex items-center text-3xl leading-loose dark:text-white"
       >
-        <span class="font-arabic" v-html="highlight(verse)"></span>
-        <span
-          class="verse-number relative mt-2 text-xl text-green-800/70 dark:text-green-200/70"
-        >
-          {{ verse.verse_id }}
-        </span>
+        <span class="font-arabic" v-html="parseVerse(verse)"></span>
       </div>
 
       <!-- translations -->
@@ -158,6 +153,13 @@ const pattern = props?.highlightText
     ""
   );
 
+const parseVerse = (verse) => {
+  const highlighted = highlight(verse);
+  return `
+    ${highlighted} ${parseVerseNumber(verse.verse_id)}
+  `;
+};
+
 const highlight = ({ text_original: verse }) => {
   if (!props.highlightText) return verse;
 
@@ -171,6 +173,16 @@ const highlight = ({ text_original: verse }) => {
     );
   });
   return displayVerse;
+};
+
+const parseVerseNumber = (number) => {
+  return `
+    <span
+      class="verse-number font-farsi inline-flex h-12 w-12 items-center justify-center text-sm text-green-800/70 dark:text-green-200/70"
+    >
+      ${number}
+    </span>
+  `;
 };
 
 // go to verse

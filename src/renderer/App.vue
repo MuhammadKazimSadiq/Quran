@@ -77,10 +77,8 @@ window.addEventListener("keydown", (e) => {
 /* verse number bracket */
 .verse-number::before {
   content: "\0006DD";
-  font-size: 32px;
+  font-size: 26px;
   position: absolute;
-  right: -13px;
-  top: 2px;
 }
 
 /* scrollbar */
