@@ -6,9 +6,15 @@
   >
     <!-- verse -->
     <div class="flex-1 gap-2">
-      <div class="my-12 text-3xl leading-loose dark:text-white">
+      <div
+        class="my-12 flex items-center gap-6 text-3xl leading-loose dark:text-white"
+      >
         <span class="font-arabic" v-html="highlight(verse)"></span>
-        <span class="text-black dark:text-white"> ({{ verse.verse_id }}) </span>
+        <span
+          class="verse-number relative mt-2 text-xl text-green-800/70 dark:text-green-200/70"
+        >
+          {{ verse.verse_id }}
+        </span>
       </div>
 
       <!-- translations -->

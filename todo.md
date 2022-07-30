@@ -1,6 +1,5 @@
 # FIX:
 
-- add fancy verse number brackets
 - search tabs overflow scroll
 - command palette functionality
 - scrollTo only works on onMounted
