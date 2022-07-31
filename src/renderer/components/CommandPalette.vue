@@ -137,9 +137,26 @@
                 دستورات موجود
               </div>
               <div class="mt-4 mr-2 flex flex-col gap-4 text-lg">
-                <div>جستجوی سوره: `سوره بقره`</div>
-                <div>جستجوی آیه: `بسم الله...`</div>
-                <div>جستجوی شماره با شماره سوره و آیه: `36:5`</div>
+                <div class="my-4 flex gap-4">
+                  <div class="dark:text-gray-300">جستجوی سوره:</div>
+                  <div class="text-green-800 dark:text-green-300">
+                    `سوره بقره`
+                  </div>
+                </div>
+                <div class="my-4 flex gap-4">
+                  <div class="dark:text-gray-300">جستجوی آیه:</div>
+                  <div class="text-green-800 dark:text-green-300">
+                    `بسم الله...`
+                  </div>
+                </div>
+                <div class="my-4 flex gap-4">
+                  <div class="dark:text-gray-300">
+                    جستجوی شماره با شماره سوره و آیه:
+                  </div>
+                  <div class="text-green-800 dark:text-green-300">
+                    `سوره انسان: 10` یا `36:10`
+                  </div>
+                </div>
               </div>
             </div>
           </Combobox>
@@ -192,9 +209,11 @@ const onClose = () => {
 const onSelect = () => {
   const selected = selectedOption.value;
   if (selected.verseId) {
-    store.scrollTo = {
-      verse: selected.verseId,
-    };
+    store.$patch({
+      scrollTo: {
+        verse: selected.verseId,
+      },
+    });
   }
   router.push(`/read/${selected.chapterId}`);
   store.commandPalette = false;

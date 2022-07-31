@@ -50,12 +50,27 @@ const { getVersesByChapter, getChapter } = store;
 onMounted(() => init({ route }));
 onBeforeRouteUpdate((to, from) => init({ route: to }));
 
+store.$subscribe(
+  (mutation, state) => {
+    if (mutation?.payload?.scrollTo) scrollTo();
+  },
+  { detached: true }
+);
+
 const init = ({ route }) => {
   // change chapterId, pageId and sectionId in store when navigating to next/ previous chapter
   store.chapterId = route.params.id;
   store.pageId = getChapter(route.params.id)?.page;
   store.sectionId = getChapter(route.params.id)?.section;
 
+  // scroll
+  scrollTo();
+
+  // add intersection observers - after slight delay
+  setTimeout(() => addIntersectionObservers(), 1000);
+};
+
+const scrollTo = () => {
   // scroll to verse/ page - after slight delay
   setTimeout(() => {
     // scroll to verse/ page
@@ -72,9 +87,6 @@ const init = ({ route }) => {
       store.scrollTo = {};
     }
   }, 100);
-
-  // add intersection observers - after slight delay
-  setTimeout(() => addIntersectionObservers(), 1000);
 };
 
 // on scroll - show/ hide nav

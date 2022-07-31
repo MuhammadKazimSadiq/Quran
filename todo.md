@@ -1,6 +1,5 @@
 # FIX:
 
-- scrollTo doesnt work if select verse in open chapter --> maybe use pinia event subscriber
 - command palette --> add page and juz'
 - search:
   - closing tabs takes time

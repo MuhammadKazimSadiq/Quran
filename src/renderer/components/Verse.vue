@@ -166,9 +166,11 @@ const parseVerseNumber = (number) => {
 // go to verse
 const goToVerse = ({ chapter_id, verse_id }) => {
   router.push(`/read/${chapter_id}`);
-  store.scrollTo = {
-    verse: verse_id,
-  };
+  store.$patch({
+    scrollTo: {
+      verse: verse_id,
+    },
+  });
 };
 
 // copy to clipboard
