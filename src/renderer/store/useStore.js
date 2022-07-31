@@ -170,16 +170,29 @@ export const useStore = defineStore("main", {
     search(query) {
       if (!query.length) return;
       return new Promise((resolve) => {
-        Verse.find([], [["text_clean", "LIKE", query]]).then((verses) => {
-          // pluck verse ids
-          const verseIds = verses.reduce((acc, verse) => {
-            acc.push(verse.id);
-            return acc;
-          }, []);
-          // add search query and verseIds in store.searchResults
-          this.searchResults.push({ query, verses: verseIds });
-          resolve();
+        const verses = this.verses.filter((verse) => {
+          const regex = new RegExp(query, "g");
+          return verse.text_clean.match(regex);
         });
+        // pluck verse ids
+        const verseIds = verses.reduce((acc, verse) => {
+          acc.push(verse.id);
+          return acc;
+        }, []);
+        // add search query and verseIds in store.searchResults
+        this.searchResults.push({ query, verses: verseIds });
+        resolve();
+
+        // Verse.find([], [["text_clean", "LIKE", query]]).then((verses) => {
+        //   // pluck verse ids
+        //   const verseIds = verses.reduce((acc, verse) => {
+        //     acc.push(verse.id);
+        //     return acc;
+        //   }, []);
+        // add search query and verseIds in store.searchResults
+        // this.searchResults.push({ query, verses: verseIds });
+        //   resolve();
+        // });
       });
     },
 

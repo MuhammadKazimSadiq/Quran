@@ -1,9 +1,10 @@
 # FIX:
 
+- search: closing tabs takes time
+- fetch settings from database (translations, theme, ...) --> add translations to translations table & add enabledTranslations to settings table
 - command palette functionality
 - scrollTo only works on onMounted --> check
-- scrollTo with use virtual scroll --> important in search because of many results
-- settings (translations, theme, ...)
+- scrollTo with use virtual scroll --> important in search because of many results --> maybe use pagination?
 
 # LONG TERM:
 

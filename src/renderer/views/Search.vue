@@ -52,7 +52,7 @@
           <button
             :class="[
               'flex min-w-[150px] flex-1 justify-between rounded-lg p-3 text-lg font-medium leading-5',
-              'focus:outline-none focus:ring-0 dark:bg-gray-900',
+              'items-center focus:outline-none focus:ring-0 dark:bg-gray-900',
               selected
                 ? 'bg-white text-black shadow dark:text-white'
                 : 'text-gray-500 hover:bg-white/[0.12] hover:text-gray-800 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100',
@@ -134,6 +134,7 @@ const store = useStore();
 
 // number of tabs allowed
 const TABS_ALLOWED = 10;
+const MINIMUM_SEARCH_STRING_LENGTH = 2;
 
 // search - tabs
 const searchString = ref("");
@@ -141,9 +142,19 @@ const selectedTab = ref(0);
 
 const keypressed = (e) => {
   if (e.key === "Enter") {
+    // check if search string is long enough
+    if (searchString.value.length < MINIMUM_SEARCH_STRING_LENGTH) {
+      return useNotification(
+        `عبارت جستجو باید حد اقل ${MINIMUM_SEARCH_STRING_LENGTH} حرف باشد`,
+        {
+          type: "warning",
+        }
+      );
+    }
+    // check number of tabs allowed
     if (store.searchResults.length >= TABS_ALLOWED) {
       return useNotification(`حداکثر ${TABS_ALLOWED} جستجو ممکن است`, {
-        type: "error",
+        type: "warning",
       });
     }
     store.search(searchString.value).then(() => {
