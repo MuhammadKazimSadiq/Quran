@@ -51,9 +51,10 @@ onMounted(() => init({ route }));
 onBeforeRouteUpdate((to, from) => init({ route: to }));
 
 const init = ({ route }) => {
-  // change chapterId and pageId in store when navigating to next/ previous chapter
+  // change chapterId, pageId and sectionId in store when navigating to next/ previous chapter
   store.chapterId = route.params.id;
   store.pageId = getChapter(route.params.id)?.page;
+  store.sectionId = getChapter(route.params.id)?.section;
 
   // scroll to verse/ page - after slight delay
   setTimeout(() => {
@@ -101,6 +102,7 @@ const addIntersectionObservers = () => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       store.pageId = entry.target.dataset.pageId;
+      store.sectionId = entry.target.dataset.sectionId;
     });
   }, options);
 

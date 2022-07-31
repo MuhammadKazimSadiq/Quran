@@ -39,7 +39,7 @@
             <div class="text-lg dark:text-white">صفحه {{ store.pageId }}</div>
             <!-- section -->
             <div class="text-lg text-gray-500 dark:text-gray-300">
-              <!-- جزء {{ store.pageId }} -->
+              جزء {{ store.sectionId }}
             </div>
           </div>
           <!-- page number end -->

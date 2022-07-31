@@ -28,6 +28,8 @@ export const useStore = defineStore("main", {
     chapterId: 1,
     // current page_id --> read page
     pageId: 1,
+    // current section_id --> read page
+    sectionId: 1,
 
     // used for search
     scrollTo: {},

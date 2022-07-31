@@ -7,6 +7,6 @@ export default {
               constraint chapters_pk
               primary key autoincrement,
             name,
-            page, "verses_count" integer, "translation" varchar, "revelation_place" varchar
+            page, section, "verses_count" integer, "translation" varchar, "revelation_place" varchar
           );`,
 };

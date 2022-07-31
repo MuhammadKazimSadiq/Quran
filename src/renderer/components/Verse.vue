@@ -3,6 +3,7 @@
     class="flex justify-between gap-12 rounded-lg p-4 pb-8"
     :class="`verse verse-${verse.verse_id}`"
     :data-page-id="`${verse.page_id}`"
+    :data-section-id="`${verse.section_id}`"
   >
     <!-- verse -->
     <div class="flex-1 gap-2">
@@ -110,6 +111,7 @@ import { useStore } from "../store/useStore";
 // composables
 import { useClipboard } from "@vueuse/core";
 import { useNotification } from "../composables/notification";
+import { useHighlight } from "../composables/highlight";
 
 // components
 import Translation from "../components/Translation.vue";
@@ -140,34 +142,15 @@ const router = useRouter();
 // store
 const store = useStore();
 
-// adding arabic diacritics inside [] --> optional search after each letter
-const pattern = props?.highlightText
-  ?.split("")
-  ?.reduce(
-    (acc, char) => (acc += !char.match(/\s/g) ? `${char}[ًٌٍَُِّْ]*` : " "),
-    ""
-  );
-
 const parseVerse = (verse) => {
-  const highlighted = highlight(verse);
+  const highlighted = useHighlight({
+    text: verse.text_original,
+    search: props.highlightText,
+    highlightClasses: "bg-yellow-200 dark:bg-yellow-800 rounded-lg",
+  });
   return `
     ${highlighted} ${parseVerseNumber(verse.verse_id)}
   `;
-};
-
-const highlight = ({ text_original: verse }) => {
-  if (!props.highlightText) return verse;
-
-  const regex = new RegExp(pattern, "g");
-  const matches = verse.match(regex);
-  let displayVerse = verse;
-  matches?.forEach((match) => {
-    displayVerse = displayVerse.replace(
-      match,
-      `<span class="bg-yellow-200 dark:bg-yellow-800 rounded-lg">${match}</span>`
-    );
-  });
-  return displayVerse;
 };
 
 const parseVerseNumber = (number) => {
