@@ -191,7 +191,7 @@ export const useStore = defineStore("main", {
 
     async toggleBookmark({ id, bookmarked }) {
       if (bookmarked) await Bookmark.delete([["verse_id", id]]);
-      else await Bookmark.INSERT({ verse_id: id });
+      else await Bookmark.insert({ verse_id: id });
       await this.replaceVerse(id);
     },
 
