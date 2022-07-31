@@ -178,7 +178,7 @@ const highlight = ({ text_original: verse }) => {
 const parseVerseNumber = (number) => {
   return `
     <span
-      class="verse-number font-farsi inline-flex h-12 w-12 items-center justify-center text-sm text-green-800/70 dark:text-green-200/70"
+      class="verse-number font-farsi inline-flex h-12 w-12 items-center justify-center text-sm text-green-800/70 dark:text-green-200/70 font-bold"
     >
       ${number}
     </span>

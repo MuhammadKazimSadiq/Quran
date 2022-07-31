@@ -42,7 +42,7 @@
     <TabGroup :selectedIndex="selectedTab" v-if="store.searchResults.length">
       <!-- tabs -->
       <TabList
-        class="flex space-x-1 overflow-x-auto rounded-xl bg-gray-200 p-1 dark:bg-gray-700"
+        class="flex flex-wrap space-x-1 overflow-x-auto rounded-xl bg-gray-200 p-1 dark:bg-gray-700"
       >
         <Tab
           v-for="(searchResult, i) in store.searchResults"
@@ -51,7 +51,7 @@
         >
           <button
             :class="[
-              'flex w-full justify-between rounded-lg p-3 text-lg font-medium leading-5',
+              'flex min-w-[150px] flex-1 justify-between rounded-lg p-3 text-lg font-medium leading-5',
               'focus:outline-none focus:ring-0 dark:bg-gray-900',
               selected
                 ? 'bg-white text-black shadow dark:text-white'
@@ -133,7 +133,7 @@ import { useNotification } from "../composables/notification";
 const store = useStore();
 
 // number of tabs allowed
-const TABS_ALLOWED = 5;
+const TABS_ALLOWED = 10;
 
 // search - tabs
 const searchString = ref("");
@@ -141,8 +141,10 @@ const selectedTab = ref(0);
 
 const keypressed = (e) => {
   if (e.key === "Enter") {
-    if (store.searchResults.length >= 5) {
-      return useNotification("حداکثر 5 جستجو ممکن است", { type: "error" });
+    if (store.searchResults.length >= TABS_ALLOWED) {
+      return useNotification(`حداکثر ${TABS_ALLOWED} جستجو ممکن است`, {
+        type: "error",
+      });
     }
     store.search(searchString.value).then(() => {
       selectedTab.value = store.searchResults.length - 1;
