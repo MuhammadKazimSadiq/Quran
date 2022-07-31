@@ -14,14 +14,9 @@
 
       <!-- translations -->
       <Translation
-        v-for="translation in store.getTranslationsList"
-        :translation="{
-          name: translation.name,
-          translator: translation.translator,
-          language: translation.language,
-          enabled: translation.enabled,
-          text: verse[translation.name],
-        }"
+        v-for="translation in store.translations"
+        :text="verse[translation.name]"
+        :translation="translation"
       />
       <!-- translations end -->
 

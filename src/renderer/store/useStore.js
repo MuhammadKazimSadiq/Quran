@@ -10,33 +10,35 @@ export const useStore = defineStore("main", {
     chapters: [],
     verses: [],
     vocabulary: [],
-    translations: {
-      en_shakir: {
+    translations: [
+      {
+        name: "en_shakir",
         translator: "Shakir",
         language: "en",
-        enabled: false,
       },
-      fa_ansarian: {
+      {
+        name: "fa_ansarian",
         translator: "انصاریان",
         language: "fa",
-        enabled: false,
       },
-      fa_bahrampour: {
+      {
+        name: "fa_bahrampour",
         translator: "بهرامپور",
         language: "fa",
-        enabled: true,
       },
-      fa_makarem: {
+      {
+        name: "fa_makarem",
         translator: "مکارم",
         language: "fa",
-        enabled: false,
       },
-      fa_qaraati: {
+      {
+        name: "fa_qaraati",
         translator: "قرائتی",
         language: "fa",
-        enabled: false,
       },
-    },
+    ],
+
+    enabledTranslations: ["fa_bahrampour"],
 
     // searches
     searchResults: [],
@@ -77,16 +79,6 @@ export const useStore = defineStore("main", {
 
     getBookmarkedVerses: (state) =>
       state.verses.filter((verse) => verse.bookmarked),
-
-    getTranslationsList: (state) =>
-      Object.keys(state.translations).map((translation) => {
-        return {
-          name: translation,
-          translator: state.translations[translation].translator,
-          language: state.translations[translation].language,
-          enabled: state.translations[translation].enabled,
-        };
-      }),
   },
 
   actions: {

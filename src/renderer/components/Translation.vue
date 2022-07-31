@@ -3,10 +3,10 @@
     class="container mb-8 dark:text-white"
     :class="{ 'text-left': translation.language === 'en' }"
     :dir="dir"
-    v-if="translation.enabled"
+    v-if="store.enabledTranslations.includes(translation.name)"
   >
     <div class="mb-2 min-w-0 text-xl dark:text-white">
-      {{ translation.text }}
+      {{ text }}
     </div>
     <div class="text-xs text-gray-600 text-opacity-70 dark:text-gray-300">
       - {{ translation.translator }}
@@ -26,6 +26,10 @@ const store = useStore();
 const props = defineProps({
   translation: {
     type: Object,
+    required: true,
+  },
+  text: {
+    type: String,
     required: true,
   },
 });
