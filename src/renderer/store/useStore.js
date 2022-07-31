@@ -3,6 +3,8 @@ import Chapter from "../model/Chapter";
 import Verse from "../model/Verse";
 import Bookmark from "../model/Bookmark";
 import Vocabulary from "../model/Vocabulary";
+import Translation from "../model/Translation";
+import Setting from "../model/Setting";
 
 export const useStore = defineStore("main", {
   state: () => ({
@@ -10,35 +12,11 @@ export const useStore = defineStore("main", {
     chapters: [],
     verses: [],
     vocabulary: [],
-    translations: [
-      {
-        name: "en_shakir",
-        translator: "Shakir",
-        language: "en",
-      },
-      {
-        name: "fa_ansarian",
-        translator: "انصاریان",
-        language: "fa",
-      },
-      {
-        name: "fa_bahrampour",
-        translator: "بهرامپور",
-        language: "fa",
-      },
-      {
-        name: "fa_makarem",
-        translator: "مکارم",
-        language: "fa",
-      },
-      {
-        name: "fa_qaraati",
-        translator: "قرائتی",
-        language: "fa",
-      },
-    ],
+    settings: [], // enabled_translations, theme
+    translations: [],
 
-    enabledTranslations: ["fa_bahrampour"],
+    // theme
+    theme: "light",
 
     // searches
     searchResults: [],
@@ -62,9 +40,6 @@ export const useStore = defineStore("main", {
       show: false,
       message: "",
     },
-
-    // theme
-    theme: "light",
   }),
 
   getters: {
@@ -82,6 +57,33 @@ export const useStore = defineStore("main", {
   },
 
   actions: {
+    async fetchSettings() {
+      return new Promise((resolve, reject) => {
+        if (this.settings.length) return resolve();
+        Setting.all()
+          .then((settings) => {
+            this.settings = settings.reduce((acc, setting) => {
+              acc[setting.name] = JSON.parse(setting.value);
+              return acc;
+            }, {});
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
+    async fetchTranslations() {
+      return new Promise((resolve, reject) => {
+        if (this.translations.length) return resolve();
+        Translation.all()
+          .then((translations) => {
+            this.translations = translations;
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
     async fetchChapters() {
       return new Promise((resolve, reject) => {
         if (this.chapters.length) return resolve();
@@ -182,17 +184,6 @@ export const useStore = defineStore("main", {
         // add search query and verseIds in store.searchResults
         this.searchResults.push({ query, verses: verseIds });
         resolve();
-
-        // Verse.find([], [["text_clean", "LIKE", query]]).then((verses) => {
-        //   // pluck verse ids
-        //   const verseIds = verses.reduce((acc, verse) => {
-        //     acc.push(verse.id);
-        //     return acc;
-        //   }, []);
-        // add search query and verseIds in store.searchResults
-        // this.searchResults.push({ query, verses: verseIds });
-        //   resolve();
-        // });
       });
     },
 
@@ -209,10 +200,18 @@ export const useStore = defineStore("main", {
     },
 
     changeTheme() {
-      const newThemeValue = this.theme === "light" ? "dark" : "light";
-      document.body.classList.remove(this.theme);
+      const newThemeValue = this.settings?.theme === "light" ? "dark" : "light";
+      document.body.classList.remove(this.settings?.theme);
       document.body.classList.add(newThemeValue);
-      this.theme = newThemeValue;
+      this.settings.theme = newThemeValue;
+      Setting.update([["name", "theme"]], [["value", `"${newThemeValue}"`]]);
+    },
+
+    updateTranslations() {
+      Setting.update(
+        [["name", "enabled_translations"]],
+        [["value", JSON.stringify(this.settings?.enabled_translations)]]
+      );
     },
   },
 });

@@ -1,53 +1,22 @@
 import { ipcRenderer } from "../electron";
 
 export default class Database {
-  static #queue = [];
-  static #workingOnPromise = false;
-  static #delay = false;
+  static isFetching = [];
 
-  static query(query) {
-    return this.#enqueue(query);
-  }
-
-  static #enqueue(query) {
+  static query({ query, table }) {
     return new Promise((resolve, reject) => {
-      this.#queue.push({
-        query,
-        resolve,
-        reject,
-      });
-      this.#dequeue();
-    });
-  }
-
-  static #dequeue() {
-    if (this.#workingOnPromise) return false;
-    const item = this.#queue.shift();
-    if (!item) return false;
-    try {
-      this.#workingOnPromise = true;
-      // console.log("Query: ", item.query);
-      ipcRenderer.send("request", item.query);
+      // if currently fetching, return
+      if (this.isFetching.includes(table)) return reject("currently fetching");
+      // add table name to isFetching
+      this.isFetching.push(table);
+      // send fetch request to main process
+      ipcRenderer.send("request", query);
+      // listen for response
       ipcRenderer.receive("response", (data) => {
-        this.#workingOnPromise = false;
-        // console.log("Response: ", data);
-
-        if (this.#delay) {
-          setTimeout(() => {
-            item.resolve(data);
-            this.#dequeue();
-          }, 2000);
-        } else {
-          item.resolve(data);
-          this.#dequeue();
-        }
+        resolve(data);
+        // remove table name from isFetching
+        this.isFetching.splice(this.isFetching.indexOf(table), 1);
       });
-    } catch (err) {
-      console.log(err);
-      this.#workingOnPromise = false;
-      item.reject(err);
-      this.#dequeue();
-    }
-    return true;
+    });
   }
 }

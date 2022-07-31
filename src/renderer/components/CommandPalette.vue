@@ -3,7 +3,7 @@
   <TransitionRoot :show="store.commandPalette" @afterLeave="onClose">
     <!-- dialog -->
     <Dialog
-      :class="store.theme"
+      :class="store?.settings?.theme"
       dir="rtl"
       @close="store.commandPalette = false"
       class="fixed inset-0 z-50 overflow-y-auto p-4 pt-[25vh]"

@@ -12,7 +12,8 @@
           class="rounded border border-gray-400 text-gray-600"
           type="checkbox"
           :value="translation.name"
-          v-model="store.enabledTranslations"
+          @change="store.updateTranslations()"
+          v-model="store.settings.enabled_translations"
         />
         <span class="mr-4 dark:text-white">{{ translation.translator }}</span>
       </div>

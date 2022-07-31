@@ -1,9 +1,9 @@
 <template>
   <div
     class="container mb-8 dark:text-white"
-    :class="{ 'text-left': translation.language === 'en' }"
+    :class="{ 'text-english text-left': translation.language === 'en' }"
     :dir="dir"
-    v-if="store.enabledTranslations.includes(translation.name)"
+    v-if="store.settings.enabled_translations.includes(translation.name)"
   >
     <div class="mb-2 min-w-0 text-xl dark:text-white">
       {{ text }}
@@ -27,10 +27,16 @@ const props = defineProps({
   translation: {
     type: Object,
     required: true,
+    default: {
+      name: "",
+      translator: "",
+      language: "",
+    },
   },
   text: {
     type: String,
     required: true,
+    default: "",
   },
 });
 

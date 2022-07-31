@@ -7,6 +7,6 @@ export default {
               constraint settings_pk
                 primary key autoincrement,
             name varchar,
-            value tinyint default 1
+            value text
           );`,
 };

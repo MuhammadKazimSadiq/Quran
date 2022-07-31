@@ -1,7 +1,8 @@
 # FIX:
 
+- Read page: on scroll update juz'
 - search: closing tabs takes time
-- fetch settings from database (translations, theme, ...) --> add translations to translations table & add enabledTranslations to settings table
+- search: on search show loading icon
 - command palette functionality
 - scrollTo only works on onMounted --> check
 - scrollTo with use virtual scroll --> important in search because of many results --> maybe use pagination?

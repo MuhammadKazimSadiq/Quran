@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="sticky top-0 z-10 flex flex-col bg-gray-100 transition-all duration-500 dark:bg-gray-800"
+    class="sticky top-0 z-10 flex flex-col bg-gray-100 transition-transform duration-500 dark:bg-gray-800"
   >
     <div class="flex items-center justify-between p-4">
       <!-- app name -->
@@ -33,8 +33,15 @@
           </div>
           <!-- chapter name end -->
 
-          <!-- page number -->
-          <div class="text-lg dark:text-white">صفحه {{ store.pageId }}</div>
+          <!-- section & page number -->
+          <div class="flex gap-6">
+            <!-- page -->
+            <div class="text-lg dark:text-white">صفحه {{ store.pageId }}</div>
+            <!-- section -->
+            <div class="text-lg text-gray-500 dark:text-gray-300">
+              <!-- جزء {{ store.pageId }} -->
+            </div>
+          </div>
           <!-- page number end -->
         </div>
         <!-- progress indicator -->

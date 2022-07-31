@@ -1,6 +1,6 @@
 <template>
   <!-- Root -->
-  <div id="root" :class="store.theme">
+  <div id="root" :class="store?.settings?.theme">
     <!-- Command Palette -->
     <CommandPalette />
     <!-- Command Palette end -->
@@ -45,17 +45,24 @@ import Notification from "./components/Notification.vue";
 
 // store
 const store = useStore();
-const { fetchChapters, fetchVerses, fetchVocabulary } = store;
+const {
+  fetchChapters,
+  fetchVerses,
+  fetchVocabulary,
+  fetchTranslations,
+  fetchSettings,
+} = store;
 
 // router
 const router = useRouter();
 
-// onMount --> fetch all chapters, verses
+// onMount --> fetch all chapters, verses, settings, translations, vocab
 onMounted(async () => {
+  await fetchSettings();
   await fetchChapters();
   await fetchVerses();
+  await fetchTranslations();
   await fetchVocabulary();
-  // await fetchTranslations();
 });
 
 // keyboard shortcuts

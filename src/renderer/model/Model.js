@@ -10,7 +10,7 @@ export default class Model {
       const { selectString, joinString, conditionString, orderString } =
         this.buildQueryString({ joins, conditions: [["id", id]], order: [] });
       const querystring = `SELECT ${selectString} from ${this.table} ${joinString} ${conditionString} ${orderString}`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -21,7 +21,7 @@ export default class Model {
       const { selectString, joinString, conditionString, orderString } =
         this.buildQueryString({ joins, conditions, order: [] });
       const querystring = `SELECT ${selectString} from ${this.table} ${joinString} ${conditionString} ${orderString}`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -32,7 +32,7 @@ export default class Model {
       const { selectString, joinString, conditionString, orderString } =
         this.buildQueryString({ joins, conditions, order });
       const querystring = `SELECT ${selectString} FROM ${this.table} ${joinString} ${conditionString} ${orderString}`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -47,12 +47,12 @@ export default class Model {
         .map((value) => `'${value}'`)
         .join(" , ");
       const querystring = `Insert into ${this.table} (${cols}) Values (${values})`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then(() => {
-          Database.query(
-            `SELECT max(id) as id
-                    from ${this.table}`
-          ).then((id) => resolve(id));
+          const querystring = `SELECT max(id) as id from ${this.table}`;
+          Database.query({ query: querystring, table: this.table }).then((id) =>
+            resolve(id)
+          );
         })
         .catch((err) => reject(err));
     });
@@ -60,6 +60,7 @@ export default class Model {
 
   // conditions: [ [id, 1], [name, ''] ]
   // values: [ [id, 1], [name, ''] ]
+  // TODO: return updated row
   static async update(conditions, values) {
     return new Promise((resolve, reject) => {
       const conditionString = this.formConditionString(conditions);
@@ -67,7 +68,7 @@ export default class Model {
         .map((value) => ` ${value[0]} = '${value[1]}' `)
         .join(" , ");
       const querystring = `Update ${this.table} set ${valueString} ${conditionString}`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -78,7 +79,7 @@ export default class Model {
     return new Promise((resolve, reject) => {
       const conditionString = this.formConditionString(conditions);
       const querystring = `Delete from ${this.table} ${conditionString}`;
-      Database.query(querystring)
+      Database.query({ query: querystring, table: this.table })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="store.theme === 'light' ? MoonIcon : SunIcon"
+    :is="store?.settings?.theme === 'light' ? MoonIcon : SunIcon"
     class="cursor-pointer"
     @click="store.changeTheme"
   ></component>

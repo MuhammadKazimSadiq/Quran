@@ -47,35 +47,34 @@ const { params } = storeToRefs(route);
 const store = useStore();
 const { getVersesByChapter, getChapter } = store;
 
-// change chapterId and pageId in store on mount
-onMounted(() => {
+onMounted(() => init({ route }));
+onBeforeRouteUpdate((to, from) => init({ route: to }));
+
+const init = ({ route }) => {
+  // change chapterId and pageId in store when navigating to next/ previous chapter
   store.chapterId = route.params.id;
   store.pageId = getChapter(route.params.id)?.page;
 
   // scroll to verse/ page - after slight delay
   setTimeout(() => {
-    store.fetchVerses().then(() => {
-      if (
-        Object.keys(store.scrollTo).length &&
-        store.scrollTo.hasOwnProperty("verse") &&
-        document.querySelector(`.verse-${store.scrollTo.verse}`)
-      ) {
-        const el = document.querySelector(`.verse-${store.scrollTo.verse}`);
-        useScrollTo(el);
+    // scroll to verse/ page
+    if (
+      Object.keys(store.scrollTo).length &&
+      store.scrollTo.hasOwnProperty("verse") &&
+      document.querySelector(`.verse-${store.scrollTo.verse}`)
+    ) {
+      const el = document.querySelector(`.verse-${store.scrollTo.verse}`);
+      useScrollTo(el);
 
-        el.classList.add("bg-yellow-100", "dark:bg-yellow-800/60");
+      el.classList.add("bg-yellow-100", "dark:bg-yellow-800/60");
 
-        store.scrollTo = {};
-      }
-    });
-  }, 500);
-});
+      store.scrollTo = {};
+    }
+  }, 100);
 
-// change chapterId and pageId in store when navigating to next/ previous chapter
-onBeforeRouteUpdate((to, from) => {
-  store.chapterId = to.params.id;
-  store.pageId = getChapter(to.params.id)?.page;
-});
+  // add intersection observers - after slight delay
+  setTimeout(() => addIntersectionObservers(), 1000);
+};
 
 // on scroll - show/ hide nav
 const el = ref(document);
@@ -95,17 +94,17 @@ onBeforeRouteLeave(() => {
   nav.classList.remove("-translate-y-[68px]");
 });
 
-// intersection observer for current page
-store.fetchVerses().then(() => {
-  const options = { threshold: 0.5 };
-  const observer = new IntersectionObserver((entries) => {
+// intersection observers
+const addIntersectionObservers = () => {
+  let options = { threshold: 0.5 };
+  let observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       store.pageId = entry.target.dataset.pageId;
     });
   }, options);
 
-  const elements = document.querySelectorAll(".verse");
+  let elements = document.querySelectorAll(".verse");
   elements.forEach((elem) => observer.observe(elem));
-});
+};
 </script>
