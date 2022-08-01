@@ -22,13 +22,8 @@
       <!-- translations end -->
 
       <!-- topics -->
-      <div class="flex gap-3">
-        <span
-          v-for="topic in verse.topics"
-          class="flex w-max cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 dark:text-white"
-        >
-          {{ topic.name }}
-        </span>
+      <div>
+        <TopicInput :topics="verse.topics" />
       </div>
       <!-- topics end -->
     </div>
@@ -115,6 +110,7 @@ import { useHighlight } from "../composables/highlight";
 
 // components
 import Translation from "../components/Translation.vue";
+import TopicInput from "../components/TopicInput.vue";
 import CopyToClipboardIcon from "../components/icons/CopyToClipboardIcon.vue";
 import BookmarkIcon from "../components/icons/BookmarkIcon.vue";
 import BookmarkFillIcon from "../components/icons/BookmarkFillIcon.vue";

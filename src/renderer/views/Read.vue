@@ -23,7 +23,7 @@
 
 <script setup>
 // vue
-import { ref, onMounted, toRefs, watch } from "vue";
+import { ref, onMounted, toRefs, watch, computed } from "vue";
 // router
 import { useRoute, onBeforeRouteUpdate, onBeforeRouteLeave } from "vue-router";
 // pinia
@@ -35,7 +35,6 @@ import { useStore } from "../store/useStore";
 import { useScroll } from "@vueuse/core";
 import { useScrollTo } from "../composables/scrollTo";
 
-// components
 import Verse from "../components/Verse.vue";
 import NavigationButtons from "../components/NavigationButtons.vue";
 

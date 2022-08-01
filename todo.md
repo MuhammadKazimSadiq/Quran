@@ -1,11 +1,19 @@
 # FIX:
 
-- command palette --> add page and juz'
 - search:
   - closing tabs takes time
   - on search --> show loading icon
+- Topic Input
+  - fetch and update from store
+  - overflow
+  - backspace handle
+  - nested topics?
+
+# TODO:
+
+- command palette --> add page and juz'
 - vocabulary section
-- topics section
+- combine all fetch request --> make one function (fetchResource?)
 - audio
 
 # LONG TERM:

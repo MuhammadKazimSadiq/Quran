@@ -51,17 +51,19 @@ const {
   fetchVocabulary,
   fetchTranslations,
   fetchSettings,
+  fetchTopics,
 } = store;
 
 // router
 const router = useRouter();
 
-// onMount --> fetch all chapters, verses, settings, translations, vocab
+// onMount --> fetch all chapters, verses, settings, translations, vocab, topics
 onMounted(async () => {
   await fetchSettings();
   await fetchChapters();
   await fetchVerses();
   await fetchTranslations();
+  await fetchTopics();
   await fetchVocabulary();
 });
 

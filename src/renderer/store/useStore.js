@@ -5,6 +5,7 @@ import Bookmark from "../model/Bookmark";
 import Vocabulary from "../model/Vocabulary";
 import Translation from "../model/Translation";
 import Setting from "../model/Setting";
+import Topic from "../model/Topic";
 
 export const useStore = defineStore("main", {
   state: () => ({
@@ -14,6 +15,7 @@ export const useStore = defineStore("main", {
     vocabulary: [],
     settings: [], // enabled_translations, theme
     translations: [],
+    topics: [],
 
     // theme
     theme: "light",
@@ -123,23 +125,40 @@ export const useStore = defineStore("main", {
       });
     },
 
+    async fetchTopics() {
+      return new Promise((resolve, reject) => {
+        if (this.topics.length) return resolve();
+        Topic.all()
+          .then((topics) => {
+            this.topics = topics;
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
     groupVerses(verses) {
+      // get all values from object: {0: {}, 1: {}, 2: {},...}
       return Object.values(
         verses.reduce((acc, verse) => {
+          // if verse.id exists in acc.keys
           if (acc[verse.id]) {
             if (
               acc[verse.id].topics.length &&
+              // not same topic
               !acc[verse.id].topics.some(
                 (topic) =>
                   topic.id === verse.topic_id && topic.name === verse.topic
               )
             )
+              // add topic to verse.topics
               acc[verse.id].topics.push({
                 id: verse.topic_id,
                 name: verse.topic,
               });
             if (
               acc[verse.id].vocab.length &&
+              // not same vocab
               !acc[verse.id].vocab.some(
                 (word) =>
                   word.word === verse.word && word.meaning === verse.meaning
