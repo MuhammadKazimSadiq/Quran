@@ -9,7 +9,9 @@
       <!-- right side -->
       <div class="flex flex-1 justify-start">
         <!-- search icon -->
-        <SearchIcon class="mr-2 text-gray-400 dark:text-gray-100" />
+        <SearchIcon
+          class="mr-2 w-5 text-gray-400 dark:text-gray-100 dark:hover:text-gray-400"
+        />
         <!-- search icon end -->
 
         <!-- input -->
@@ -95,12 +97,16 @@
             <ul>
               <li
                 v-for="verse in searchResult.verses"
-                :class="`verse-${verse.verse_id}`"
+                :class="`verse verse-${verse.verse_id}`"
+                :key="verse.id"
               >
                 <Verse
                   :verse="store.getVerseById(verse)"
                   :highlightText="searchResult.query"
                   :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+                  :showTopics="false"
+                  :showVocabulary="false"
+                  :lazyLoad="[]"
                 />
               </li>
             </ul>
@@ -116,9 +122,11 @@
 
 <script setup>
 // vue
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 // store
 import { useStore } from "../store/useStore";
+// router
+import { useRoute } from "vue-router";
 
 // components
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
@@ -132,6 +140,9 @@ import { useNotification } from "../composables/notification";
 // store
 const store = useStore();
 
+// router
+const route = useRoute();
+
 // number of tabs allowed
 const TABS_ALLOWED = 10;
 const MINIMUM_SEARCH_STRING_LENGTH = 2;
@@ -139,6 +150,12 @@ const MINIMUM_SEARCH_STRING_LENGTH = 2;
 // search - tabs
 const searchString = ref("");
 const selectedTab = ref(0);
+
+onMounted(() => {
+  // if pre-search --> switch to last tab
+  if (route.query?.changeTab)
+    selectedTab.value = store.searchResults.length - 1;
+});
 
 const keypressed = (e) => {
   if (e.key === "Enter") {

@@ -6,6 +6,7 @@ import Vocabulary from "../model/Vocabulary";
 import Translation from "../model/Translation";
 import Setting from "../model/Setting";
 import Topic from "../model/Topic";
+import VerseTopic from "../model/VerseTopic";
 
 export const useStore = defineStore("main", {
   state: () => ({
@@ -193,8 +194,11 @@ export const useStore = defineStore("main", {
     search(query) {
       if (!query.length) return;
       return new Promise((resolve) => {
+        // remove diacritics from query
+        const queryString = query.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
+
         const verses = this.verses.filter((verse) => {
-          const regex = new RegExp(query, "g");
+          const regex = new RegExp(queryString, "g");
           return verse.text_clean.match(regex);
         });
         // pluck verse ids
@@ -203,7 +207,7 @@ export const useStore = defineStore("main", {
           return acc;
         }, []);
         // add search query and verseIds in store.searchResults
-        this.searchResults.push({ query, verses: verseIds });
+        this.searchResults.push({ query: queryString, verses: verseIds });
         resolve();
       });
     },
@@ -233,6 +237,36 @@ export const useStore = defineStore("main", {
         [["name", "enabled_translations"]],
         [["value", JSON.stringify(this.settings?.enabled_translations)]]
       );
+    },
+
+    async addWordToVocab({ verse_id, word, meaning }) {
+      await Vocabulary.insert({ verse_id, word, meaning });
+      await this.replaceVerse(verse_id);
+    },
+
+    async addTopic(name) {
+      try {
+        const topic = await Topic.insert({ name });
+        return topic[0].id;
+      } catch (err) {
+        console.log(`Err: ${err}`);
+      }
+    },
+
+    async updateVerseTopics({ verseId, oldTopics, newTopics }) {
+      const { toAdd, toDelete } = Topic.sync(oldTopics, newTopics);
+
+      toDelete.forEach(async (topic) => {
+        await VerseTopic.delete([
+          ["verse_id", verseId],
+          ["topic_id", topic.id],
+        ]);
+      });
+
+      toAdd.forEach(async (topic) => {
+        if (!topic.id) topic.id = await this.addTopic(topic.name);
+        await VerseTopic.insert({ verse_id: verseId, topic_id: topic.id });
+      });
     },
   },
 });

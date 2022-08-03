@@ -11,6 +11,5 @@ export default {
                 references verses,
             topic_id int not null
               constraint verse_topic_topics_id_fk
-                references topics
-          , note text);`,
+                references topics);`,
 };

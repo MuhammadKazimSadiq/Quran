@@ -1,11 +1,14 @@
 <template>
-  <div class="p-4 text-center text-xl font-bold">تست</div>
+  <div class="text-center font-english text-3xl font-bold">Test</div>
 
-  <div class="mx-auto mt-12 w-full space-y-8">
-    <TopicInput />
+  <div v-for="verse in store.verses.slice(0, 2)">
+    <TopicInput :verseId="verse.id" :topics="verse.topics" />
   </div>
 </template>
 
 <script setup>
 import TopicInput from "../components/TopicInput.vue";
+
+import { useStore } from "../store/useStore";
+const store = useStore();
 </script>

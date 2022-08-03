@@ -1,24 +1,34 @@
-# FIX:
+## Read:
 
-- search:
-  - closing tabs takes time
-  - on search --> show loading icon
-- Topic Input
-  - fetch and update from store
-  - overflow
-  - backspace handle
-  - nested topics?
+- new page & new juz' signs
+- fancy bismaillah
 
-# TODO:
+## Search:
 
-- command palette --> add page and juz'
-- vocabulary section
-- combine all fetch request --> make one function (fetchResource?)
-- audio
+- closing tabs takes time
+- on search --> show loading icon --> make search async?
 
-# LONG TERM:
+## Topic Input
 
-- use pagination for search results
-- on highlight word || on hover show floating bar --> add to vocab || search
+- overflow
+- backspace handle
+- nested topics?
+
+## command palette
+
+- add page and juz'
+
+## audio
+
+## settings:
+
 - search rules (add to settings)
 - icons + topics + vocab + translations should all be customizable in the settings
+
+## store
+
+- combine all fetch request --> make one function (fetchResource?)
+
+## speed and performance
+
+- add infinite scroll for bookmarks and search page

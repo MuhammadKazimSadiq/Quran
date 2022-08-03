@@ -11,27 +11,35 @@
     <!-- icons -->
     <div class="mt-4 flex flex-col gap-4">
       <router-link to="/" class="rounded-md p-2">
-        <HomeIcon />
+        <HomeIcon class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400" />
       </router-link>
       <router-link :to="`/read/${store.chapterId}`" class="rounded-md p-2">
-        <ReadIcon />
+        <ReadIcon class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400" />
       </router-link>
       <router-link to="/search" class="rounded-md p-2">
-        <SearchIcon />
+        <SearchIcon
+          class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
+        />
       </router-link>
       <router-link to="/bookmarks" class="rounded-md p-2">
-        <BookmarkIcon />
+        <BookmarkIcon
+          class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
+        />
       </router-link>
       <router-link to="/topics" class="rounded-md p-2">
-        <CollectionIcon />
+        <CollectionIcon
+          class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
+        />
       </router-link>
       <router-link to="/vocabulary" class="rounded-md p-2">
-        <TableIcon />
+        <TableIcon
+          class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
+        />
       </router-link>
       <router-link to="/test" class="rounded-md bg-red-300 p-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
+          class="h-5 w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

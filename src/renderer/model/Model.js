@@ -85,11 +85,11 @@ export default class Model {
     });
   }
 
-  // static sync(oldRelations, newRelations) {
-  //   const toDelete = this.difference(oldRelations, newRelations);
-  //   const toAdd = this.difference(newRelations, oldRelations);
-  //   return { toDelete, toAdd };
-  // }
+  static sync(oldRelations, newRelations) {
+    const toDelete = this.difference(oldRelations, newRelations);
+    const toAdd = this.difference(newRelations, oldRelations);
+    return { toDelete, toAdd };
+  }
 
   static buildQueryString({ joins, conditions, order }) {
     const selectString = this.formSelectString(joins);
@@ -152,7 +152,7 @@ export default class Model {
     return order.length ? `ORDER BY ${order.join(" , ")}` : "";
   }
 
-  // static difference(a, b) {
-  //   return a.filter((x) => !b.includes(x));
-  // }
+  static difference(a, b) {
+    return a.filter((x) => !b.includes(x));
+  }
 }

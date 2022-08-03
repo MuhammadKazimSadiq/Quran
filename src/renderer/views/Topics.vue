@@ -2,7 +2,7 @@
   <h1 class="text-center text-3xl dark:text-white">موضوعات</h1>
 
   <div class="mx-auto mt-8 w-full rounded-2xl bg-white p-4 dark:bg-gray-800">
-    <Disclosure v-slot="{ open }" v-for="topic in topics">
+    <Disclosure v-slot="{ open }" v-for="topic in store.topics">
       <DisclosureButton
         class="my-2 flex w-full justify-between rounded-lg bg-gray-100 p-4 text-left text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75 dark:bg-gray-900 dark:text-white"
       >
@@ -35,9 +35,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
 
-const topics = [
-  { name: "عصمت", id: 1 },
-  { name: "امامت", id: 2 },
-  { name: "تجرد روح", id: 3 },
-];
+import { useStore } from "../store/useStore";
+const store = useStore();
 </script>

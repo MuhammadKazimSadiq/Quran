@@ -7,6 +7,9 @@
         <Verse
           :verse="verse"
           :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+          :showTopics="false"
+          :showVocabulary="false"
+          :lazyLoad="[]"
         />
       </li>
     </ul>

@@ -1,8 +1,8 @@
 <template>
-  <Combobox v-model="selectedTopics" @update:modelValue="onSelect" multiple>
+  <Combobox v-model="selectedTopics" @update:modelValue="onUpdate()" multiple>
     <div class="relative mt-1">
       <div
-        class="relative flex cursor-default items-center overflow-hidden rounded-lg border-b border-gray-100 bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 dark:bg-gray-800 sm:text-sm"
+        class="relative flex cursor-default items-center overflow-hidden border-b border-gray-100 bg-inherit text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 dark:border-gray-800 sm:text-sm"
       >
         <div class="mx-2">
           <ComboboxButton class="flex items-center">
@@ -15,22 +15,32 @@
           <div class="flex items-center justify-center gap-2">
             <div
               v-for="(topic, i) in selectedTopics"
-              class="flex min-w-max gap-2 rounded-lg border border-gray-300 bg-gray-100 p-2 text-xs dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+              class="flex min-w-max gap-2 rounded-lg border border-gray-300 bg-inherit p-2 text-xs dark:border-gray-700 dark:text-gray-100"
             >
               <span>{{ topic.name }}</span>
-              <XIcon
-                @click.stop="selectedTopics.splice(i, 1)"
+              <ClearIcon
+                @click.stop="selectedTopics.splice(i, 1) && onUpdate()"
                 class="w-3 cursor-pointer text-gray-700/60 dark:text-gray-300/60"
               />
             </div>
           </div>
         </div>
         <ComboboxInput
-          class="w-full border-none bg-white py-2 pl-10 text-sm leading-5 text-gray-900 placeholder:text-gray-500 focus:ring-0 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-400"
+          class="w-full border-none bg-inherit py-2 pl-10 text-sm leading-5 text-gray-900 placeholder:text-gray-500 focus:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
           :placeholder="selectedTopics.length ? '' : 'موضوعات'"
           @keydown="onKeyPress($event)"
           @change="query = $event.target.value"
         />
+        <div v-if="showSaveIcon" class="flex gap-2">
+          <SaveIcon
+            @click="updateTopics()"
+            class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
+          />
+          <ClearIcon
+            @click="cancel()"
+            class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
+          />
+        </div>
       </div>
       <ComboboxOptions
         class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800 sm:text-sm"
@@ -77,7 +87,10 @@
             <span
               v-if="selected"
               class="absolute inset-y-0 left-0 flex items-center pl-3"
-              :class="{ 'text-gray-900': active, 'text-gray-600': !active }"
+              :class="{
+                'text-gray-900 dark:text-white': active,
+                'text-gray-600 dark:text-gray-400': !active,
+              }"
             >
               <CheckIcon class="h-5 w-5" aria-hidden="true" />
             </span>
@@ -101,8 +114,10 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from "@headlessui/vue";
-import { CheckIcon, XIcon } from "@heroicons/vue/solid";
-import { PlusCircleIcon } from "@heroicons/vue/outline";
+import ClearIcon from "./icons/ClearIcon.vue";
+import CheckIcon from "./icons/CheckIcon.vue";
+import PlusCircleIcon from "./icons/PlusCircleIcon.vue";
+import SaveIcon from "./icons/SaveIcon.vue";
 
 // store
 import { useStore } from "../store/useStore";
@@ -111,6 +126,11 @@ import { useStore } from "../store/useStore";
 const store = useStore();
 
 const props = defineProps({
+  verseId: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   topics: {
     type: Array,
     required: true,
@@ -118,7 +138,9 @@ const props = defineProps({
   },
 });
 
-let selectedTopics = ref(props.topics);
+const showSaveIcon = ref(false);
+
+let selectedTopics = ref([...props.topics]);
 let query = ref("");
 
 const queryTopic = computed(() => {
@@ -145,10 +167,25 @@ const onKeyPress = (e) => {
   if (!selectedTopics.value.length) return;
 
   // remove last option
-  selectedTopics.value.pop();
+  selectedTopics.value.pop() && onUpdate();
 };
 
-const onSelect = () => {
+const onUpdate = () => {
   query.value = "";
+  showSaveIcon.value = true;
+};
+
+const updateTopics = async () => {
+  await store.updateVerseTopics({
+    verseId: props.verseId,
+    oldTopics: props.topics,
+    newTopics: selectedTopics.value,
+  });
+  showSaveIcon.value = false;
+};
+
+const cancel = () => {
+  showSaveIcon.value = false;
+  selectedTopics.value = [...props.topics];
 };
 </script>

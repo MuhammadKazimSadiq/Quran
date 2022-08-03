@@ -136,20 +136,20 @@
               >
                 دستورات موجود
               </div>
-              <div class="mt-4 mr-2 flex flex-col gap-4 text-lg">
-                <div class="my-4 flex gap-4">
+              <div class="mt-4 mr-2 flex flex-col gap-6 text-lg">
+                <div class="flex gap-4">
                   <div class="dark:text-gray-300">جستجوی سوره:</div>
                   <div class="text-green-800 dark:text-green-300">
                     `سوره بقره`
                   </div>
                 </div>
-                <div class="my-4 flex gap-4">
+                <div class="flex gap-4">
                   <div class="dark:text-gray-300">جستجوی آیه:</div>
                   <div class="text-green-800 dark:text-green-300">
                     `بسم الله...`
                   </div>
                 </div>
-                <div class="my-4 flex gap-4">
+                <div class="flex gap-4">
                   <div class="dark:text-gray-300">
                     جستجوی شماره با شماره سوره و آیه:
                   </div>
@@ -227,8 +227,10 @@ const onSearch = (value) => {
 
 const filteredChapters = computed(() => {
   if (search.value.length <= 2) return [];
+  // remove diacritics from query
+  const query = search.value.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
   return store.chapters
-    .filter((chapter) => `سوره ${chapter.name}`.includes(search.value))
+    .filter((chapter) => `سوره ${chapter.name}`.includes(query))
     .map((chapter) => {
       return {
         text: `سوره ${chapter.name}`,
@@ -239,20 +241,20 @@ const filteredChapters = computed(() => {
 
 const filteredVerses = computed(() => {
   if (search.value.length <= 2) return [];
+  // remove diacritics from query
+  const query = search.value.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
   return store.verses
     .filter(
       (verse) =>
-        verse.text_clean.includes(search.value) ||
-        `سوره ${verse.chapter_name}: ${verse.verse_id}`.includes(
-          search.value
-        ) ||
-        `${verse.chapter_id}:${verse.verse_id}`.includes(search.value)
+        verse.text_clean.includes(query) ||
+        `سوره ${verse.chapter_name}: ${verse.verse_id}`.includes(query) ||
+        `${verse.chapter_id}:${verse.verse_id}`.includes(query)
     )
     .map((verse) => {
       return {
         text: `${useHighlight({
           text: verse.text_original,
-          search: search.value,
+          search: query,
           highlightClasses: "bg-yellow-200 dark:bg-yellow-800 rounded-lg",
         })} <span class="text-sm text-gray-600 dark:text-gray-300">[${
           verse.chapter_name
