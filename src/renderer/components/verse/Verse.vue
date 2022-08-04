@@ -66,10 +66,10 @@
 import { defineProps, defineEmits } from "vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../../store/useStore";
 
 // composables
-import { useHighlight } from "../composables/highlight";
+import { useHighlight } from "../../composables/highlight";
 
 // components
 import Translation from "./Translation.vue";

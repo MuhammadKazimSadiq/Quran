@@ -47,18 +47,18 @@ import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../../store/useStore";
 
 // components
-import CopyToClipboardIcon from "./icons/CopyToClipboardIcon.vue";
-import BookmarkIcon from "./icons/BookmarkIcon.vue";
-import BookmarkFillIcon from "./icons/BookmarkFillIcon.vue";
-import OptionsIcon from "./icons/OptionsIcon.vue";
-import ArrowLeftIcon from "./icons/ArrowLeftIcon.vue";
+import CopyToClipboardIcon from "../icons/CopyToClipboardIcon.vue";
+import BookmarkIcon from "../icons/BookmarkIcon.vue";
+import BookmarkFillIcon from "../icons/BookmarkFillIcon.vue";
+import OptionsIcon from "../icons/OptionsIcon.vue";
+import ArrowLeftIcon from "../icons/ArrowLeftIcon.vue";
 
 // composables
 import { useClipboard } from "@vueuse/core";
-import { useNotification } from "../composables/notification";
+import { useNotification } from "../../composables/notification";
 
 // props
 const props = defineProps({

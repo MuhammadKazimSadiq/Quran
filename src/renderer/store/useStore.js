@@ -107,7 +107,28 @@ export const useStore = defineStore("main", {
         Verse.all()
           .then((verses) => {
             // group verses
-            this.verses = this.groupVerses(verses);
+            this.verses = this.groupRows({
+              rows: verses,
+              key: "id",
+              groupCols: [
+                {
+                  groupName: "topics",
+                  groupKey: "topic_id",
+                  cols: [
+                    ["topic_id", "id"],
+                    ["topic", "name"],
+                  ],
+                },
+                {
+                  groupName: "vocab",
+                  groupKey: "word",
+                  cols: [
+                    ["word", "word"],
+                    ["meaning", "meaning"],
+                  ],
+                },
+              ],
+            });
             resolve();
           })
           .catch((err) => reject(err));
@@ -132,34 +153,103 @@ export const useStore = defineStore("main", {
         Topic.all()
           .then((topics) => {
             this.topics = this.groupTopics(topics);
+            this.topics = this.groupRows({
+              rows: topics,
+              key: "topic_id",
+              groupCols: [
+                {
+                  groupName: "verses",
+                  groupKey: "id",
+                  cols: [
+                    ["id", "id"],
+                    ["verse_id", "verse_id"],
+                    ["chapter_id", "chapter_id"],
+                    ["chapter_name", "chapter_name"],
+                    ["text_clean", "text_clean"],
+                    ["text_original", "text_original"],
+                  ],
+                },
+              ],
+            });
             resolve();
           })
           .catch((err) => reject(err));
       });
     },
 
+    groupRows({ rows, key, groupCols = [] }) {
+      return Object.values(
+        rows.reduce((acc, row) => {
+          if (acc[row[key]]) {
+            groupCols.forEach(({ groupName, groupKey, cols }) => {
+              const newGroupKeyName = cols.filter(
+                (col) => col[0] === groupKey
+              )[0][1];
+              if (
+                acc[row[key]][groupName].length &&
+                !acc[row[key]][groupName].some(
+                  (_row) => _row[newGroupKeyName] === row[groupKey]
+                )
+              ) {
+                acc[row[key]][groupName].push(
+                  cols.reduce(
+                    (_acc, [originalName, newName]) => ({
+                      ..._acc,
+                      [newName]: row[originalName],
+                    }),
+                    {}
+                  )
+                );
+              }
+            });
+          } else {
+            acc[row[key]] = { ...row };
+            groupCols.forEach(({ groupName, groupKey, cols }) => {
+              acc[row[key]][groupName] = [];
+
+              if (!row[groupKey]) return;
+              acc[row[key]][groupName].push(
+                cols.reduce(
+                  (_acc, [originalName, newName]) => ({
+                    ..._acc,
+                    [newName]: row[originalName],
+                  }),
+                  {}
+                )
+              );
+            });
+          }
+          return acc;
+        }, {})
+      );
+    },
+
     groupTopics(topics) {
       return Object.values(
         topics.reduce((acc, topic) => {
-          if (acc[topic.id]) {
+          if (acc[topic.topic_id] && topic.id) {
             // add verse to topic.verses
-            acc[topic.id].verses.push({
+            acc[topic.topic_id].verses.push({
+              id: topic.id,
               verse_id: topic.verse_id,
-              verse_number: topic.verse_number,
               chapter_id: topic.chapter_id,
-              verse_text: topic.verse_text,
+              chapter_name: topic.chapter_name,
+              text_clean: topic.text_clean,
+              text_original: topic.text_original,
             });
           } else {
-            acc[topic.id] = {
+            acc[topic.topic_id] = {
               ...topic,
               verses: [],
             };
-            if (topic.verse_id)
-              acc[topic.id].verses.push({
+            if (topic.id)
+              acc[topic.topic_id].verses.push({
+                id: topic.id,
                 verse_id: topic.verse_id,
-                verse_number: topic.verse_number,
                 chapter_id: topic.chapter_id,
-                verse_text: topic.verse_text,
+                chapter_name: topic.chapter_name,
+                text_clean: topic.text_clean,
+                text_original: topic.text_original,
               });
           }
           return acc;

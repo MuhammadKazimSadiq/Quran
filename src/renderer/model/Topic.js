@@ -7,6 +7,11 @@ export default class Topic extends Model {
 
   static table = "topics";
 
+  static selectCols = [
+    ["id", "topic_id"],
+    ["name", "topic_name"],
+  ];
+
   static joins = [
     {
       to_table: "verse_topic",
@@ -19,10 +24,11 @@ export default class Topic extends Model {
       from_col: "verse_id",
       to_col: "id",
       cols: [
-        ["id", "verse_id"],
-        ["verse_id", "verse_number"],
+        ["id", "id"],
+        ["verse_id", "verse_id"],
         ["chapter_id", "chapter_id"],
-        ["text_original", "verse_text"],
+        ["text_clean", "text_clean"],
+        ["text_original", "text_original"],
       ],
     },
     // chapters

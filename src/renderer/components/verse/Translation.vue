@@ -18,7 +18,7 @@
 import { defineProps, computed } from "vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../../store/useStore";
 
 // store
 const store = useStore();

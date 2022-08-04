@@ -29,6 +29,16 @@
 - combine all fetch request --> make one function (fetchResource?)
 - make general function for grouping Rows
 
-## speed and performance
+## other
 
+- add verseList component
 - add infinite scroll for bookmarks and search page
+- proper system for lazy-load
+- add "select as" in Model.js (to fix topics)
+- use list instead of expandables for topics
+- inline edit for vocab page?
+
+## BUGS:
+
+- can't add 2 new topics
+- on add topic and vocab --> refetch? or add refresh btn to refetch --> implement force refresh

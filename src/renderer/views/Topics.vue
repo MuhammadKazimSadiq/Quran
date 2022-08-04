@@ -2,11 +2,15 @@
   <h1 class="text-center text-3xl dark:text-white">موضوعات</h1>
 
   <div class="mx-auto mt-8 w-full rounded-2xl bg-white p-4 dark:bg-gray-800">
-    <Disclosure v-slot="{ open }" v-for="topic in store.topics">
+    <Disclosure
+      v-slot="{ open }"
+      v-for="topic in store.topics"
+      :key="topic.topic_id"
+    >
       <DisclosureButton
         class="my-2 flex w-full justify-between rounded-lg bg-gray-100 p-4 text-left text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75 dark:bg-gray-900 dark:text-white"
       >
-        <span class="text-xl">{{ topic.name }}</span>
+        <span class="text-xl">{{ topic.topic_name }}</span>
         <ChevronUpIcon
           :class="open ? '' : 'rotate-180 transform'"
           class="h-5 w-5 text-gray-500"
@@ -25,18 +29,13 @@
         >
           <ul v-if="topic.verses.length">
             <li v-for="verse in topic.verses">
-              <!-- <Verse
+              <Verse
                 :verse="verse"
                 :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
                 :showTopics="false"
                 :showVocabulary="false"
                 :lazyLoad="[]"
-              /> -->
-              <div
-                class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
-              >
-                {{ verse.verse_text }}
-              </div>
+              />
             </li>
           </ul>
           <template v-else>
@@ -53,7 +52,7 @@
 <script setup>
 // components
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import Verse from "../components/Verse.vue";
+import Verse from "../components/verse/Verse.vue";
 import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
 
 import { useStore } from "../store/useStore";

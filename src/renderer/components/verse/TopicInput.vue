@@ -114,13 +114,13 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from "@headlessui/vue";
-import ClearIcon from "./icons/ClearIcon.vue";
-import CheckIcon from "./icons/CheckIcon.vue";
-import PlusCircleIcon from "./icons/PlusCircleIcon.vue";
-import SaveIcon from "./icons/SaveIcon.vue";
+import ClearIcon from "../icons/ClearIcon.vue";
+import CheckIcon from "../icons/CheckIcon.vue";
+import PlusCircleIcon from "../icons/PlusCircleIcon.vue";
+import SaveIcon from "../icons/SaveIcon.vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../../store/useStore";
 
 // store
 const store = useStore();
@@ -149,13 +149,18 @@ const queryTopic = computed(() => {
 
 let filteredTopics = computed(() =>
   query.value === ""
-    ? store.topics
-    : store.topics.filter((topic) =>
-        topic.name
-          .toLowerCase()
-          .replace(/\s+/g, "")
-          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
-      )
+    ? store.topics.map((topic) => ({
+        id: topic.topic_id,
+        name: topic.topic_name,
+      }))
+    : store.topics
+        .filter((topic) =>
+          topic.topic_name
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(query.value.toLowerCase().replace(/\s+/g, ""))
+        )
+        .map((topic) => ({ id: topic.topic_id, name: topic.topic_name }))
 );
 
 const onKeyPress = (e) => {

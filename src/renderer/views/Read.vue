@@ -94,7 +94,7 @@ import { useScrollTo } from "../composables/scrollTo";
 import { onClickOutside } from "@vueuse/core";
 import { useIntersectionObserver } from "../composables/intersectionObserver";
 
-import Verse from "../components/Verse.vue";
+import Verse from "../components/verse/Verse.vue";
 import NavigationButtons from "../components/NavigationButtons.vue";
 import Popup from "../components/Popup.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
@@ -137,6 +137,7 @@ const init = ({ route }) => {
   setTimeout(() => addIntersectionObservers(), 1000);
 };
 
+// TODO: move to VerseList component
 const scrollTo = () => {
   // scroll to verse/ page - after slight delay
   setTimeout(() => {
@@ -156,6 +157,7 @@ const scrollTo = () => {
   }, 100);
 };
 
+// TODO: move to VerseList component
 // loaded verses
 const loadedVerses = ref(Array.from({ length: 10 }, (_, i) => i + 1));
 
@@ -175,6 +177,7 @@ watch(directions, (newVal, oldVal) => {
 // on routeLeave --> remove class from nav
 onBeforeRouteLeave(() => nav.classList.remove("-translate-y-[68px]"));
 
+// TODO: move to VerseList component
 // intersection observers
 const addIntersectionObservers = () => {
   // for changing page and section in top nav
@@ -210,6 +213,7 @@ const addIntersectionObservers = () => {
   });
 };
 
+// TODO: move to VerseList component
 const selectedText = ref(""); // selectedText
 const selectedVerse = ref(null); // selectedVerse
 const targetElement = ref(null); // clicked element
@@ -280,5 +284,6 @@ const addToVocab = async () => {
   });
   show.value = false;
   addPanel.value = false;
+  meaning.value = "";
 };
 </script>

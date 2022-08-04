@@ -102,8 +102,17 @@ export default class Model {
 
   static formSelectString(joins) {
     joins = joins.length ? [...joins, ...this.joins] : this.joins;
+
     if (joins.length) {
-      let joinArray = [`${this.table}.*`];
+      let joinArray = this?.selectCols?.length
+        ? [
+            ...this?.selectCols?.reduce((acc, col) => {
+              acc.push(`${this.table}.${col[0]} as ${col[1]}`);
+              return acc;
+            }, []),
+          ]
+        : [`${this.table}.*`];
+
       joins.forEach((table) =>
         table?.cols?.forEach((col) =>
           joinArray.push(`${table.to_table}.${col[0]} as ${col[1]}`)

@@ -26,7 +26,7 @@
 import { useStore } from "../store/useStore";
 
 // components
-import Verse from "../components/Verse.vue";
+import Verse from "../components/verse/Verse.vue";
 
 // store
 const store = useStore();

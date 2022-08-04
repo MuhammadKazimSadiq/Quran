@@ -130,7 +130,7 @@ import { useRoute } from "vue-router";
 
 // components
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-import Verse from "../components/Verse.vue";
+import Verse from "../components/verse/Verse.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 import ClearIcon from "../components/icons/ClearIcon.vue";
 

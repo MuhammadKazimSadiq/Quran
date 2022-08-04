@@ -1,26 +1,104 @@
 <template>
   <div class="text-center font-english text-3xl font-bold">Test</div>
-
-  <input type="text" v-model="input" />
-  <div class="font-english text-xl text-black">{{ output }}</div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
-import TopicInput from "../components/TopicInput.vue";
 
 import { useStore } from "../store/useStore";
 const store = useStore();
 
-const input = ref("");
+const rows = [
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 1,
+    topic_name: "Topic 1",
+    word: "Word 1",
+    meaning: "Meaning 1",
+  },
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 2,
+    topic_name: "Topic 2",
+    word: "Word 1",
+    meaning: "Meaning 1",
+  },
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 3,
+    topic_name: "Topic 3",
+    word: "Word 1",
+    meaning: "Meaning 1",
+  },
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 1,
+    topic_name: "Topic 1",
+    word: "Word 2",
+    meaning: "Meaning 2",
+  },
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 2,
+    topic_name: "Topic 2",
+    word: "Word 2",
+    meaning: "Meaning 2",
+  },
+  {
+    id: 1,
+    verse_id: 1,
+    chapter_id: 1,
+    text: "Verse 1",
+    topic_id: 3,
+    topic_name: "Topic 3",
+    word: "Word 2",
+    meaning: "Meaning 2",
+  },
+  {
+    id: 2,
+    verse_id: 2,
+    chapter_id: 1,
+    text: "Verse 2",
+    topic_id: 2,
+    topic_name: "Topic 2",
+  },
+];
 
-const output = computed(() => {
-  let chapter = "بقره";
-  // let chapter = 2;
-  let verse = 286;
-
-  let regex = new RegExp(`^(سوره )?${chapter}(\\s+)?:(\\s+)?${verse}$`);
-  // let regex = new RegExp(`${chapter}(\\s+)?:(\\s+)?${verse}$`);
-  return input.value.trim().match(regex) ? "yes!" : "no!";
+const grouped = store.groupRows({
+  rows,
+  key: "id",
+  groupCols: [
+    {
+      groupName: "topics",
+      groupKey: "topic_id",
+      cols: [
+        ["topic_id", "id"],
+        ["topic_name", "name"],
+      ],
+    },
+    {
+      groupName: "vocab",
+      groupKey: "word",
+      cols: [
+        ["word", "word"],
+        ["meaning", "meaning"],
+      ],
+    },
+  ],
 });
 </script>
