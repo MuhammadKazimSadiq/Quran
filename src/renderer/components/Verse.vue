@@ -1,5 +1,12 @@
 <template>
   <div>
+    <!-- bismillah (if first verse and not surah fatiha)  -->
+    <div
+      v-if="verse.verse_id === 1 && verse.chapter_id !== 1"
+      class="my-4 flex justify-center text-center"
+    >
+      <Bismillah />
+    </div>
     <div class="flex justify-between gap-12 rounded-lg p-4 pb-8">
       <!-- verse -->
       <div class="flex-1 gap-2">
@@ -69,6 +76,7 @@ import Translation from "./Translation.vue";
 import VerseTopics from "./VerseTopics.vue";
 import VerseVocabulary from "./VerseVocabulary.vue";
 import VerseIcons from "./VerseIcons.vue";
+import Bismillah from "./Bismillah.vue";
 
 const emits = defineEmits(["togglePopup"]);
 

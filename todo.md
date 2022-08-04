@@ -1,7 +1,6 @@
 ## Read:
 
 - new page & new juz' signs
-- fancy bismaillah
 
 ## Search:
 
@@ -28,6 +27,7 @@
 ## store
 
 - combine all fetch request --> make one function (fetchResource?)
+- make general function for grouping Rows
 
 ## speed and performance
 

@@ -14,16 +14,36 @@
       </DisclosureButton>
       <transition
         enter-active-class="transition duration-100 ease-out"
-        enter-from-class="transform scale-95 opacity-0"
-        enter-to-class="transform scale-100 opacity-100"
+        enter-from-class="transform opacity-0"
+        enter-to-class="transform opacity-100"
         leave-active-class="transition duration-75 ease-out"
-        leave-from-class="transform scale-100 opacity-100"
-        leave-to-class="transform scale-95 opacity-0"
+        leave-from-class="transform opacity-100"
+        leave-to-class="transform opacity-0"
       >
         <DisclosurePanel
           class="px-4 pt-4 pb-2 text-sm text-gray-900 dark:text-white"
         >
-          بسم الله الرحمن الرحیم
+          <ul v-if="topic.verses.length">
+            <li v-for="verse in topic.verses">
+              <!-- <Verse
+                :verse="verse"
+                :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+                :showTopics="false"
+                :showVocabulary="false"
+                :lazyLoad="[]"
+              /> -->
+              <div
+                class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
+              >
+                {{ verse.verse_text }}
+              </div>
+            </li>
+          </ul>
+          <template v-else>
+            <div class="text-center text-xl text-black">
+              آیه ای با این موضوع یافت نشد
+            </div>
+          </template>
         </DisclosurePanel>
       </transition>
     </Disclosure>
@@ -33,6 +53,7 @@
 <script setup>
 // components
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import Verse from "../components/Verse.vue";
 import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
 
 import { useStore } from "../store/useStore";

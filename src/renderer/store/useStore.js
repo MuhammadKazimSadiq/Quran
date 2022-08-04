@@ -131,11 +131,40 @@ export const useStore = defineStore("main", {
         if (this.topics.length) return resolve();
         Topic.all()
           .then((topics) => {
-            this.topics = topics;
+            this.topics = this.groupTopics(topics);
             resolve();
           })
           .catch((err) => reject(err));
       });
+    },
+
+    groupTopics(topics) {
+      return Object.values(
+        topics.reduce((acc, topic) => {
+          if (acc[topic.id]) {
+            // add verse to topic.verses
+            acc[topic.id].verses.push({
+              verse_id: topic.verse_id,
+              verse_number: topic.verse_number,
+              chapter_id: topic.chapter_id,
+              verse_text: topic.verse_text,
+            });
+          } else {
+            acc[topic.id] = {
+              ...topic,
+              verses: [],
+            };
+            if (topic.verse_id)
+              acc[topic.id].verses.push({
+                verse_id: topic.verse_id,
+                verse_number: topic.verse_number,
+                chapter_id: topic.chapter_id,
+                verse_text: topic.verse_text,
+              });
+          }
+          return acc;
+        }, {})
+      );
     },
 
     groupVerses(verses) {

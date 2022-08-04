@@ -4,7 +4,7 @@
   <!-- Search Panel -->
   <section class="mt-6 flex justify-center">
     <div
-      class="flex w-full items-center justify-between rounded border-2 border-gray-400 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
+      class="flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
     >
       <!-- right side -->
       <div class="flex flex-1 justify-start">

@@ -247,8 +247,14 @@ const filteredVerses = computed(() => {
     .filter(
       (verse) =>
         verse.text_clean.includes(query) ||
-        `سوره ${verse.chapter_name}: ${verse.verse_id}`.includes(query) ||
-        `${verse.chapter_id}:${verse.verse_id}`.includes(query)
+        query.match(
+          new RegExp(
+            `^(سوره )?${verse.chapter_name}(\\s+)?:(\\s+)?${verse.verse_id}$`
+          )
+        ) ||
+        query.match(
+          new RegExp(`${verse.chapter_id}(\\s+)?:(\\s+)?${verse.verse_id}$`)
+        )
     )
     .map((verse) => {
       return {
