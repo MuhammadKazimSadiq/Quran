@@ -152,7 +152,6 @@ export const useStore = defineStore("main", {
         if (this.topics.length) return resolve();
         Topic.all()
           .then((topics) => {
-            this.topics = this.groupTopics(topics);
             this.topics = this.groupRows({
               rows: topics,
               key: "topic_id",
@@ -177,6 +176,9 @@ export const useStore = defineStore("main", {
       });
     },
 
+    // rows: Array
+    // key: String
+    // groupCols: Array [groupName: String, groupKey: String, groupCols: Array[[originalName, newName], [originalName, newName]] ]
     groupRows({ rows, key, groupCols = [] }) {
       return Object.values(
         rows.reduce((acc, row) => {
@@ -218,92 +220,6 @@ export const useStore = defineStore("main", {
                 )
               );
             });
-          }
-          return acc;
-        }, {})
-      );
-    },
-
-    groupTopics(topics) {
-      return Object.values(
-        topics.reduce((acc, topic) => {
-          if (acc[topic.topic_id] && topic.id) {
-            // add verse to topic.verses
-            acc[topic.topic_id].verses.push({
-              id: topic.id,
-              verse_id: topic.verse_id,
-              chapter_id: topic.chapter_id,
-              chapter_name: topic.chapter_name,
-              text_clean: topic.text_clean,
-              text_original: topic.text_original,
-            });
-          } else {
-            acc[topic.topic_id] = {
-              ...topic,
-              verses: [],
-            };
-            if (topic.id)
-              acc[topic.topic_id].verses.push({
-                id: topic.id,
-                verse_id: topic.verse_id,
-                chapter_id: topic.chapter_id,
-                chapter_name: topic.chapter_name,
-                text_clean: topic.text_clean,
-                text_original: topic.text_original,
-              });
-          }
-          return acc;
-        }, {})
-      );
-    },
-
-    groupVerses(verses) {
-      // get all values from object: {0: {}, 1: {}, 2: {},...}
-      return Object.values(
-        verses.reduce((acc, verse) => {
-          // if verse.id exists in acc.keys
-          if (acc[verse.id]) {
-            if (
-              acc[verse.id].topics.length &&
-              // not same topic
-              !acc[verse.id].topics.some(
-                (topic) =>
-                  topic.id === verse.topic_id && topic.name === verse.topic
-              )
-            )
-              // add topic to verse.topics
-              acc[verse.id].topics.push({
-                id: verse.topic_id,
-                name: verse.topic,
-              });
-            if (
-              acc[verse.id].vocab.length &&
-              // not same vocab
-              !acc[verse.id].vocab.some(
-                (word) =>
-                  word.word === verse.word && word.meaning === verse.meaning
-              )
-            )
-              acc[verse.id].vocab.push({
-                word: verse.word,
-                meaning: verse.meaning,
-              });
-          } else {
-            acc[verse.id] = {
-              ...verse,
-              topics: [],
-              vocab: [],
-            };
-            if (verse.topic && verse.topic_id)
-              acc[verse.id].topics.push({
-                id: verse.topic_id,
-                name: verse.topic,
-              });
-            if (verse.word && verse.meaning)
-              acc[verse.id].vocab.push({
-                word: verse.word,
-                meaning: verse.meaning,
-              });
           }
           return acc;
         }, {})
@@ -364,28 +280,30 @@ export const useStore = defineStore("main", {
     },
 
     async addTopic(name) {
-      try {
-        const topic = await Topic.insert({ name });
-        return topic[0].id;
-      } catch (err) {
-        console.log(`Err: ${err}`);
-      }
+      return new Promise(async (resolve, reject) => {
+        try {
+          const topic = await Topic.insert({ name });
+          resolve(topic[0].id);
+        } catch (err) {
+          reject(`Err: ${err}`);
+        }
+      });
     },
 
     async updateVerseTopics({ verseId, oldTopics, newTopics }) {
       const { toAdd, toDelete } = Topic.sync(oldTopics, newTopics);
 
-      toDelete.forEach(async (topic) => {
+      for (let topic of toDelete) {
         await VerseTopic.delete([
           ["verse_id", verseId],
           ["topic_id", topic.id],
         ]);
-      });
+      }
 
-      toAdd.forEach(async (topic) => {
+      for (let topic of toAdd) {
         if (!topic.id) topic.id = await this.addTopic(topic.name);
         await VerseTopic.insert({ verse_id: verseId, topic_id: topic.id });
-      });
+      }
     },
   },
 });
