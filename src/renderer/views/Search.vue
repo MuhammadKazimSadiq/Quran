@@ -2,22 +2,23 @@
   <h1 class="text-center text-3xl dark:text-white">جستجو</h1>
 
   <!-- Search Panel -->
-  <section class="mt-6 flex justify-center">
+  <section class="mt-6 flex items-center justify-center gap-4 space-y-4">
+    <!-- main search -->
     <div
-      class="flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
+      class="relative flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2 lg:w-1/3"
     >
       <!-- right side -->
       <div class="flex flex-1 justify-start">
         <!-- search icon -->
         <SearchIcon
-          class="mr-2 w-5 text-gray-400 dark:text-gray-100 dark:hover:text-gray-400"
+          class="mr-2 w-5 text-gray-400 dark:text-gray-300 dark:hover:text-gray-400"
         />
         <!-- search icon end -->
 
         <!-- input -->
         <input
           @keypress="keypressed"
-          class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-white"
+          class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
           type="text"
           v-model="searchString"
           placeholder="جستجو"
@@ -26,22 +27,71 @@
       </div>
       <!-- right side end -->
 
-      <!-- clear icon -->
-      <div>
+      <!-- icon -->
+      <div class="ml-2 flex">
+        <LoaderIcon
+          v-if="searching"
+          class="w-6 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600"
+        />
         <ClearIcon
-          class="ml-1 w-8 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
-          v-if="searchString.length"
+          class="w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
+          :class="{
+            'opacity-100': searchString.length,
+            'opacity-0': !searchString.length,
+          }"
           @click="searchString = ''"
         />
+        <ChevronUpIcon
+          @click="advancedSearchPanel = !advancedSearchPanel"
+          class="w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
+          :class="{
+            '-rotate-90': !advancedSearchPanel,
+            'rotate-90': advancedSearchPanel,
+          }"
+        />
       </div>
-      <!-- clear icon end -->
+      <!-- icons end -->
+      <transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-out"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+      >
+        <div
+          v-if="searchString.length"
+          class="absolute top-[4.2rem] text-sm text-gray-600 dark:text-gray-400"
+        >
+          برای جستجو <span class="font-english">Enter</span> بزنید
+        </div>
+      </transition>
     </div>
+    <!-- main search end -->
+
+    <!-- advanced search panel -->
+    <transition
+      enter-active-class="transition duration-100 ease-out"
+      enter-from-class="transform scale-95 translate-x-6 opacity-0"
+      enter-to-class="transform scale-100 translate-x-0 opacity-100"
+      leave-active-class="transition duration-75 ease-out"
+      leave-from-class="transform scale-100 translate-x-0 opacity-100"
+      leave-to-class="transform scale-95 translate-x-6 opacity-0"
+    >
+      <div v-if="advancedSearchPanel">
+        <AdvancedSearchPanel />
+      </div>
+    </transition>
+    <!-- advanced search panel end -->
   </section>
   <!-- Search Panel End -->
 
   <!-- Results -->
   <section class="mt-12">
-    <TabGroup :selectedIndex="selectedTab" v-if="store.searchResults.length">
+    <TabGroup
+      :selectedIndex="store.searchSelectedTab"
+      v-if="store.searchResults.length"
+    >
       <!-- tabs -->
       <TabList
         class="flex flex-wrap space-x-1 overflow-x-auto rounded-xl bg-gray-200 p-1 dark:bg-gray-700"
@@ -61,7 +111,7 @@
             ]"
           >
             <!-- tab title  -->
-            <div class="flex-1">{{ searchResult.query }}</div>
+            <div class="flex-1">{{ tabTitle(searchResult.query) }}</div>
             <!-- tab title end -->
 
             <div>
@@ -94,22 +144,16 @@
             <!-- search results count -->
 
             <!-- search results -->
-            <ul>
-              <li
-                v-for="verse in searchResult.verses"
-                :class="`verse verse-${verse.verse_id}`"
-                :key="verse.id"
-              >
-                <Verse
-                  :verse="store.getVerseById(verse)"
-                  :highlightText="searchResult.query"
-                  :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
-                  :showTopics="false"
-                  :showVocabulary="false"
-                  :lazyLoad="[]"
-                />
-              </li>
-            </ul>
+            <VerseList
+              :verses="store.getVerseById(searchResult.verses)"
+              :lazyLoad="true"
+              :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+              :showTopics="false"
+              :showVocabulary="false"
+              :showBismillah="false"
+              :canAddVocabulary="false"
+              :highlightText="searchResult.query"
+            />
             <!-- search results end -->
           </div>
         </TabPanel>
@@ -122,7 +166,7 @@
 
 <script setup>
 // vue
-import { ref, onMounted } from "vue";
+import { ref, computed } from "vue";
 // store
 import { useStore } from "../store/useStore";
 // router
@@ -130,9 +174,12 @@ import { useRoute } from "vue-router";
 
 // components
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-import Verse from "../components/verse/Verse.vue";
+import VerseList from "../components/verse/VerseList.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 import ClearIcon from "../components/icons/ClearIcon.vue";
+import LoaderIcon from "../components/icons/LoaderIcon.vue";
+import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
+import AdvancedSearchPanel from "../components/AdvancedSearchPanel.vue";
 
 // composables
 import { useNotification } from "../composables/notification";
@@ -143,19 +190,20 @@ const store = useStore();
 // router
 const route = useRoute();
 
+// show advanced search panel
+const advancedSearchPanel = ref(false);
+
+// is currently searching
+const searching = ref(false);
+
 // number of tabs allowed
 const TABS_ALLOWED = 10;
 const MINIMUM_SEARCH_STRING_LENGTH = 2;
 
 // search - tabs
 const searchString = ref("");
-const selectedTab = ref(0);
 
-onMounted(() => {
-  // if pre-search --> switch to last tab
-  if (route.query?.changeTab)
-    selectedTab.value = store.searchResults.length - 1;
-});
+const tabTitle = (title) => (Array.isArray(title) ? title[0] : title);
 
 const keypressed = (e) => {
   if (e.key === "Enter") {
@@ -174,8 +222,10 @@ const keypressed = (e) => {
         type: "warning",
       });
     }
+    searching.value = true;
     store.search(searchString.value).then(() => {
-      selectedTab.value = store.searchResults.length - 1;
+      searching.value = false;
+      store.searchSelectedTab = store.searchResults.length - 1;
     });
   }
 };
@@ -184,12 +234,12 @@ const keypressed = (e) => {
 const removeSearchResult = (index) => {
   store.searchResults.splice(index, 1);
   // if closed tab !== activeTab --> return
-  if (index !== selectedTab.value) return;
+  if (index !== store.searchSelectedTab) return;
 
   if (store.searchResults.length) {
     if (index !== 0) {
       setTimeout(() => {
-        selectedTab.value = index - 1;
+        store.searchSelectedTab = index - 1;
       }, 100);
     }
   }

@@ -2,7 +2,7 @@
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">
     <ArrowLeftIcon
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
   <!-- goTo icon end -->
@@ -10,7 +10,7 @@
   <!-- copy icon -->
   <div v-if="icons.includes('copyToClipboard')" @click="copyToClipboard(verse)">
     <CopyToClipboardIcon
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
   <!-- copy icon end -->
@@ -19,12 +19,12 @@
   <div v-if="icons.includes('bookmark')">
     <BookmarkIcon
       v-if="!verse.bookmarked"
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
       @click="store.toggleBookmark(verse)"
     />
     <BookmarkFillIcon
       v-if="verse.bookmarked"
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
       @click="store.toggleBookmark(verse)"
     />
   </div>
@@ -79,11 +79,11 @@ const router = useRouter();
 const store = useStore();
 
 // go to verse
-const goToVerse = ({ chapter_id, verse_id }) => {
+const goToVerse = ({ id, chapter_id }) => {
   router.push(`/read/${chapter_id}`);
   store.$patch({
     scrollTo: {
-      verse: verse_id,
+      verse: id,
     },
   });
 };

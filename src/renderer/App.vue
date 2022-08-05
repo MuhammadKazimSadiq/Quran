@@ -33,7 +33,7 @@
 // vue
 import { onMounted } from "vue";
 // router
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 // store
 import { useStore } from "./store/useStore";
 
@@ -57,6 +57,9 @@ const {
 // router
 const router = useRouter();
 
+// route
+const route = useRoute();
+
 // onMount --> fetch all chapters, verses, settings, translations, vocab, topics
 onMounted(async () => {
   await fetchSettings();
@@ -69,14 +72,16 @@ onMounted(async () => {
 
 // keyboard shortcuts
 window.addEventListener("keydown", (e) => {
-  if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+  if ((e.key === "k" || e.key === "ن") && (e.metaKey || e.ctrlKey)) {
     store.commandPalette = !store.commandPalette;
   }
-  if (e.key === "," && (e.metaKey || e.ctrlKey)) {
-    router.push("/settings");
+
+  if ((e.key === "," || e.key === "و") && (e.metaKey || e.ctrlKey)) {
+    if (route.name === "Settings") router.go(-1);
+    else router.push("/settings");
   }
 
-  if (e.key === "t" && (e.metaKey || e.ctrlKey)) {
+  if ((e.key === "t" || e.key === "ف") && (e.metaKey || e.ctrlKey)) {
     store.changeTheme();
   }
 });

@@ -13,7 +13,7 @@
         <span class="text-xl">{{ topic.topic_name }}</span>
         <ChevronUpIcon
           :class="open ? '' : 'rotate-180 transform'"
-          class="h-5 w-5 text-gray-500"
+          class="h-5 w-5 text-gray-500 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </DisclosureButton>
       <transition

@@ -23,6 +23,7 @@ export const useStore = defineStore("main", {
 
     // searches
     searchResults: [],
+    searchSelectedTab: 0,
 
     // bookmarkedVerses
     bookmarkedVerses: [],
@@ -49,7 +50,9 @@ export const useStore = defineStore("main", {
 
   getters: {
     getVerseById: (state) => (id) =>
-      state.verses.find((verse) => verse.id === id),
+      Array.isArray(id)
+        ? state.verses.filter((verse) => id.includes(verse.id))
+        : state.verses.find((verse) => verse.id === id),
 
     getVersesByChapter: (state) => (chapterId) =>
       state.verses.filter((verse) => verse.chapter_id == chapterId),
@@ -236,15 +239,17 @@ export const useStore = defineStore("main", {
           const regex = new RegExp(queryString, "g");
           return verse.text_clean.match(regex);
         });
-        // pluck verse ids
-        const verseIds = verses.reduce((acc, verse) => {
-          acc.push(verse.id);
-          return acc;
-        }, []);
-        // add search query and verseIds in store.searchResults
-        this.searchResults.push({ query: queryString, verses: verseIds });
+
+        this.addToSearchResults({ query: queryString, verses });
         resolve();
       });
+    },
+
+    addToSearchResults({ query, verses }) {
+      // pluck verse ids
+      const verseIds = verses.reduce((acc, verse) => [...acc, verse.id], []);
+      // add search query and verseIds in store.searchResults
+      this.searchResults.push({ query, verses: verseIds });
     },
 
     async toggleBookmark({ id, bookmarked }) {
@@ -255,7 +260,28 @@ export const useStore = defineStore("main", {
 
     async replaceVerse(id) {
       const verse = await Verse.get(id);
-      const groupedVerse = this.groupVerses(verse);
+      const groupedVerse = this.groupRows({
+        rows: verse,
+        key: "id",
+        groupCols: [
+          {
+            groupName: "topics",
+            groupKey: "topic_id",
+            cols: [
+              ["topic_id", "id"],
+              ["topic", "name"],
+            ],
+          },
+          {
+            groupName: "vocab",
+            groupKey: "word",
+            cols: [
+              ["word", "word"],
+              ["meaning", "meaning"],
+            ],
+          },
+        ],
+      });
       this.verses.splice(id - 1, 1, groupedVerse[0]);
     },
 

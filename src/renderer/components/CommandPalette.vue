@@ -247,14 +247,10 @@ const filteredVerses = computed(() => {
     .filter(
       (verse) =>
         verse.text_clean.includes(query) ||
-        query.match(
-          new RegExp(
-            `^(سوره )?${verse.chapter_name}(\\s+)?:(\\s+)?${verse.verse_id}$`
-          )
-        ) ||
-        query.match(
-          new RegExp(`${verse.chapter_id}(\\s+)?:(\\s+)?${verse.verse_id}$`)
-        )
+        new RegExp(
+          `^(سوره )?${verse.chapter_name}\\s*:\\s*${verse.verse_id}$`
+        ).test(query) ||
+        new RegExp(`${verse.chapter_id}\\s*:\\s*${verse.verse_id}$`).test(query)
     )
     .map((verse) => {
       return {
@@ -266,7 +262,7 @@ const filteredVerses = computed(() => {
           verse.chapter_name
         } : ${verse.verse_id}]</span>`,
         chapterId: verse.chapter_id,
-        verseId: verse.verse_id,
+        verseId: verse.id,
       };
     });
 });

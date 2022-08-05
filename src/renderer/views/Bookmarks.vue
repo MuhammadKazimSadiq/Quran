@@ -2,17 +2,16 @@
   <h1 class="text-center text-3xl dark:text-white">نشان شده ها</h1>
 
   <section class="mt-4">
-    <ul v-if="store.getBookmarkedVerses.length">
-      <li v-for="verse in store.getBookmarkedVerses">
-        <Verse
-          :verse="verse"
-          :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
-          :showTopics="false"
-          :showVocabulary="false"
-          :lazyLoad="[]"
-        />
-      </li>
-    </ul>
+    <VerseList
+      v-if="store.getBookmarkedVerses.length"
+      :verses="store.getBookmarkedVerses"
+      :lazyLoad="true"
+      :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+      :showTopics="false"
+      :showVocabulary="false"
+      :showBismillah="false"
+      :canAddVocabulary="false"
+    />
     <div v-else>
       <p class="p-8 text-center text-2xl dark:text-white">
         شما هیچ نشان شده ای ندارید.
@@ -26,7 +25,7 @@
 import { useStore } from "../store/useStore";
 
 // components
-import Verse from "../components/verse/Verse.vue";
+import VerseList from "../components/verse/VerseList.vue";
 
 // store
 const store = useStore();

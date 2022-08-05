@@ -2,8 +2,8 @@
   <div>
     <!-- bismillah (if first verse and not surah fatiha)  -->
     <div
-      v-if="verse.verse_id === 1 && verse.chapter_id !== 1"
-      class="my-4 flex justify-center text-center"
+      v-if="verse.verse_id === 1 && verse.chapter_id !== 1 && showBismillah"
+      class="my-4 flex justify-center text-center text-black dark:text-white"
     >
       <Bismillah />
     </div>
@@ -11,17 +11,19 @@
       <!-- verse -->
       <div class="flex-1 gap-2">
         <div
-          class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
+          class="selectable my-12 font-arabic text-3xl leading-loose dark:text-white"
           @contextmenu="$emit('togglePopup', { event: $event, verse })"
           v-html="parseVerse(verse)"
         ></div>
 
         <!-- translations -->
-        <Translation
-          v-for="translation in store.translations"
-          :text="verse[translation.name]"
-          :translation="translation"
-        />
+        <div v-if="showTranslations">
+          <Translation
+            v-for="translation in translations"
+            :text="verse[translation.name]"
+            :translation="translation"
+          />
+        </div>
         <!-- translations end -->
 
         <!-- topics -->
@@ -29,8 +31,8 @@
           <VerseTopics
             :verseId="verse.id"
             :topics="verse.topics"
-            :lazy-load="lazyLoad.includes('topics')"
-            :loaded="loadedVerses.includes(verse.verse_id)"
+            :lazyLoad="lazyLoad.includes('topics')"
+            :loaded="loadedVerses.includes(verse.id)"
           />
         </div>
         <!-- topics end -->
@@ -86,21 +88,29 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  icons: {
-    type: Array,
-    default: ["copyToClipboard", "bookmark"], // options
+  lazyLoad: {
+    type: [Array, Boolean],
+    default: [],
   },
   loadedVerses: {
     type: Array,
-    default: () => [],
+    default: [],
   },
-  lazyLoad: {
+  showBismillah: {
+    type: Boolean,
+    default: true,
+  },
+  showTranslations: {
+    type: Boolean,
+    default: true,
+  },
+  translations: {
     type: Array,
-    default: () => [],
+    default: [],
   },
-  highlightText: {
-    type: String,
-    required: false,
+  icons: {
+    type: Array,
+    default: ["copyToClipboard", "bookmark"],
   },
   showTopics: {
     type: Boolean,
@@ -109,6 +119,14 @@ const props = defineProps({
   showVocabulary: {
     type: Boolean,
     default: true,
+  },
+  canAddVocabulary: {
+    type: Boolean,
+    default: true,
+  },
+  highlightText: {
+    type: [String, Array],
+    required: false,
   },
 });
 

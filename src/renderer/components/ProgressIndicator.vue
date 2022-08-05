@@ -1,6 +1,9 @@
 <template>
-  <div class="z-10 h-1 w-full rounded-lg bg-gray-300">
-    <div class="h-1 rounded-lg bg-gray-600" :style="{ width: progress }"></div>
+  <div class="z-10 h-1 w-full rounded-lg bg-gray-300 dark:bg-gray-600">
+    <div
+      class="h-1 rounded-lg bg-gray-600 dark:bg-gray-300"
+      :style="{ width: progress }"
+    ></div>
   </div>
 </template>
 

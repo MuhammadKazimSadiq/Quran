@@ -3,7 +3,7 @@
     <TopicInput :verseId="verseId" :topics="topics" />
   </div>
   <div v-else>
-    <div class="h-2 w-3/4 rounded-md bg-gray-300"></div>
+    <div class="h-2 w-3/4 rounded-md bg-gray-300 dark:bg-gray-700"></div>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ const props = defineProps({
   },
   topics: {
     type: Array,
-    default: () => [],
+    default: [],
   },
   lazyLoad: {
     type: Boolean,

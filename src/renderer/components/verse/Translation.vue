@@ -3,7 +3,6 @@
     class="container mb-8 dark:text-white"
     :class="{ 'text-english text-left': translation.language === 'en' }"
     :dir="dir"
-    v-if="store.settings.enabled_translations.includes(translation.name)"
   >
     <div class="mb-2 min-w-0 text-xl dark:text-white">
       {{ text }}
@@ -16,12 +15,6 @@
 
 <script setup>
 import { defineProps, computed } from "vue";
-
-// store
-import { useStore } from "../../store/useStore";
-
-// store
-const store = useStore();
 
 const props = defineProps({
   translation: {
