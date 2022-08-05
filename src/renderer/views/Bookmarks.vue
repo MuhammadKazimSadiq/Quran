@@ -10,7 +10,7 @@
       :showTopics="false"
       :showVocabulary="false"
       :showBismillah="false"
-      :canAddVocabulary="false"
+      :canEditVocabulary="false"
     />
     <div v-else>
       <p class="p-8 text-center text-2xl dark:text-white">

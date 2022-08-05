@@ -1,58 +1,30 @@
 <template>
   <h1 class="text-center text-3xl dark:text-white">موضوعات</h1>
 
-  <div class="mx-auto mt-8 w-full rounded-2xl bg-white p-4 dark:bg-gray-800">
-    <Disclosure
-      v-slot="{ open }"
-      v-for="topic in store.topics"
-      :key="topic.topic_id"
-    >
-      <DisclosureButton
-        class="my-2 flex w-full justify-between rounded-lg bg-gray-100 p-4 text-left text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75 dark:bg-gray-900 dark:text-white"
+  <div class="mx-auto mt-8 w-full rounded-lg bg-white p-4 dark:bg-gray-800">
+    <div v-for="topic in store.topics">
+      <div
+        class="my-4 flex items-center justify-between rounded-lg bg-gray-100 p-4 transition-colors dark:bg-gray-900"
       >
-        <span class="text-xl">{{ topic.topic_name }}</span>
-        <ChevronUpIcon
-          :class="open ? '' : 'rotate-180 transform'"
-          class="h-5 w-5 text-gray-500 dark:text-gray-100 dark:hover:text-gray-400"
-        />
-      </DisclosureButton>
-      <transition
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="transform opacity-0"
-        enter-to-class="transform opacity-100"
-        leave-active-class="transition duration-75 ease-out"
-        leave-from-class="transform opacity-100"
-        leave-to-class="transform opacity-0"
-      >
-        <DisclosurePanel
-          class="px-4 pt-4 pb-2 text-sm text-gray-900 dark:text-white"
-        >
-          <ul v-if="topic.verses.length">
-            <li v-for="verse in topic.verses">
-              <Verse
-                :verse="verse"
-                :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
-                :showTopics="false"
-                :showVocabulary="false"
-                :lazyLoad="[]"
-              />
-            </li>
-          </ul>
-          <template v-else>
-            <div class="text-center text-xl text-black">
-              آیه ای با این موضوع یافت نشد
-            </div>
-          </template>
-        </DisclosurePanel>
-      </transition>
-    </Disclosure>
+        <div class="p-2 text-2xl text-black dark:text-white">
+          <span>{{ topic.topic_name }}</span>
+          <span class="mr-2 text-sm text-gray-700 dark:text-gray-300">
+            ({{ topic?.verses?.length }} آیات)
+          </span>
+        </div>
+        <router-link :to="`/topics/${topic.topic_id}`">
+          <ChevronUpIcon
+            class="h-8 w-8 -rotate-90 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
+          />
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 // components
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import Verse from "../components/verse/Verse.vue";
+import VerseList from "../components/verse/VerseList.vue";
 import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
 
 import { useStore } from "../store/useStore";

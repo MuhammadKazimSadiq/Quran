@@ -1,7 +1,7 @@
 <template>
   <div
     class="container mb-8 dark:text-white"
-    :class="{ 'text-english text-left': translation.language === 'en' }"
+    :class="{ 'text-left font-english': translation.language === 'en' }"
     :dir="dir"
   >
     <div class="mb-2 min-w-0 text-xl dark:text-white">

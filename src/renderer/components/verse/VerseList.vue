@@ -22,7 +22,7 @@
             :showBismillah="showBismillah"
             :showTranslations="showTranslations"
             :translations="enabledTranslations"
-            :canAddVocabulary="canAddVocabulary"
+            :canEditVocabulary="canEditVocabulary"
             :highlightText="highlightText"
             @toggle-popup="togglePopup"
           />
@@ -168,7 +168,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  canAddVocabulary: {
+  canEditVocabulary: {
     type: Boolean,
     default: true,
   },
@@ -254,10 +254,10 @@ onClickOutside(popup, () => closePopup());
 // on select verse --> show popup
 const togglePopup = ({ verse }) => {
   if (
-    !props.canAddVocabulary || // can add vocabulary
+    !props.canEditVocabulary ||
     !window
       .getSelection()
-      .anchorNode.parentElement.classList.contains("selectable") || // if selection has a parent with class "arabic-verse"
+      .anchorNode.parentElement.classList.contains("arabic-verse") ||
     window.getSelection().toString().trim().length === 0 // selection not empty
   ) {
     return;

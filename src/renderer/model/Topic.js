@@ -39,5 +39,41 @@ export default class Topic extends Model {
       to_col: "id",
       cols: [["name", "chapter_name"]],
     },
+    // translations
+    {
+      from_table: "verses",
+      to_table: "fa_bahrampour",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "fa_bahrampour"]],
+    },
+    {
+      from_table: "verses",
+      to_table: "fa_makarem",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "fa_makarem"]],
+    },
+    {
+      from_table: "verses",
+      to_table: "fa_ansarian",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "fa_ansarian"]],
+    },
+    {
+      from_table: "verses",
+      to_table: "fa_qaraati",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "fa_qaraati"]],
+    },
+    {
+      from_table: "verses",
+      to_table: "en_shakir",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "en_shakir"]],
+    },
   ];
 }

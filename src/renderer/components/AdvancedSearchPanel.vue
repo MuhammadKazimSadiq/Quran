@@ -62,7 +62,7 @@
           @click="searchAnyWord = ''"
         />
       </div>
-      <div class="flex">
+      <div class="flex gap-1">
         <select
           v-model="searchNotType"
           class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700 dark:text-gray-300"

@@ -22,6 +22,11 @@ const routes = [
     component: () => import("./views/Bookmarks.vue"),
   },
   {
+    path: "/topics/:id",
+    name: "TopicItem",
+    component: () => import("./views/TopicItem.vue"),
+  },
+  {
     path: "/topics",
     name: "Topics",
     component: () => import("./views/Topics.vue"),

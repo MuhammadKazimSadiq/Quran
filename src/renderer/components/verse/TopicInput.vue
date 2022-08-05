@@ -12,7 +12,7 @@
           </ComboboxButton>
         </div>
         <div class="my-2">
-          <div class="flex items-center justify-center gap-2">
+          <div class="flex flex-1 flex-wrap items-center justify-center gap-2">
             <div
               v-for="(topic, i) in selectedTopics"
               class="flex min-w-max gap-2 rounded-lg border border-gray-300 bg-inherit p-2 text-xs dark:border-gray-700 dark:text-gray-100"
@@ -26,7 +26,7 @@
           </div>
         </div>
         <ComboboxInput
-          class="w-full border-none bg-inherit py-2 pl-10 text-sm leading-5 text-gray-900 placeholder:text-gray-500 focus:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
+          class="border-none bg-inherit py-2 pl-10 text-sm leading-5 text-gray-900 placeholder:text-gray-500 focus:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
           :placeholder="selectedTopics.length ? '' : 'موضوعات'"
           @keydown="onKeyPress($event)"
           @change="query = $event.target.value"

@@ -2,10 +2,12 @@
   <h1 class="text-center text-3xl dark:text-white">جستجو</h1>
 
   <!-- Search Panel -->
-  <section class="mt-6 flex items-center justify-center gap-4 space-y-4">
+  <section
+    class="mt-6 flex flex-col items-center justify-center gap-4 space-y-4 md:flex-row"
+  >
     <!-- main search -->
     <div
-      class="relative flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2 lg:w-1/3"
+      class="relative flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
     >
       <!-- right side -->
       <div class="flex flex-1 justify-start">
@@ -45,8 +47,8 @@
           @click="advancedSearchPanel = !advancedSearchPanel"
           class="w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
-            '-rotate-90': !advancedSearchPanel,
-            'rotate-90': advancedSearchPanel,
+            'rotate-180 md:-rotate-90': !advancedSearchPanel,
+            'md:rotate-90': advancedSearchPanel,
           }"
         />
       </div>
@@ -151,7 +153,7 @@
               :showTopics="false"
               :showVocabulary="false"
               :showBismillah="false"
-              :canAddVocabulary="false"
+              :canEditVocabulary="false"
               :highlightText="searchResult.query"
             />
             <!-- search results end -->

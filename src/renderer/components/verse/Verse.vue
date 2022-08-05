@@ -11,7 +11,7 @@
       <!-- verse -->
       <div class="flex-1 gap-2">
         <div
-          class="selectable my-12 font-arabic text-3xl leading-loose dark:text-white"
+          class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
           @contextmenu="$emit('togglePopup', { event: $event, verse })"
           v-html="parseVerse(verse)"
         ></div>
@@ -120,7 +120,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  canAddVocabulary: {
+  canEditVocabulary: {
     type: Boolean,
     default: true,
   },

@@ -60,6 +60,9 @@ export const useStore = defineStore("main", {
     getChapter: (state) => (id) =>
       state.chapters.find((chapter) => chapter.id == id),
 
+    getTopic: (state) => (id) =>
+      state.topics.find((topic) => topic.topic_id == id),
+
     getBookmarkedVerses: (state) =>
       state.verses.filter((verse) => verse.bookmarked),
   },
@@ -169,6 +172,11 @@ export const useStore = defineStore("main", {
                     ["chapter_name", "chapter_name"],
                     ["text_clean", "text_clean"],
                     ["text_original", "text_original"],
+                    ["fa_bahrampour", "fa_bahrampour"],
+                    ["fa_makarem", "fa_makarem"],
+                    ["fa_ansarian", "fa_ansarian"],
+                    ["fa_qaraati", "fa_qaraati"],
+                    ["en_shakir", "en_shakir"],
                   ],
                 },
               ],
