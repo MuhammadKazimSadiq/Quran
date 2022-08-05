@@ -20,7 +20,7 @@
 
 ## other
 
-- on add topic and vocab --> refetch? or add refresh btn to refetch --> implement force refresh
+- mushaf view
 
 ## Vocab
 
@@ -49,3 +49,10 @@
 - highlight same parts of the selected verses
 - add notes
 - save
+
+# TODO:
+
+- implement edit and delete for vocab and topics
+- remove from topic icon (topic item page)
+- search bar for topics and vocab
+- on add topic and vocab --> refetch? or add refresh btn to refetch --> implement force refresh
