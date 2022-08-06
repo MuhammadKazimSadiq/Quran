@@ -14,7 +14,10 @@
         <!-- toggle theme switch end -->
 
         <!-- settings icon -->
-        <router-link to="/settings" class="rounded-md p-2">
+        <router-link
+          to="/settings"
+          class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+        >
           <SettingsIcon />
         </router-link>
         <!-- settings icon end -->
@@ -55,7 +58,7 @@
 
 <script setup>
 // router
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 // store
 import { useStore } from "../store/useStore";
 
@@ -66,6 +69,9 @@ import ToggleThemeSwitch from "../components/ToggleThemeSwitch.vue";
 
 // route
 const route = useRoute();
+
+// router
+const router = useRouter();
 
 // store
 const store = useStore();

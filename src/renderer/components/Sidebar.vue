@@ -10,33 +10,54 @@
     <div class="h-px w-full bg-gray-200 dark:bg-gray-900"></div>
     <!-- icons -->
     <div class="mt-4 flex flex-col gap-4">
-      <router-link to="/" class="rounded-md p-2">
+      <router-link
+        to="/"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <HomeIcon class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400" />
       </router-link>
-      <router-link :to="`/read/${store.chapterId}`" class="rounded-md p-2">
+      <router-link
+        :to="`/read/${store.chapterId}`"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <ReadIcon class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400" />
       </router-link>
-      <router-link to="/search" class="rounded-md p-2">
+      <router-link
+        to="/search"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <SearchIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link to="/bookmarks" class="rounded-md p-2">
+      <router-link
+        to="/bookmarks"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <BookmarkIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link to="/topics" class="rounded-md p-2">
+      <router-link
+        to="/topics"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <CollectionIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link to="/vocabulary" class="rounded-md p-2">
+      <router-link
+        to="/vocabulary"
+        class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <TableIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link to="/test" class="rounded-md bg-red-300 p-2">
+      <router-link
+        to="/test"
+        class="rounded-md bg-red-300 p-2 focus:outline-gray-300 focus:ring-0"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-6"

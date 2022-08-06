@@ -1,7 +1,32 @@
 <template>
   <h1 class="text-center text-3xl dark:text-white">معانی کلمات</h1>
 
-  <div class="my-8 mx-2 rounded-lg p-2 dark:bg-gray-800">
+  <!-- search -->
+  <div class="mt-8 flex justify-center">
+    <div
+      class="relative flex w-full items-center justify-between rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 dark:bg-gray-700 md:w-1/2"
+    >
+      <div class="flex flex-1 justify-start">
+        <!-- search icon -->
+        <SearchIcon
+          class="mr-2 w-5 text-gray-400 dark:text-gray-300 dark:hover:text-gray-400"
+        />
+        <!-- search icon end -->
+
+        <!-- input -->
+        <input
+          class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
+          type="text"
+          v-model="searchString"
+          placeholder="جستجو"
+        />
+        <!-- input end -->
+      </div>
+    </div>
+  </div>
+  <!-- search end -->
+
+  <div class="mx-2 my-8 rounded-lg p-2 dark:bg-gray-800">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50 dark:bg-gray-800">
         <tr>
@@ -28,7 +53,7 @@
         class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
       >
         <template v-if="store.vocabulary.length">
-          <tr v-for="word in store.vocabulary">
+          <tr v-for="word in filteredVocabulary">
             <td
               class="whitespace-nowrap px-6 py-4 text-lg text-black dark:text-white"
             >
@@ -139,7 +164,7 @@
 
 <script setup>
 // vue
-import { ref } from "vue";
+import { ref, computed } from "vue";
 // store
 import { useStore } from "../store/useStore";
 
@@ -147,9 +172,32 @@ import { useStore } from "../store/useStore";
 import Modal from "../components/Modal.vue";
 import EditIcon from "../components/icons/EditIcon.vue";
 import DeleteIcon from "../components/icons/DeleteIcon.vue";
+import SearchIcon from "../components/icons/SearchIcon.vue";
 
 // store
 const store = useStore();
+
+const searchString = ref("");
+
+const filteredVocabulary = computed(() => {
+  return store.vocabulary.filter((word) => {
+    // remove diacritics from search string
+    searchString.value.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
+
+    const pattern = searchString.value
+      ?.split("")
+      ?.reduce(
+        (acc, char) => (acc += !char.match(/\s/g) ? `${char}[ًٌٍَُِّْ]*` : " "),
+        ""
+      );
+    const regex = new RegExp(pattern, "g");
+    const matches = word.word.match(regex);
+
+    return searchString.value.length
+      ? regex.test(word.word) || word.meaning.includes(searchString.value)
+      : store.vocabulary;
+  });
+});
 
 const editModal = ref(false);
 const deleteModal = ref(false);
@@ -176,10 +224,12 @@ const closeDeleteModal = () => {
   selectedWord.value = {};
 };
 
-const updateWord = () => {
-  //
+const updateWord = async () => {
+  await store.updateWordMeaning(selectedWord.value);
+  closeEditModal();
 };
-const deleteWord = () => {
-  //
+const deleteWord = async () => {
+  await store.deleteWordMeaning(selectedWord.value);
+  closeDeleteModal();
 };
 </script>

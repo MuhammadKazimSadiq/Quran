@@ -10,13 +10,13 @@
       <Sidebar />
       <!-- sidebar end -->
 
-      <div class="flex-1">
+      <div class="flex-1 bg-white dark:bg-gray-900">
         <!-- navigation -->
         <Nav />
         <!-- navigation end -->
 
         <!-- main view -->
-        <main class="p-6">
+        <main class="overflow-x-auto bg-white p-6 dark:bg-gray-900">
           <router-view></router-view>
         </main>
         <!-- main view end -->

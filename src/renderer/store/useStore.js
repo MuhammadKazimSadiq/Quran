@@ -129,6 +129,7 @@ export const useStore = defineStore("main", {
                   groupName: "vocab",
                   groupKey: "word",
                   cols: [
+                    ["vocab_id", "vocab_id"],
                     ["word", "word"],
                     ["meaning", "meaning"],
                   ],
@@ -284,6 +285,7 @@ export const useStore = defineStore("main", {
             groupName: "vocab",
             groupKey: "word",
             cols: [
+              ["vocab_id", "vocab_id"],
               ["word", "word"],
               ["meaning", "meaning"],
             ],
@@ -291,6 +293,45 @@ export const useStore = defineStore("main", {
         ],
       });
       this.verses.splice(id - 1, 1, groupedVerse[0]);
+    },
+
+    async replaceTopic(id) {
+      const topic = await Topic.get(id);
+      const groupedTopic = this.groupRows({
+        rows: topic,
+        key: "topic_id",
+        groupCols: [
+          {
+            groupName: "verses",
+            groupKey: "id",
+            cols: [
+              ["id", "id"],
+              ["verse_id", "verse_id"],
+              ["chapter_id", "chapter_id"],
+              ["chapter_name", "chapter_name"],
+              ["text_clean", "text_clean"],
+              ["text_original", "text_original"],
+              ["fa_bahrampour", "fa_bahrampour"],
+              ["fa_makarem", "fa_makarem"],
+              ["fa_ansarian", "fa_ansarian"],
+              ["fa_qaraati", "fa_qaraati"],
+              ["en_shakir", "en_shakir"],
+            ],
+          },
+        ],
+      });
+      const index = this.topics.findIndex(
+        (topic) => topic.topic_id === groupedTopic[0].topic_id
+      );
+      this.topics.splice(index, 1, groupedTopic[0]);
+    },
+
+    async replaceWordMeaning(id) {
+      const wordMeaning = await Vocabulary.get(id);
+      const index = this.vocabulary.findIndex(
+        (word) => word.id === wordMeaning[0].id
+      );
+      this.vocabulary.splice(index, 1, wordMeaning[0]);
     },
 
     changeTheme() {
@@ -332,12 +373,56 @@ export const useStore = defineStore("main", {
           ["verse_id", verseId],
           ["topic_id", topic.id],
         ]);
+        await this.replaceTopic(topic.id);
       }
 
       for (let topic of toAdd) {
         if (!topic.id) topic.id = await this.addTopic(topic.name);
         await VerseTopic.insert({ verse_id: verseId, topic_id: topic.id });
+        await this.replaceTopic(topic.id);
       }
+    },
+
+    async createTopic({ topic_name: name }) {
+      let topic = await Topic.insert({ name });
+
+      topic = {
+        topic_id: topic[0].id,
+        topic_name: topic[0].name,
+      };
+
+      this.topics.push(topic);
+    },
+
+    async updateTopic({ topic_id: id, topic_name: name }) {
+      await Topic.update([["id", id]], [["name", name]]);
+      await this.replaceTopic(id);
+    },
+
+    async deleteTopic({ topic_id: id }) {
+      await Topic.delete([["id", id]]);
+      const index = this.topics.findIndex((topic) => topic.topic_id === id);
+      this.topics.splice(index, 1);
+    },
+
+    async removeVerseTopic({ verse_id, topic_id }) {
+      await VerseTopic.delete([
+        ["verse_id", verse_id],
+        ["topic_id", topic_id],
+      ]);
+      await this.replaceVerse(verse_id);
+      await this.replaceTopic(topic_id);
+    },
+
+    async updateWordMeaning({ vocab_id: id, meaning }) {
+      await Vocabulary.update([["id", id]], [["meaning", meaning]]);
+      await this.replaceWordMeaning(id);
+    },
+
+    async deleteWordMeaning({ vocab_id: id }) {
+      await Vocabulary.delete([["id", id]]);
+      const index = this.vocabulary.findIndex((word) => word.vocab_id === id);
+      this.vocabulary.splice(index, 1);
     },
   },
 });

@@ -17,7 +17,7 @@
       v-if="store.getTopic(params.id)?.verses?.length"
       :verses="store.getTopic(params.id)?.verses"
       :lazyLoad="true"
-      :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
+      :icons="['goToVerse', 'copyToClipboard', 'bookmark', 'removeTopic']"
       :showTopics="false"
       :showVocabulary="false"
       :showBismillah="false"

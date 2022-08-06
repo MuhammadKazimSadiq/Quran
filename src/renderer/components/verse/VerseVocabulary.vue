@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(word, i) in vocab" class="vocab flex gap-1 rounded-lg p-1">
+  <div v-for="word in vocab" class="vocab flex gap-2 rounded-lg p-1">
     <div class="font-bold text-blue-800 dark:text-blue-200">
       {{ word.word }}:
     </div>
@@ -11,7 +11,9 @@
 
 <script setup>
 // vue
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
+
+// props
 defineProps({
   vocab: {
     type: Array,

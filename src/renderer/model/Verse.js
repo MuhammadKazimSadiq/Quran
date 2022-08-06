@@ -49,6 +49,7 @@ export default class Verse extends Model {
       from_col: "id",
       to_col: "verse_id",
       cols: [
+        ["id", "vocab_id"],
         ["word", "word"],
         ["meaning", "meaning"],
       ],

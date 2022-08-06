@@ -49,7 +49,7 @@ export default class Model {
       const querystring = `Insert into ${this.table} (${cols}) Values (${values})`;
       Database.query({ query: querystring, table: this.table })
         .then(() => {
-          const querystring = `SELECT max(id) as id from ${this.table}`;
+          const querystring = `SELECT *, max(id) from ${this.table}`;
           Database.query({ query: querystring, table: this.table }).then((id) =>
             resolve(id)
           );

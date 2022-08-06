@@ -7,6 +7,8 @@ export default class Vocabulary extends Model {
 
   static table = "vocabulary";
 
+  static order = ["verses.id", "vocabulary.id"];
+
   static selectCols = [
     ["id", "vocab_id"],
     ["word", "word"],
