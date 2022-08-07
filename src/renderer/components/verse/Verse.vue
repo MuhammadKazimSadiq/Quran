@@ -1,5 +1,24 @@
 <template>
   <div>
+    <!-- new page and section -->
+    <div
+      v-if="isNewPage || isNewSection"
+      class="mt-4 flex flex-col gap-4 rounded-2xl bg-gray-100 p-4 text-center dark:bg-gray-800"
+    >
+      <div
+        v-if="isNewSection"
+        class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
+      >
+        جزء {{ verse.section_id }}
+      </div>
+      <div
+        v-if="isNewPage"
+        class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
+      >
+        صفحه {{ verse.page_id }}
+      </div>
+    </div>
+
     <!-- bismillah (if first verse and not surah fatiha)  -->
     <div
       v-if="verse.verse_id === 1 && verse.chapter_id !== 1 && showBismillah"
@@ -7,6 +26,7 @@
     >
       <Bismillah />
     </div>
+
     <div class="flex justify-between gap-12 rounded-lg p-4 pb-8">
       <!-- verse -->
       <div class="flex-1 gap-2">
@@ -65,10 +85,9 @@
 
 <script setup>
 // vue
-import { defineProps, defineEmits } from "vue";
-
+import { computed } from "vue";
 // store
-import { useStore } from "../../store/useStore";
+import { useStore } from "../../store/store";
 
 // composables
 import { useHighlight } from "../../composables/highlight";
@@ -87,6 +106,10 @@ const props = defineProps({
   verse: {
     type: Object,
     required: true,
+  },
+  prevVerse: {
+    type: Object,
+    default: {},
   },
   lazyLoad: {
     type: [Array, Boolean],
@@ -132,6 +155,28 @@ const props = defineProps({
 
 // store
 const store = useStore();
+
+const isNewPage = computed(() => {
+  if (!Object.keys(props.prevVerse).length) {
+    const prevVerse = store.verses.find(
+      (verse) => verse.id === props.verse.id - 1
+    );
+    if (!prevVerse) return true;
+    return prevVerse.page_id !== props.verse.page_id;
+  }
+  return props.verse.page_id !== props.prevVerse.page_id;
+});
+
+const isNewSection = computed(() => {
+  if (!Object.keys(props.prevVerse).length) {
+    const prevVerse = store.verses.find(
+      (verse) => verse.id === props.verse.id - 1
+    );
+    if (!prevVerse) return true;
+    return prevVerse.section_id !== props.verse.section_id;
+  }
+  return props.verse.section_id !== props.prevVerse.section_id;
+});
 
 const parseVerse = (verse) => {
   const highlighted = useHighlight({

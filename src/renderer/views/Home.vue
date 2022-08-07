@@ -38,7 +38,7 @@
 
 <script setup>
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // components
 import ChapterItem from "../components/ChapterItem.vue";

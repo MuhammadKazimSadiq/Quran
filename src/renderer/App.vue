@@ -35,7 +35,7 @@ import { onMounted } from "vue";
 // router
 import { useRouter, useRoute } from "vue-router";
 // store
-import { useStore } from "./store/useStore";
+import { useStore } from "./store/store";
 
 // components
 import Nav from "./components/Nav.vue";
@@ -45,14 +45,6 @@ import Notification from "./components/Notification.vue";
 
 // store
 const store = useStore();
-const {
-  fetchChapters,
-  fetchVerses,
-  fetchVocabulary,
-  fetchTranslations,
-  fetchSettings,
-  fetchTopics,
-} = store;
 
 // router
 const router = useRouter();
@@ -60,14 +52,20 @@ const router = useRouter();
 // route
 const route = useRoute();
 
+// composables
+import { useFetch } from "./composables/fetch";
+
+// config
+import { versesConfig, topicsConfig } from "./config/groupConfig";
+
 // onMount --> fetch all chapters, verses, settings, translations, vocab, topics
 onMounted(async () => {
-  await fetchSettings();
-  await fetchChapters();
-  await fetchVerses();
-  await fetchTranslations();
-  await fetchTopics();
-  await fetchVocabulary();
+  await useFetch("setting", { toObject: true });
+  await useFetch("chapter");
+  await useFetch("verse", { group: true, groupConfig: versesConfig });
+  await useFetch("translation");
+  await useFetch("topic", { group: true, groupConfig: topicsConfig });
+  await useFetch("vocabulary", { storeName: "vocabulary" });
 });
 
 // keyboard shortcuts

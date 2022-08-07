@@ -7,7 +7,11 @@
 
   <!-- verses list section -->
   <div class="p-12">
-    <VerseList :verses="getVersesByChapter(params.id)" :lazyLoad="['topics']" />
+    <VerseList
+      :verses="getVersesByChapter(params.id)"
+      :lazyLoad="['topics']"
+      :icons="['play', 'copyToClipboard', 'bookmark']"
+    />
   </div>
   <!-- verses list section end -->
 
@@ -23,7 +27,7 @@ import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
 // pinia
 import { storeToRefs } from "pinia";
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // composables
 import { useScroll } from "@vueuse/core";

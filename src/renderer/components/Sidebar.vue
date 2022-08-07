@@ -79,7 +79,7 @@
 
 <script setup>
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // components
 import HomeIcon from "../components/icons/HomeIcon.vue";

@@ -184,7 +184,7 @@ import {
 import SearchIcon from "../components/icons/SearchIcon.vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // router
 import { useRouter } from "vue-router";

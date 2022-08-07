@@ -47,7 +47,7 @@ const pathToDbFile =
 const db = new Database(pathToDbFile);
 db.init();
 
-ipcMain.on("request", async (event, query) => {
-  const response = await db.query(query);
+ipcMain.on("request", async (event, { query, type = "all" }) => {
+  const response = await db.query(query, type);
   event.reply("response", response);
 });

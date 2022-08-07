@@ -10,6 +10,7 @@ export default class Topic extends Model {
   static selectCols = [
     ["id", "topic_id"],
     ["name", "topic_name"],
+    ["parent_id", "parent_id"],
   ];
 
   static joins = [

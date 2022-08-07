@@ -170,7 +170,7 @@
 // vue
 import { ref, computed } from "vue";
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 // router
 import { useRoute } from "vue-router";
 

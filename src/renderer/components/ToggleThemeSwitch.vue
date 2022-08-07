@@ -8,7 +8,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 import SunIcon from "./icons/SunIcon.vue";
 import MoonIcon from "./icons/MoonIcon.vue";
 

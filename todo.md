@@ -1,52 +1,12 @@
 # TODO
 
-## Topics
-
-- use #topic in command palette to search for verses with topic (use in advanced search as well?)
-- verse picker --> add verse to topic in topic item page
-
-### Recursive Topics
-
-  <!-- - recursive topics query: `with RECURSIVE numbers as ( select 1 as n union select n + 1 from numbers where n < 10 ) select * from numbers` -->
-  <!-- - recursive topics groupBy js function -->
-  <!-- - display recursive topics in topics page -->
-
-- display recursive topics in dropdown
-  - use custom dropdown component
-  - on select child, show appended parent appropriately
-- add new topic under parent in select dropdown
-- allow same child under different parents?
-- able to make existing topic as child of another topic
-- drag and drop ui + sortable
-
-## Vocabulary
-
-- edit and delete vocab in read page (with popup?)
-
-## Compare Verses
-
-- Use command palette like dialog to select verses to compare
-- highlight same parts of the selected verses
-- add notes
-- save
-
-## Settings:
-
-- search rules (add to settings)
-- advanced search
-- icons + topics + vocab + translations should all be customizable in the settings
-
 ## Other
 
-- Read: new page & new juz' signs
 - Command Palette: add page and juz' and topics
 - audio
-- combine all fetch request --> make one function (fetchResource?)
 - mushaf view
 
-## Check List
-
-### Topics
+## Topics
 
 - [x] Topics page: add new topic
 - [x] Topics page: edit topic
@@ -57,7 +17,21 @@
 - [x] Verse: Add new topic to verse
 - [x] Verse: remove topic from verse
 
-### Vocabulary
+- [ ] use #topic in command palette to search for verses with topic (use in advanced search as well?)
+- [ ] verse picker --> add verse to topic in topic item page
+
+### Recursive Topics
+
+- [x] Show child's parents (eg. Topic 1 . Topic 2 . Topic 3)
+- [x] Nest data with recursive function
+- [ ] Display recursive topics in topics page
+- [x] Show total verses under topic + children topics
+- [ ] Add parent field select (combobox) when creating new topic / updating existing topic
+- [ ] Save new recursive topic
+- [ ] Handling deleting parent topic (not allow? or ask to shift topics to another parent?)
+- [ ] Drag and drop - sortable
+
+## Vocabulary
 
 - [ ] Vocab page: Add new vocab
 - [x] Vocab page: edit vocab
@@ -66,8 +40,56 @@
 - [ ] Verse: edit vocab
 - [ ] Verse: delete vocab
 
+- [ ] edit and delete vocab in read page (with popup?)
+
+## Settings:
+
+- search rules (add to settings)
+- advanced search
+- icons + topics + vocab + translations should all be customizable in the settings
+
+## Refresh Data
+
+### Refresh Verse
+
+- [ ] Read View/ Bookmark View: Refresh verse on toggle bookmark
+- [ ] Read View: Refresh verse on add/ remove topic from verse
+- [ ] Read View: Refresh verse on add/ remove vocab from verse
+- [ ] Topic Item View: Refresh verse on remove topic from verse
+- [ ] Vocab View: Refresh verse on edit/ remove vocab
+
+### Refresh Topic
+
+- [ ] Topics View: Refresh topics on add/ update/ delete topic
+- [ ] Read View: Refresh topics on add/ remove topics from verse
+- [ ] Topic Item View: Refresh topics on remove topic from verse
+
+### Refresh Vocab
+
+- [ ] Read View: Refresh vocab on add/ remove vocab from verse
+- [ ] Vocab View: Refresh vocab on edit/ remove vocab from verse
+
 - on add/delete/update topic and vocab --> refetch? or add refresh btn to refresh --> implement force refresh
 - multiple stores?
   - organize fetching data
   - organize grouping data
   - organize refreshing data
+- make topic input skeleton loader bigger
+
+## Features
+
+- tafsir
+- tarkib
+- notes
+- compareVerse notes
+- topic notes
+- verseTopic notes
+- linked verses
+- assign topics to verse ranges --> then show in read
+
+## Compare Verses
+
+- [ ] Use command palette like dialog to select verses to compare
+- [ ] highlight same parts of the selected verses
+- [ ] add notes
+- [ ] save

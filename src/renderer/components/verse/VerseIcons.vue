@@ -1,4 +1,10 @@
 <template>
+  <!-- play icon -->
+  <div v-if="icons.includes('play')" @click="null">
+    <PlayIcon
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+    />
+  </div>
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">
     <ArrowLeftIcon
@@ -56,9 +62,10 @@ import { defineProps } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 // store
-import { useStore } from "../../store/useStore";
+import { useStore } from "../../store/store";
 
 // components
+import PlayIcon from "../icons/PlayIcon.vue";
 import CopyToClipboardIcon from "../icons/CopyToClipboardIcon.vue";
 import BookmarkIcon from "../icons/BookmarkIcon.vue";
 import BookmarkFillIcon from "../icons/BookmarkFillIcon.vue";
@@ -78,7 +85,7 @@ const props = defineProps({
   },
   icons: {
     type: Array,
-    default: ["copyToClipboard", "bookmark"], // options
+    default: ["copyToClipboard", "bookmark"],
   },
 });
 

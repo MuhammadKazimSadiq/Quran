@@ -53,7 +53,7 @@
 // vue
 import { ref } from "vue";
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // store
 const store = useStore();

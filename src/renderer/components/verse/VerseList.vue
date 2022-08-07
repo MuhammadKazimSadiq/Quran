@@ -3,7 +3,7 @@
     <div>
       <ul v-if="verses.length">
         <li
-          v-for="verse in verses"
+          v-for="(verse, i) in verses"
           :key="verse.id"
           :class="`verse verse-${verse.id}`"
           :data-id="verse.id"
@@ -13,6 +13,7 @@
         >
           <Verse
             v-if="!lazyLoadVerse || loadedVerses.includes(verse.id)"
+            :prevVerse="verses[i - 1] ?? {}"
             :verse="verse"
             :lazyLoad="lazyLoad"
             :loadedVerses="loadedVerses"
@@ -115,7 +116,7 @@ import {
 } from "vue-router";
 
 // store
-import { useStore } from "../../store/useStore";
+import { useStore } from "../../store/store";
 
 // components
 import Verse from "./Verse.vue";

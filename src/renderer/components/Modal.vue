@@ -57,7 +57,7 @@
 import { defineProps } from "vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 const store = useStore();
 
 // components

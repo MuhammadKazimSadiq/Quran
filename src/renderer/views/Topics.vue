@@ -46,7 +46,7 @@
           <div class="p-2 text-2xl text-black dark:text-white">
             <span>{{ topic.topic_name }}</span>
             <span class="mr-2 text-sm text-gray-700 dark:text-gray-300">
-              ({{ topic?.verses?.length }} آیات)
+              ({{ topic?.versesCount }} آیات)
             </span>
           </div>
           <div class="flex items-center gap-3">
@@ -147,6 +147,7 @@
 <script setup>
 // vue
 import { ref, computed } from "vue";
+
 // components
 import VerseList from "../components/verse/VerseList.vue";
 import Modal from "../components/Modal.vue";
@@ -156,16 +157,59 @@ import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
 import SearchIcon from "../components/icons/SearchIcon.vue";
 import PlusIcon from "../components/icons/PlusIcon.vue";
 
-import { useStore } from "../store/useStore";
+// composables
+import { useGetParentList } from "../composables/getParentList";
+
+import { useStore } from "../store/store";
 const store = useStore();
 
 const searchString = ref("");
 
+const getChildren = (data, parent) => {
+  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
+  if (!children.length) {
+    return [];
+  }
+  return children.map((child) => {
+    return {
+      ...child,
+      parents: useGetParentList(store.topics, child, {
+        primaryId: "topic_id",
+        nameField: "topic_name",
+      }),
+      children: getChildren(data, child),
+    };
+  });
+};
+
+const getVersesCount = (data, parent) => {
+  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
+  if (!children.length) {
+    return parent.verses.length;
+  }
+  return children.reduce((acc, child) => {
+    return acc + getVersesCount(data, child);
+  }, parent.verses.length);
+};
+
+const nestedTopics = computed(() => {
+  return store.topics
+    .filter((topic) => !topic.parent_id)
+    .map((topic) => {
+      return {
+        ...topic,
+        parents: topic.topic_name,
+        children: getChildren(store.topics, topic),
+        versesCount: getVersesCount(store.topics, topic),
+      };
+    });
+});
+
 const filteredTopics = computed(() => {
-  return store.topics.filter((topic) =>
+  return nestedTopics.value.filter((topic) =>
     searchString.value.length
-      ? topic.topic_name.includes(searchString.value)
-      : store.topics
+      ? topic.topic_name.includes(searchString.value.trim())
+      : nestedTopics.value
   );
 });
 

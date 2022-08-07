@@ -53,7 +53,7 @@
 import { computed } from "vue";
 
 import { TransitionRoot } from "@headlessui/vue";
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 import ClearIcon from "./icons/ClearIcon.vue";
 
 const store = useStore();

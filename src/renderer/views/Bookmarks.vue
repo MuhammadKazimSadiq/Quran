@@ -22,7 +22,7 @@
 
 <script setup>
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // components
 import VerseList from "../components/verse/VerseList.vue";

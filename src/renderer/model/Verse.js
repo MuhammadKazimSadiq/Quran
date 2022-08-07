@@ -29,7 +29,8 @@ export default class Verse extends Model {
       to_col: "id",
       cols: [
         ["id", "topic_id"],
-        ["name", "topic"],
+        ["name", "topic_name"],
+        ["parent_id", "parent_id"],
       ],
     },
     // compare topics

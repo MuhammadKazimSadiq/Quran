@@ -60,7 +60,7 @@
 // router
 import { useRoute, useRouter } from "vue-router";
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // components
 import ProgressIndicator from "../components/ProgressIndicator.vue";

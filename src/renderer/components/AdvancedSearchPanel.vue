@@ -151,7 +151,7 @@
 import { ref } from "vue";
 
 // store
-import { useStore } from "../store/useStore";
+import { useStore } from "../store/store";
 
 // components
 import ClearIcon from "./icons/ClearIcon.vue";
