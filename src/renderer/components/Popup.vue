@@ -10,9 +10,6 @@
 </template>
 
 <script setup>
-// vue
-import { defineProps } from "vue";
-
 const props = defineProps({
   show: {
     type: Boolean,

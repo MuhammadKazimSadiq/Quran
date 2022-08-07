@@ -53,9 +53,6 @@
 </template>
 
 <script setup>
-// vue
-import { defineProps } from "vue";
-
 // store
 import { useStore } from "../store/store";
 const store = useStore();

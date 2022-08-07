@@ -8,9 +8,6 @@
 </template>
 
 <script setup>
-// vue
-import { defineProps } from "vue";
-
 // components
 import TopicInput from "./TopicInput.vue";
 

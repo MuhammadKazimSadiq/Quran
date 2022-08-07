@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "path";
 import Database from "./database/Database";
 
+app.setName("Quran");
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -39,10 +41,7 @@ app.on("window-all-closed", function () {
 });
 
 // database
-const pathToDbFile =
-  process.env.NODE_ENV === "development"
-    ? join(__dirname, "./static/database.sqlite")
-    : "./resources/database/database.sqlite";
+const pathToDbFile = join(app.getPath("userData"), "database.sqlite");
 
 const db = new Database(pathToDbFile);
 db.init();

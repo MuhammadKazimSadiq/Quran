@@ -10,9 +10,6 @@
 </template>
 
 <script setup>
-// vue
-import { defineProps } from "vue";
-
 // props
 defineProps({
   vocab: {

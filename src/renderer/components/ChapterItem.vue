@@ -37,8 +37,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
 import MakkiImg from "../assets/Makki.png";
 import MadaniImg from "../assets/Madani.png";
 

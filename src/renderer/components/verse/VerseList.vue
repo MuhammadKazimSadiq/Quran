@@ -98,7 +98,7 @@
 
 <script setup>
 // vue
-import { defineProps, ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 // composables
 import { onClickOutside } from "@vueuse/core";

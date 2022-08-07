@@ -55,9 +55,6 @@
 </template>
 
 <script setup>
-// vue
-import { defineProps } from "vue";
-
 // router
 import { useRoute, useRouter } from "vue-router";
 

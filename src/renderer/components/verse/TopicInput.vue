@@ -128,7 +128,7 @@
 
 <script setup>
 // vue
-import { ref, computed, defineProps } from "vue";
+import { ref, computed } from "vue";
 
 // components
 import {

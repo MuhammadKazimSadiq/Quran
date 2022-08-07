@@ -9,12 +9,8 @@
     "allowToChangeInstallationDirectory": true,
     "shortcutName": "Quran"
   },
-  // "win": {
-  //   "target": "nsis",
-  //   "icon": "icons/icon.ico"
-  // },
   "win": {
-    "target": ["portable"],
+    "target": ["nsis", "portable"],
     "icon": "icons/icon.ico"
   },
   "portable": {
