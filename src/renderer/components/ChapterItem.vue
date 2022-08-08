@@ -9,10 +9,10 @@
         <div class="-rotate-45 dark:text-white">{{ chapter.id }}</div>
       </div>
       <div class="flex flex-col gap-2">
-        <div class="self-center font-bold dark:text-white">
+        <div class="self-center text-lg font-bold dark:text-white">
           {{ chapter.name }}
         </div>
-        <div class="self-center text-xs text-gray-600 dark:text-gray-200">
+        <div class="self-center text-sm text-gray-600 dark:text-gray-200">
           {{ chapter.translation }}
         </div>
       </div>
@@ -29,7 +29,7 @@
         />
       </div>
       <!-- verse count -->
-      <div class="text-xs dark:text-gray-200">
+      <div class="text-sm dark:text-gray-200">
         {{ chapter.verses_count }} آیه
       </div>
     </div>

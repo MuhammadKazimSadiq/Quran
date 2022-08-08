@@ -4,7 +4,7 @@
     :class="{ 'text-left font-english': translation.language === 'en' }"
     :dir="dir"
   >
-    <div class="mb-2 min-w-0 text-xl dark:text-white">
+    <div class="mb-2 text-xl dark:text-white">
       {{ text }}
     </div>
     <div class="text-xs text-gray-600 text-opacity-70 dark:text-gray-300">
