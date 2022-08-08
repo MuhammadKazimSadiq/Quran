@@ -2,17 +2,17 @@
   <div>
     <!-- new page and section -->
     <div
-      v-if="isNewPage || isNewSection"
+      v-if="(showPage || showSection) && (isNewPage || isNewSection)"
       class="mt-4 flex flex-col gap-4 rounded-2xl bg-gray-100 p-4 text-center dark:bg-gray-800"
     >
       <div
-        v-if="isNewSection"
+        v-if="showSection && isNewSection"
         class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
       >
         جزء {{ verse.section_id }}
       </div>
       <div
-        v-if="isNewPage"
+        v-if="showPage && isNewPage"
         class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
       >
         صفحه {{ verse.page_id }}
@@ -120,6 +120,14 @@ const props = defineProps({
     default: [],
   },
   showBismillah: {
+    type: Boolean,
+    default: true,
+  },
+  showSection: {
+    type: Boolean,
+    default: true,
+  },
+  showPage: {
     type: Boolean,
     default: true,
   },

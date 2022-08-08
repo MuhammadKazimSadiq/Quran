@@ -8,6 +8,8 @@
       :lazyLoad="true"
       :icons="['goToVerse', 'copyToClipboard', 'bookmark']"
       :showTopics="false"
+      :showSection="false"
+      :showPage="false"
       :showVocabulary="false"
       :showBismillah="false"
       :canEditVocabulary="false"

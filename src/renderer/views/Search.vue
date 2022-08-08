@@ -153,6 +153,8 @@
               :showTopics="false"
               :showVocabulary="false"
               :showBismillah="false"
+              :showSection="false"
+              :showPage="false"
               :canEditVocabulary="false"
               :highlightText="searchResult.query"
             />

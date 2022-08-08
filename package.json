@@ -1,17 +1,17 @@
 {
   "name": "quran",
   "productName": "Quran",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Quran App",
   "main": "build/main/main.js",
-  "homepage": "./",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MuhammadKazimSadiq/Quran.git"
+  },
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build.js && electron-builder -c config/electron-builder.json",
-    "build:win": "node scripts/build.js && electron-builder -c config/electron-builder.json --win",
-    "publish:win": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish always",
-    "build:mac": "node scripts/build.js && electron-builder -c config/electron-builder.json --mac",
-    "build:linux": "node scripts/build.js && electron-builder -c config/electron-builder.json --linux"
+    "build": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish never",
+    "deploy": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish always"
   },
   "author": "md.kazimsadiq@gmail.com",
   "devDependencies": {

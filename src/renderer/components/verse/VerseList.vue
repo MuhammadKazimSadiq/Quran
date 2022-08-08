@@ -21,6 +21,8 @@
             :showTopics="showTopics"
             :showVocabulary="showVocabulary"
             :showBismillah="showBismillah"
+            :showSection="showSection"
+            :showPage="showPage"
             :showTranslations="showTranslations"
             :translations="enabledTranslations"
             :canEditVocabulary="canEditVocabulary"
@@ -146,6 +148,14 @@ const props = defineProps({
     default: false,
   },
   showBismillah: {
+    type: Boolean,
+    default: true,
+  },
+  showSection: {
+    type: Boolean,
+    default: true,
+  },
+  showPage: {
     type: Boolean,
     default: true,
   },

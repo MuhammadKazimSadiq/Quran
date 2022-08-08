@@ -14,9 +14,7 @@
     "target": ["nsis", "portable"],
     "icon": "icons/icon.ico",
     "publish": {
-      "provider": "github",
-      "owner": "Muhammad Kazim",
-      "repo": "Quran"
+      "provider": "github"
     }
   },
   "portable": {
@@ -49,7 +47,6 @@
     "!dist"
   ],
   "publish": {
-    "provider": "github",
-    "owner": "Muhammad Kazim"
+    "provider": "github"
   }
 }
