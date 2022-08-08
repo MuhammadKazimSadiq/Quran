@@ -1,5 +1,6 @@
 {
   "appId": "com.quran.app",
+  "productName": "Quran",
   "directories": {
     "output": "dist"
   },
@@ -11,7 +12,12 @@
   },
   "win": {
     "target": ["nsis", "portable"],
-    "icon": "icons/icon.ico"
+    "icon": "icons/icon.ico",
+    "publish": {
+      "provider": "github",
+      "owner": "Muhammad Kazim",
+      "repo": "Quran"
+    }
   },
   "portable": {
     "artifactName": "quran_portable.exe"
@@ -42,5 +48,8 @@
     "!build/renderer",
     "!dist"
   ],
-  "extraResources": ["database/database.sqlite"]
+  "publish": {
+    "provider": "github",
+    "owner": "Muhammad Kazim"
+  }
 }

@@ -40,12 +40,14 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-// database
+// connect to database
 const pathToDbFile = join(app.getPath("userData"), "database.sqlite");
 
 const db = new Database(pathToDbFile);
+// initialize database and run migrations
 db.init();
 
+// listen for db requests
 ipcMain.on("request", async (event, { query, type = "all" }) => {
   const response = await db.query(query, type);
   event.reply("response", response);
