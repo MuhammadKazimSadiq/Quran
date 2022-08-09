@@ -16,6 +16,7 @@
     "./**/*.d.ts",
     "./**/*.tsx",
     "./**/*.vue",
-    "electron.js"
+    "electron.js",
+    "main.js"
   ]
 }
