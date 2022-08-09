@@ -7,7 +7,7 @@ export default {
               primary key,
             verse_id integer
               constraint vocabulary_verses_id_fk
-                references verses,
+                references verses (id),
             word text,
             meaning text
           );`,

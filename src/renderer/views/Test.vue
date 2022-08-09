@@ -12,38 +12,40 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "../store/store";
 const store = useStore();
 
-// const data = [
-//   { id: 1, name: "Topic 1", parent_id: null, verses: 5 },
-//   { id: 2, name: "Topic 2", parent_id: 1, verses: 2 },
-//   { id: 3, name: "Topic 3", parent_id: 2, verses: 3 },
-//   { id: 4, name: "Topic 4", parent_id: 2, verses: 0 },
-//   { id: 5, name: "Topic 5", parent_id: 4, verses: 0 },
-//   { id: 6, name: "Topic 6", parent_id: null, verses: 0 },
-//   { id: 7, name: "Topic 7", parent_id: 1, verses: 2 },
-//   { id: 8, name: "Topic 8", parent_id: 7, verses: 2 },
-//   { id: 9, name: "Topic 9", parent_id: 5, verses: 3 },
-//   { id: 10, name: "Topic 10", parent_id: 1, verses: 4 },
-// ];
+import VerseWord from "../model/VerseWord";
 
-// const getVersesCount = (data, parent) => {
-//   const children = data.filter((topic) => topic.parent_id === parent.id);
-//   if (!children.length) {
-//     return parent.verses;
-//   }
-//   return children.reduce((acc, child) => {
-//     return acc + getVersesCount(data, child);
-//   }, parent.verses);
-// };
+const fetchWords = async ({ chapter_id, verse_id } = {}) => {
+  const url = `https://api.qurancdn.com/api/qdc/verses/by_key/${chapter_id}:${verse_id}?words=true&word_translation_language=fa&word_fields=verse_key%2Cverse_id%2Cpage_number%2Clocation`;
+  const response = await fetch(url);
+  const result = await response.json();
+  return result.verse;
+};
 
-// const topics = data.map((topic) => {
-//   return {
-//     id: topic.id,
-//     name: topic.name,
-//     parent_id: topic.parent_id,
-//     verses: topic.verses,
-//     versesCount: getVersesCount(data, topic),
-//   };
+// onMounted(() => {
+//   setTimeout(async () => {
+//     const verses = store.verses.slice(6230, 6236);
+
+//     for (let v of verses) {
+//       const verse_id = v.id;
+//       const verse = await fetchWords(store.verses[verse_id - 1]);
+
+//       for (let w of verse.words) {
+//         const word = {
+//           id: w.id,
+//           text: w.text,
+//           fa: w.translation.text,
+//           // en: w.en,
+//           position: w.position,
+//           line_number: w.line_number,
+//           page_number: w.page_number,
+//           location: w.location,
+//           char_type_name: w.char_type_name,
+//           verse_id,
+//         };
+//         await VerseWord.insert(word);
+//       }
+//       console.log(verse_id);
+//     }
+//   }, 1000);
 // });
-
-// console.log(topics);
 </script>

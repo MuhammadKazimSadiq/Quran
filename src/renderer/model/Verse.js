@@ -10,6 +10,14 @@ export default class Verse extends Model {
   static order = ["verses.id", "vocabulary.id", "verse_topic.id"];
 
   static joins = [
+    // words
+    // {
+    //   to_table: "verse_words",
+    //   from_col: "id",
+    //   to_col: "verse_id",
+    //   cols: [["text", "text"]],
+    // },
+    // chapters
     {
       to_table: "chapters",
       from_col: "chapter_id",

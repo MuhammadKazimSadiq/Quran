@@ -8,6 +8,6 @@ export default {
                 primary key autoincrement,
             verse_id integer
               constraint bookmarks_verses_id_fk
-                references verses
+                references verses (id)
           );`,
 };

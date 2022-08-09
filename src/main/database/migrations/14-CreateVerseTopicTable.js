@@ -8,8 +8,9 @@ export default {
                 primary key autoincrement,
             verse_id int not null
               constraint verse_topic_verses_id_fk
-                references verses,
+                references verses (id),
             topic_id int not null
               constraint verse_topic_topics_id_fk
-                references topics);`,
+                references topics (id)
+          );`,
 };
