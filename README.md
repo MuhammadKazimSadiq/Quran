@@ -1,9 +1,3 @@
-<style>
-  * {
-    direction: rtl;
-  }
-</style>
-
 <div align="center">
   <img src="icons/icon.ico">
 </div>
