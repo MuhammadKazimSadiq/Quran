@@ -6,7 +6,7 @@
     <div class="text-black dark:text-white">04:05</div>
     <div class="flex flex-row gap-8">
       <div>
-        <ForwardIcon
+        <FastForwardIcon
           class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
         />
       </div>
@@ -31,8 +31,10 @@
 </template>
 
 <script setup>
-import PlayIcon from "./icons/PlayIcon.vue";
-import PauseIcon from "./icons/PauseIcon.vue";
-import ForwardIcon from "./icons/ForwardIcon.vue";
-import RewindIcon from "./icons/RewindIcon.vue";
+import {
+  PlayIcon,
+  PauseIcon,
+  FastForwardIcon,
+  RewindIcon,
+} from "@heroicons/vue/outline";
 </script>

@@ -51,13 +51,13 @@
           </div>
           <div class="flex items-center gap-3">
             <div @click="openEditModal(topic)" class="cursor-pointer">
-              <EditIcon
+              <PencilIcon
                 class="h-6 w-6 rounded-full p-1 text-blue-700 hover:bg-gray-200 dark:text-blue-300 dark:hover:bg-gray-600"
               />
             </div>
 
             <div @click="openDeleteModal(topic)" class="cursor-pointer">
-              <DeleteIcon
+              <TrashIcon
                 class="h-6 w-6 rounded-full p-1 text-red-700 hover:bg-gray-200 dark:text-red-300 dark:hover:bg-gray-600"
               />
             </div>
@@ -151,11 +151,14 @@ import { ref, computed } from "vue";
 // components
 import VerseList from "../components/verse/VerseList.vue";
 import Modal from "../components/Modal.vue";
-import EditIcon from "../components/icons/EditIcon.vue";
-import DeleteIcon from "../components/icons/DeleteIcon.vue";
-import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
-import PlusIcon from "../components/icons/PlusIcon.vue";
+
+import {
+  SearchIcon,
+  PlusIcon,
+  ChevronUpIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/vue/outline";
 
 // composables
 import { useGetParentList } from "../composables/getParentList";
@@ -185,11 +188,11 @@ const getChildren = (data, parent) => {
 const getVersesCount = (data, parent) => {
   const children = data.filter((topic) => topic.parent_id === parent.topic_id);
   if (!children.length) {
-    return parent.verses.length;
+    return parent?.verses?.length;
   }
   return children.reduce((acc, child) => {
     return acc + getVersesCount(data, child);
-  }, parent.verses.length);
+  }, parent?.verses?.length);
 };
 
 const nestedTopics = computed(() => {

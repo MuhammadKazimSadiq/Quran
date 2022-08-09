@@ -35,7 +35,7 @@
           v-if="searching"
           class="w-6 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600"
         />
-        <ClearIcon
+        <XIcon
           class="w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchString.length,
@@ -69,6 +69,10 @@
         </div>
       </transition>
     </div>
+
+    <!-- <InformationCircleIcon
+      class="w-6 cursor-pointer text-gray-700 dark:text-gray-300"
+    /> -->
     <!-- main search end -->
 
     <!-- advanced search panel -->
@@ -118,7 +122,7 @@
 
             <div>
               <!-- clear icon -->
-              <ClearIcon
+              <XIcon
                 @click="removeSearchResult(i)"
                 class="w-6 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
               />
@@ -177,12 +181,15 @@ import { useStore } from "../store/store";
 import { useRoute } from "vue-router";
 
 // components
+import {
+  InformationCircleIcon,
+  SearchIcon,
+  XIcon,
+  ChevronUpIcon,
+} from "@heroicons/vue/outline";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import VerseList from "../components/verse/VerseList.vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
-import ClearIcon from "../components/icons/ClearIcon.vue";
-import LoaderIcon from "../components/icons/LoaderIcon.vue";
-import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
+import LoaderIcon from "../components/LoaderIcon.vue";
 import AdvancedSearchPanel from "../components/AdvancedSearchPanel.vue";
 
 // composables

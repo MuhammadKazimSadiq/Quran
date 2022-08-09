@@ -18,7 +18,9 @@
           to="/settings"
           class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
         >
-          <SettingsIcon />
+          <CogIcon
+            class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
+          />
         </router-link>
         <!-- settings icon end -->
       </div>
@@ -64,8 +66,8 @@ import { useStore } from "../store/store";
 
 // components
 import ProgressIndicator from "../components/ProgressIndicator.vue";
-import SettingsIcon from "../components/icons/SettingsIcon.vue";
 import ToggleThemeSwitch from "../components/ToggleThemeSwitch.vue";
+import { CogIcon } from "@heroicons/vue/outline";
 
 // route
 const route = useRoute();

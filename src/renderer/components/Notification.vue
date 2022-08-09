@@ -35,7 +35,7 @@
                   @click="store.notification.show = false"
                   class="inline-flex text-gray-400 transition duration-150 ease-in-out focus:text-gray-500 focus:outline-none"
                 >
-                  <ClearIcon
+                  <XIcon
                     class="w-6 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-300/40 dark:text-gray-100 dark:hover:bg-gray-100/20"
                   />
                 </button>
@@ -54,7 +54,8 @@ import { computed } from "vue";
 
 import { TransitionRoot } from "@headlessui/vue";
 import { useStore } from "../store/store";
-import ClearIcon from "./icons/ClearIcon.vue";
+
+import { XIcon } from "@heroicons/vue/outline";
 
 const store = useStore();
 

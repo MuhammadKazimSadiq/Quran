@@ -42,7 +42,7 @@ import { useStore } from "../store/store";
 
 // components
 import ChapterItem from "../components/ChapterItem.vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
+import { SearchIcon } from "@heroicons/vue/outline";
 
 // store
 const store = useStore();

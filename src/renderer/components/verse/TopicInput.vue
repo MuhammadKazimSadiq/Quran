@@ -23,7 +23,7 @@
               class="flex min-w-max gap-2 rounded-lg border border-gray-300 bg-inherit p-2 text-xs dark:border-gray-700 dark:text-gray-100"
             >
               <span>{{ topic.topic_name }}</span>
-              <ClearIcon
+              <XIcon
                 @click.stop="selectedTopics.splice(i, 1) && onUpdate()"
                 class="w-3 cursor-pointer text-gray-700/60 dark:text-gray-300/60"
               />
@@ -47,7 +47,7 @@
             @click="updateTopics()"
             class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
           />
-          <ClearIcon
+          <XIcon
             @click="cancel()"
             class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
           />
@@ -139,10 +139,13 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from "@headlessui/vue";
-import ClearIcon from "../icons/ClearIcon.vue";
-import CheckIcon from "../icons/CheckIcon.vue";
-import PlusCircleIcon from "../icons/PlusCircleIcon.vue";
-import SaveIcon from "../icons/SaveIcon.vue";
+
+import {
+  XIcon,
+  CheckIcon,
+  PlusCircleIcon,
+  SaveIcon,
+} from "@heroicons/vue/outline";
 
 // store
 import { useStore } from "../../store/store";

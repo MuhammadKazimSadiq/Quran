@@ -20,7 +20,9 @@
         :to="`/read/${store.chapterId}`"
         class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
       >
-        <ReadIcon class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400" />
+        <BookOpenIcon
+          class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
+        />
       </router-link>
       <router-link
         to="/search"
@@ -54,7 +56,7 @@
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link
+      <!-- <router-link
         to="/test"
         class="rounded-md bg-red-300 p-2 focus:outline-gray-300 focus:ring-0"
       >
@@ -72,7 +74,7 @@
             d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
           />
         </svg>
-      </router-link>
+      </router-link> -->
     </div>
   </aside>
 </template>
@@ -82,12 +84,14 @@
 import { useStore } from "../store/store";
 
 // components
-import HomeIcon from "../components/icons/HomeIcon.vue";
-import ReadIcon from "../components/icons/ReadIcon.vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
-import BookmarkIcon from "../components/icons/BookmarkIcon.vue";
-import CollectionIcon from "../components/icons/CollectionIcon.vue";
-import TableIcon from "../components/icons/TableIcon.vue";
+import {
+  HomeIcon,
+  BookOpenIcon,
+  SearchIcon,
+  BookmarkIcon,
+  CollectionIcon,
+  TableIcon,
+} from "@heroicons/vue/outline";
 
 // images
 import QuranLogo from "../assets/Quran.png";

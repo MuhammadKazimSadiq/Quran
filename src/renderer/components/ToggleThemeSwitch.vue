@@ -1,7 +1,7 @@
 <template>
   <component
     :is="store?.settings?.theme === 'light' ? MoonIcon : SunIcon"
-    class="cursor-pointer"
+    class="w-6 cursor-pointer text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
     @click="store.changeTheme"
   ></component>
 </template>
@@ -9,8 +9,8 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "../store/store";
-import SunIcon from "./icons/SunIcon.vue";
-import MoonIcon from "./icons/MoonIcon.vue";
+
+import { SunIcon, MoonIcon } from "@heroicons/vue/outline";
 
 const store = useStore();
 </script>

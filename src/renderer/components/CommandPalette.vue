@@ -181,7 +181,7 @@ import {
   TransitionRoot,
   TransitionChild,
 } from "@headlessui/vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
+import { SearchIcon } from "@heroicons/vue/outline";
 
 // store
 import { useStore } from "../store/store";

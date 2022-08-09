@@ -7,7 +7,7 @@
   </div>
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">
-    <ArrowLeftIcon
+    <ArrowNarrowLeftIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
@@ -15,7 +15,7 @@
 
   <!-- copy icon -->
   <div v-if="icons.includes('copyToClipboard')" @click="copyToClipboard(verse)">
-    <CopyToClipboardIcon
+    <DuplicateIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
@@ -38,7 +38,7 @@
 
   <!-- remove topic icon -->
   <div v-if="icons.includes('removeTopic')">
-    <ClearIcon
+    <XIcon
       class="w-5 cursor-pointer text-red-600 text-opacity-70 hover:text-red-700 dark:text-red-700 dark:hover:text-red-600"
       @click="removeTopic(verse)"
     />
@@ -47,7 +47,7 @@
 
   <!-- options icon -->
   <!-- <div v-if="icons.includes('options')">
-    <OptionsIcon
+    <DotsHorizontalIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
     />
   </div> -->
@@ -62,13 +62,16 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/store";
 
 // components
-import PlayIcon from "../icons/PlayIcon.vue";
-import CopyToClipboardIcon from "../icons/CopyToClipboardIcon.vue";
-import BookmarkIcon from "../icons/BookmarkIcon.vue";
-import BookmarkFillIcon from "../icons/BookmarkFillIcon.vue";
-import OptionsIcon from "../icons/OptionsIcon.vue";
-import ArrowLeftIcon from "../icons/ArrowLeftIcon.vue";
-import ClearIcon from "../icons/ClearIcon.vue";
+import {
+  ArrowNarrowLeftIcon,
+  PlayIcon,
+  BookmarkIcon,
+  XIcon,
+  DuplicateIcon,
+  DotsHorizontalIcon,
+} from "@heroicons/vue/outline";
+
+import { BookmarkIcon as BookmarkFillIcon } from "@heroicons/vue/solid";
 
 // composables
 import { useClipboard } from "@vueuse/core";

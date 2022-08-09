@@ -2,8 +2,8 @@
   <div>
     <div>
       <a @click="router.go(-1)">
-        <ArrowLeftIcon
-          class="h-8 w-8 rotate-180 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
+        <ArrowRightIcon
+          class="h-8 w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
         />
       </a>
     </div>
@@ -81,8 +81,7 @@ import { useStore } from "../store/store";
 
 // components
 import VerseList from "../components/verse/VerseList.vue";
-import ArrowLeftIcon from "../components/icons/ArrowLeftIcon.vue";
-import ChevronUpIcon from "../components/icons/ChevronUpIcon.vue";
+import { ChevronUpIcon, ArrowRightIcon } from "@heroicons/vue/outline";
 
 // composables
 import { useGetParentList } from "../composables/getParentList";

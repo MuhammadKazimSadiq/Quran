@@ -78,11 +78,11 @@
             >
               <div class="flex justify-center gap-4">
                 <div @click="openEditModal(word)" class="cursor-pointer">
-                  <EditIcon class="w-4 text-blue-700 dark:text-blue-300" />
+                  <PencilIcon class="w-4 text-blue-700 dark:text-blue-300" />
                 </div>
 
                 <div @click="openDeleteModal(word)" class="cursor-pointer">
-                  <DeleteIcon class="w-4 text-red-700 dark:text-red-300" />
+                  <TrashIcon class="w-4 text-red-700 dark:text-red-300" />
                 </div>
               </div>
             </td>
@@ -170,9 +170,7 @@ import { useStore } from "../store/store";
 
 // components
 import Modal from "../components/Modal.vue";
-import EditIcon from "../components/icons/EditIcon.vue";
-import DeleteIcon from "../components/icons/DeleteIcon.vue";
-import SearchIcon from "../components/icons/SearchIcon.vue";
+import { SearchIcon, PencilIcon, TrashIcon } from "@heroicons/vue/outline";
 
 // store
 const store = useStore();

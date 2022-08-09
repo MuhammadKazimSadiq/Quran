@@ -123,8 +123,8 @@ import { useStore } from "../../store/store";
 // components
 import Verse from "./Verse.vue";
 import Popup from "../Popup.vue";
-import SearchIcon from "../icons/SearchIcon.vue";
-import PlusIcon from "../icons/PlusIcon.vue";
+
+import { SearchIcon, PlusIcon } from "@heroicons/vue/outline";
 
 // route
 const route = useRoute();
