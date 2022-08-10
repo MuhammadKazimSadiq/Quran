@@ -5,6 +5,7 @@ build
 .vscode
 .idea
 
+*.sql
 *.sqlite
 todo.md
 quran-root.txt
