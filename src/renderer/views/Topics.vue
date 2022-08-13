@@ -26,6 +26,7 @@
   </div>
   <!-- search end -->
 
+  <!-- add button -->
   <div class="mt-8 flex justify-center">
     <button
       type="button"
@@ -36,6 +37,7 @@
       <span> موضوع جدید </span>
     </button>
   </div>
+  <!-- add button end -->
 
   <div class="mx-auto mt-8 w-full rounded-lg bg-white p-4 dark:bg-gray-800">
     <template v-if="filteredTopics.length">
