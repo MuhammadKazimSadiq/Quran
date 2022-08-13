@@ -151,7 +151,7 @@ import {
 import { useStore } from "../../store/store";
 
 // composables
-import { useGetParentList } from "../../composables/getParentList";
+import { useGetParentTopics } from "../../composables/getParentTopics";
 
 // store
 const store = useStore();
@@ -187,10 +187,7 @@ const mappedTopics = computed(() => {
   return store.topics.map((topic) => {
     return {
       ...topic,
-      parents: useGetParentList(store.topics, topic, {
-        primaryId: "topic_id",
-        nameField: "topic_name",
-      }),
+      parents: useGetParentTopics(store.topics, topic),
     };
   });
 });

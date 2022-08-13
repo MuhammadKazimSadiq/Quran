@@ -161,39 +161,14 @@ import {
 } from "@heroicons/vue/outline";
 
 // composables
-import { useGetParentList } from "../composables/getParentList";
+import { useGetParentTopics } from "../composables/getParentTopics";
+import { useGetChildren } from "../composables/getChildren";
+import { useGetTopicVersesCount } from "../composables/getTopicVersesCount";
 
 import { useStore } from "../store/store";
 const store = useStore();
 
 const searchString = ref("");
-
-const getChildren = (data, parent) => {
-  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
-  if (!children.length) {
-    return [];
-  }
-  return children.map((child) => {
-    return {
-      ...child,
-      parents: useGetParentList(store.topics, child, {
-        primaryId: "topic_id",
-        nameField: "topic_name",
-      }),
-      children: getChildren(data, child),
-    };
-  });
-};
-
-const getVersesCount = (data, parent) => {
-  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
-  if (!children.length) {
-    return parent?.verses?.length;
-  }
-  return children.reduce((acc, child) => {
-    return acc + getVersesCount(data, child);
-  }, parent?.verses?.length);
-};
 
 const nestedTopics = computed(() => {
   return store.topics
@@ -202,18 +177,18 @@ const nestedTopics = computed(() => {
       return {
         ...topic,
         parents: topic.topic_name,
-        children: getChildren(store.topics, topic),
-        versesCount: getVersesCount(store.topics, topic),
+        children: useGetChildren(store.topics, topic),
+        versesCount: useGetTopicVersesCount(store.topics, topic),
       };
     });
 });
 
 const filteredTopics = computed(() => {
-  return nestedTopics.value.filter((topic) =>
-    searchString.value.length
-      ? topic.topic_name.includes(searchString.value.trim())
-      : nestedTopics.value
-  );
+  return searchString.value.length
+    ? nestedTopics.value.filter((topic) =>
+        topic.topic_name.includes(searchString.value.trim())
+      )
+    : nestedTopics.value;
 });
 
 const editModal = ref(false);

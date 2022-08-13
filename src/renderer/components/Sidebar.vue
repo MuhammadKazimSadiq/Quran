@@ -56,12 +56,12 @@
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <router-link
+      <!-- <router-link
         to="/test"
         class="rounded-md bg-red-300 p-2 focus:outline-gray-300 focus:ring-0"
       >
         <SparklesIcon />
-      </router-link>
+      </router-link> -->
     </div>
   </aside>
 </template>

@@ -1,10 +1,12 @@
+import { app } from "electron";
+import { join } from "path";
 import fs from "fs";
 
 const sqlite3 = require("sqlite3").verbose();
 
 export default class Database {
   pathToDbFile;
-  pathToMigrationsDir = "./build/main/database/migrations";
+  pathToMigrationsDir = join(__dirname, "/migrations");
   db;
   migrations;
   completedMigrations;
@@ -19,14 +21,18 @@ export default class Database {
   }
 
   async init() {
-    // fetch all migrations
-    this.migrations = await this.fetchMigrations();
+    try {
+      // fetch all migrations
+      this.migrations = await this.fetchMigrations();
 
-    // fetch already run migrations
-    this.completedMigrations = await this.fetchCompletedMigrations();
+      // fetch already run migrations
+      this.completedMigrations = await this.fetchCompletedMigrations();
 
-    // run migrations
-    await this.runMigrations();
+      // run migrations
+      await this.runMigrations();
+    } catch (err) {
+      console.error("Migrations error: ", err);
+    }
   }
 
   async query(command, method = "all") {

@@ -13,10 +13,10 @@
   </div>
 
   <!-- child topics -->
-  <template v-if="getChildren(store.topics, currentTopic).length">
+  <template v-if="useGetChildren(store.topics, currentTopic).length">
     <section class="mt-8 rounded-lg bg-white p-4 dark:bg-gray-800">
       <div
-        v-for="topic in getChildren(store.topics, currentTopic)"
+        v-for="topic in useGetChildren(store.topics, currentTopic)"
         class="my-4 flex items-center justify-between rounded-lg bg-gray-100 p-4 transition-colors dark:bg-gray-900"
       >
         <div class="flex gap-2 p-2">
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="mr-2 self-end text-sm text-gray-700 dark:text-gray-300">
-            ({{ getVersesCount(store.topics, topic) }} آیات)
+            ({{ useGetTopicVersesCount(store.topics, topic) }} آیات)
           </div>
         </div>
         <div class="flex items-center gap-3">
@@ -84,7 +84,9 @@ import VerseList from "../components/verse/VerseList.vue";
 import { ChevronUpIcon, ArrowRightIcon } from "@heroicons/vue/outline";
 
 // composables
-import { useGetParentList } from "../composables/getParentList";
+import { useGetParentTopics } from "../composables/getParentTopics";
+import { useGetChildren } from "../composables/getChildren";
+import { useGetTopicVersesCount } from "../composables/getTopicVersesCount";
 
 // store
 const store = useStore();
@@ -97,31 +99,4 @@ const route = useRoute();
 const { params } = storeToRefs(route);
 
 const currentTopic = computed(() => store.getTopic(params.value.id));
-
-const getVersesCount = (data, parent) => {
-  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
-  if (!children.length) {
-    return parent.verses.length;
-  }
-  return children.reduce((acc, child) => {
-    return acc + getVersesCount(data, child);
-  }, parent.verses.length);
-};
-
-const getChildren = (data, parent) => {
-  const children = data.filter((topic) => topic.parent_id === parent.topic_id);
-  if (!children.length) {
-    return [];
-  }
-  return children.map((child) => {
-    return {
-      ...child,
-      parents: useGetParentList(store.topics, child, {
-        primaryId: "topic_id",
-        nameField: "topic_name",
-      }),
-      children: getChildren(data, child),
-    };
-  });
-};
 </script>
