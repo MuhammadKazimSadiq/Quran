@@ -55,7 +55,7 @@
     <button
       type="button"
       class="inline-flex items-center justify-between gap-2 rounded-md border border-transparent bg-blue-100 px-4 py-3 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-      @click="openEditModal(false)"
+      @click="openModal('editModal', false)"
     >
       <PlusIcon class="w-4" />
       <span> موضوع جدید </span>
@@ -84,13 +84,13 @@
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <div @click="openEditModal(topic)" class="cursor-pointer">
+          <div @click="openModal('editModal', topic)" class="cursor-pointer">
             <PencilIcon
               class="h-6 w-6 rounded-full p-1 text-blue-700 hover:bg-gray-200 dark:text-blue-300 dark:hover:bg-gray-600"
             />
           </div>
 
-          <div @click="openDeleteModal(topic)" class="cursor-pointer">
+          <div @click="openModal('deleteModal', topic)" class="cursor-pointer">
             <TrashIcon
               class="h-6 w-6 rounded-full p-1 text-red-700 hover:bg-gray-200 dark:text-red-300 dark:hover:bg-gray-600"
             />
@@ -136,75 +136,27 @@
   <!-- verses end -->
 
   <!-- edit modal -->
-  <Modal :isOpen="editModal">
-    <template v-slot:title>
-      {{ editMode ? "ویرایش موضوع" : "موضوع جدید" }}
-    </template>
-    <template v-slot:content>
-      <div
-        class="mt-6 flex items-center justify-between gap-6 text-blue-800 dark:text-blue-200"
-      >
-        <input
-          type="text"
-          placeholder="موضوع"
-          class="flex-1 rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 placeholder-gray-700 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-300"
-          v-model="selectedTopic.topic_name"
-        />
-      </div>
-    </template>
-    <template v-slot:buttons>
-      <button
-        type="button"
-        class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-8 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-        @click="editMode ? updateTopic() : createTopic()"
-      >
-        تایید
-      </button>
-      <button
-        type="button"
-        class="inline-flex justify-center rounded-md border border-gray-300 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:text-gray-100 dark:hover:bg-gray-900"
-        @click="closeEditModal"
-      >
-        خیر
-      </button>
-    </template>
-  </Modal>
+  <EditTopicModal
+    :show="modals.editModal"
+    :editMode="editMode"
+    :selectedTopic="selectedTopic"
+    :parentTopic="currentTopic?.topic_id"
+    @close="closeModal('editModal')"
+  ></EditTopicModal>
+  <!-- edit modal end -->
+
   <!-- delete modal -->
-  <Modal :isOpen="deleteModal">
-    <template v-slot:title>حذف موضوع</template>
-    <template v-slot:content>
-      <p
-        class="dark:gray-200 mt-4 text-right text-lg text-gray-800 dark:text-gray-200"
-      >
-        آیا مایل هستید موضوع
-        <span class="text-blue-700 dark:text-blue-300"
-          >`{{ selectedTopic.topic_name }}`</span
-        >
-        را حذف کنید؟
-      </p>
-    </template>
-    <template v-slot:buttons>
-      <button
-        type="button"
-        class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-8 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-        @click="deleteTopic"
-      >
-        حذف
-      </button>
-      <button
-        type="button"
-        class="inline-flex justify-center rounded-md border border-gray-300 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:text-gray-100 dark:hover:bg-gray-900"
-        @click="closeDeleteModal"
-      >
-        خیر
-      </button>
-    </template>
-  </Modal>
+  <DeleteTopicModal
+    :show="modals.deleteModal"
+    :selectedTopic="selectedTopic"
+    @close="closeModal('deleteModal')"
+  ></DeleteTopicModal>
+  <!-- delete modal end -->
 </template>
 
 <script setup>
 // vue
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 // router
 import { useRoute, useRouter } from "vue-router";
 
@@ -216,7 +168,8 @@ import { useStore } from "../store/store";
 
 // components
 import VerseList from "../components/verse/VerseList.vue";
-import Modal from "../components/Modal.vue";
+import EditTopicModal from "../components/EditTopicModal.vue";
+import DeleteTopicModal from "../components/DeleteTopicModal.vue";
 import {
   SearchIcon,
   PlusIcon,
@@ -257,19 +210,21 @@ const countVerses = (topic) => {
   return useGetTopicVersesCount(store.topics, topic);
 };
 
+// breadcrumbs
 const breadcrumbs = computed(() => {
   return useGetParentTopics(store.topics, currentTopic.value).reverse();
 });
 
 // modals
-const editModal = ref(false);
-const deleteModal = ref(false);
+const modals = reactive({
+  editModal: false,
+  deleteModal: false,
+});
+const editMode = ref(false);
 
 const selectedTopic = ref({});
 
-const editMode = ref(false);
-
-const openEditModal = (topic) => {
+const openModal = (modal, topic) => {
   // set modal mode
   if (topic) {
     editMode.value = true;
@@ -277,37 +232,11 @@ const openEditModal = (topic) => {
   } else {
     editMode.value = false;
   }
-  editModal.value = true;
+  modals[modal] = true;
 };
 
-const closeEditModal = () => {
-  editModal.value = false;
+const closeModal = (modal) => {
+  modals[modal] = false;
   selectedTopic.value = {};
-};
-
-const openDeleteModal = (topic) => {
-  selectedTopic.value = Object.assign({}, topic);
-  deleteModal.value = true;
-};
-
-const closeDeleteModal = () => {
-  deleteModal.value = false;
-  editModal.value = false;
-  selectedTopic.value = {};
-};
-
-const createTopic = async () => {
-  await store.createTopic(selectedTopic.value);
-  closeEditModal();
-};
-
-const updateTopic = async () => {
-  await store.updateTopic(selectedTopic.value);
-  closeEditModal();
-};
-
-const deleteTopic = async () => {
-  await store.deleteTopic(selectedTopic.value);
-  closeDeleteModal();
 };
 </script>

@@ -176,12 +176,14 @@ export const useStore = defineStore("mainStore", {
       }
     },
 
-    async createTopic({ topic_name: name }) {
-      let topic = await Topic.insert({ name });
+    async createTopic({ name, parent_id }) {
+      let topic = await Topic.insert({ name, parent_id });
 
       topic = {
         topic_id: topic[0].id,
         topic_name: topic[0].name,
+        parent_id: topic[0].parent_id,
+        verses: [],
       };
 
       this.topics.push(topic);
