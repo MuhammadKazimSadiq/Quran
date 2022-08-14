@@ -8,7 +8,10 @@ export function useGetChildren(data, parent) {
   return children.map((child) => {
     return {
       ...child,
-      parents: useGetParentTopics(data, child),
+      parents: useGetParentTopics(data, child)
+        .reduce((acc, topic) => [...acc, topic.name], [])
+        .reverse()
+        .join(" . "),
       children: useGetChildren(data, child),
     };
   });

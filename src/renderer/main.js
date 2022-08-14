@@ -22,14 +22,20 @@ const routes = [
     component: () => import("./views/Bookmarks.vue"),
   },
   {
-    path: "/topics/:id",
-    name: "TopicItem",
-    component: () => import("./views/TopicItem.vue"),
-  },
-  {
     path: "/topics",
-    name: "Topics",
     component: () => import("./views/Topics.vue"),
+    children: [
+      {
+        path: "",
+        name: "ParentTopics",
+        component: () => import("./views/ParentTopics.vue"),
+      },
+      {
+        path: ":id",
+        name: "ChildTopic",
+        component: () => import("./views/ChildTopic.vue"),
+      },
+    ],
   },
   {
     path: "/vocabulary",
@@ -52,7 +58,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
   linkActiveClass: "bg-gray-200 dark:bg-gray-700",
-  linkExactActiveClass: "bg-gray-200 dark:bg-gray-700",
+  // linkExactActiveClass: "bg-gray-200 dark:bg-gray-700",
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 };
   },

@@ -1,16 +1,5 @@
 <template>
-  <div>
-    <div>
-      <a @click="router.go(-1)">
-        <ArrowRightIcon
-          class="h-8 w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
-        />
-      </a>
-    </div>
-    <h1 class="text-center text-3xl dark:text-white">
-      {{ currentTopic?.topic_name }}
-    </h1>
-  </div>
+  <h1 class="text-center text-3xl dark:text-white">موضوعات</h1>
 
   <!-- search -->
   <div class="mt-8 flex justify-center">
@@ -50,70 +39,45 @@
   </div>
   <!-- add button end -->
 
-  <!-- child topics -->
-  <template v-if="topics.length">
-    <section class="mt-8 rounded-lg bg-white p-4 dark:bg-gray-800">
-      <div
-        v-for="topic in topics"
-        class="my-4 flex items-center justify-between rounded-lg bg-gray-100 p-4 transition-colors dark:bg-gray-900"
-      >
-        <div class="flex gap-2 p-2">
-          <div class="flex flex-col gap-1">
-            <div class="text-2xl text-black dark:text-white">
-              {{ topic.topic_name }}
+  <div class="mx-auto mt-8 w-full rounded-lg bg-white p-4 dark:bg-gray-800">
+    <template v-if="filteredTopics.length">
+      <div v-for="topic in filteredTopics">
+        <div
+          class="my-4 flex items-center justify-between rounded-lg bg-gray-100 p-4 transition-colors dark:bg-gray-900"
+        >
+          <div class="p-2 text-2xl text-black dark:text-white">
+            <span>{{ topic.topic_name }}</span>
+            <span class="mr-2 text-sm text-gray-700 dark:text-gray-300">
+              ({{ topic?.versesCount }} آیات)
+            </span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div @click="openEditModal(topic)" class="cursor-pointer">
+              <PencilIcon
+                class="h-6 w-6 rounded-full p-1 text-blue-700 hover:bg-gray-200 dark:text-blue-300 dark:hover:bg-gray-600"
+              />
             </div>
-            <div class="text-sm text-gray-700 dark:text-gray-300">
-              {{ topic?.parents }}
-            </div>
-          </div>
-          <div class="mr-2 self-end text-sm text-gray-700 dark:text-gray-300">
-            ({{ countVerses(topic) }} آیات)
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div @click="openEditModal(topic)" class="cursor-pointer">
-            <PencilIcon
-              class="h-6 w-6 rounded-full p-1 text-blue-700 hover:bg-gray-200 dark:text-blue-300 dark:hover:bg-gray-600"
-            />
-          </div>
 
-          <div @click="openDeleteModal(topic)" class="cursor-pointer">
-            <TrashIcon
-              class="h-6 w-6 rounded-full p-1 text-red-700 hover:bg-gray-200 dark:text-red-300 dark:hover:bg-gray-600"
-            />
+            <div @click="openDeleteModal(topic)" class="cursor-pointer">
+              <TrashIcon
+                class="h-6 w-6 rounded-full p-1 text-red-700 hover:bg-gray-200 dark:text-red-300 dark:hover:bg-gray-600"
+              />
+            </div>
+            <router-link :to="`/topics/${topic.topic_id}`">
+              <ChevronUpIcon
+                class="h-8 w-8 -rotate-90 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
+              />
+            </router-link>
           </div>
-          <router-link :to="`/topics/${topic.topic_id}`">
-            <ChevronUpIcon
-              class="h-8 w-8 -rotate-90 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
-            />
-          </router-link>
         </div>
       </div>
-    </section>
-  </template>
-  <!-- child topics end -->
-
-  <!-- verses -->
-  <section class="mt-4">
-    <VerseList
-      v-if="currentTopic?.verses?.length"
-      :verses="currentTopic?.verses"
-      :lazyLoad="true"
-      :icons="['goToVerse', 'copyToClipboard', 'bookmark', 'removeTopic']"
-      :showTopics="false"
-      :showVocabulary="false"
-      :showBismillah="false"
-      :showSection="false"
-      :showPage="false"
-      :canEditVocabulary="false"
-    />
+    </template>
     <div v-else>
-      <p class="p-8 text-center text-2xl dark:text-white">
-        هیچ آیه ای زیر این موضوع ثبت نشده است.
-      </p>
+      <div class="text-center text-xl text-gray-600 dark:text-gray-400">
+        موضوعی یافت نشد!
+      </div>
     </div>
-  </section>
-  <!-- verses end -->
+  </div>
 
   <!-- edit modal -->
   <Modal :isOpen="editModal">
@@ -185,59 +149,49 @@
 <script setup>
 // vue
 import { ref, computed } from "vue";
-// router
-import { useRoute, useRouter } from "vue-router";
-
-// pinia
-import { storeToRefs } from "pinia";
-
-// store
-import { useStore } from "../store/store";
 
 // components
 import VerseList from "../components/verse/VerseList.vue";
 import Modal from "../components/Modal.vue";
+
 import {
   SearchIcon,
   PlusIcon,
   ChevronUpIcon,
   PencilIcon,
   TrashIcon,
-  ArrowRightIcon,
 } from "@heroicons/vue/outline";
 
 // composables
-import { useGetParentTopics } from "../composables/getParentTopics";
 import { useGetChildren } from "../composables/getChildren";
 import { useGetTopicVersesCount } from "../composables/getTopicVersesCount";
 
-// store
+import { useStore } from "../store/store";
 const store = useStore();
-
-// router
-const router = useRouter();
-
-// route
-const route = useRoute();
-const { params } = storeToRefs(route);
-
-const currentTopic = computed(() => store.getTopic(params.value.id));
 
 const searchString = ref("");
 
-const topics = computed(() => {
-  return searchString.value.length
-    ? useGetChildren(store.topics, currentTopic.value).filter((topic) =>
-        topic.topic_name.includes(searchString.value.trim())
-      )
-    : useGetChildren(store.topics, currentTopic.value);
+const nestedTopics = computed(() => {
+  return store.topics
+    .filter((topic) => !topic.parent_id)
+    .map((topic) => {
+      return {
+        ...topic,
+        parents: topic.topic_name,
+        children: useGetChildren(store.topics, topic),
+        versesCount: useGetTopicVersesCount(store.topics, topic),
+      };
+    });
 });
 
-const countVerses = (topic) => {
-  return useGetTopicVersesCount(store.topics, topic);
-};
+const filteredTopics = computed(() => {
+  return searchString.value.length
+    ? nestedTopics.value.filter((topic) =>
+        topic.topic_name.includes(searchString.value.trim())
+      )
+    : nestedTopics.value;
+});
 
-// modals
 const editModal = ref(false);
 const deleteModal = ref(false);
 

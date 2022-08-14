@@ -187,7 +187,10 @@ const mappedTopics = computed(() => {
   return store.topics.map((topic) => {
     return {
       ...topic,
-      parents: useGetParentTopics(store.topics, topic),
+      parents: useGetParentTopics(store.topics, topic)
+        .reduce((acc, topic) => [...acc, topic.name], [])
+        .reverse()
+        .join(" . "),
     };
   });
 });

@@ -1,11 +1,10 @@
-export function useGetParentTopics(
-  data,
-  child,
-  { reverse = true, separator = " . " } = {}
-) {
+export function useGetParentTopics(data, child) {
   const parent = data.find((entry) => entry.topic_id === child.parent_id) ?? {};
-  if (!Object.keys(parent).length) return child.topic_name;
+  if (!Object.keys(parent).length)
+    return [{ id: child?.topic_id, name: child?.topic_name }];
 
-  let parents = [child.topic_name, useGetParentTopics(data, parent)];
-  return !reverse ? parents.join(separator) : parents.reverse().join(separator);
+  return [
+    { id: child.topic_id, name: child.topic_name },
+    ...useGetParentTopics(data, parent),
+  ];
 }
