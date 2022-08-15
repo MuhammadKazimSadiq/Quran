@@ -111,8 +111,6 @@ const topics = computed(() => {
     );
 });
 
-// const parent = toRef(props, "parentTopic");
-
 const topicHierarchy = computed(() => {
   const topicName = topic.value?.topic_name ?? "";
   if (!props.parentTopic) return `${topicName}`;

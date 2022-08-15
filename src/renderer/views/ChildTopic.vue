@@ -199,11 +199,11 @@ const currentTopic = computed(() => store.getTopic(params.value.id));
 const searchString = ref("");
 
 const topics = computed(() => {
-  return searchString.value.length
-    ? useGetChildren(store.topics, currentTopic.value).filter((topic) =>
-        topic.topic_name.includes(searchString.value.trim())
-      )
-    : useGetChildren(store.topics, currentTopic.value);
+  return useGetChildren(store.topics, currentTopic.value).filter((topic) =>
+    searchString.value.length
+      ? topic.topic_name.includes(searchString.value.trim())
+      : true
+  );
 });
 
 const countVerses = (topic) => {

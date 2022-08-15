@@ -204,7 +204,39 @@ export const useStore = defineStore("mainStore", {
       });
     },
 
-    async deleteTopic({ topic_id: id }) {
+    async deleteTopic(
+      { topic_id: id, parent_id },
+      children = [],
+      deleteChildren = false
+    ) {
+      // if delete children --> get allChildren of topic and delete
+      if (deleteChildren) {
+        for (let child of children) {
+          await Topic.delete([["id", child.topic_id]]);
+        }
+      }
+
+      // else if has parent_id --> connect children to parent
+      else if (parent_id) {
+        let directChildren = children.filter((t) => t.parent_id === id);
+        console.log(directChildren);
+
+        for (let child of directChildren) {
+          await Topic.update(
+            [["id", child.topic_id]],
+            [["parent_id", parent_id]]
+          );
+        }
+      }
+
+      // else remove parent_id from children
+      else {
+        let directChildren = children.filter((t) => t.parent_id === id);
+        for (let child of directChildren) {
+          await Topic.update([["id", child.topic_id]], [["parent_id", 0]]);
+        }
+      }
+
       await Topic.delete([["id", id]]);
       const index = this.topics.findIndex((topic) => topic.topic_id === id);
       this.topics.splice(index, 1);
