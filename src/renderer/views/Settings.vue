@@ -15,7 +15,12 @@
           @change="store.updateTranslations()"
           v-model="store.settings.enabled_translations"
         />
-        <span class="mr-4 dark:text-white">{{ translation.translator }}</span>
+        <span
+          class="mr-4 dark:text-white"
+          :class="{ 'font-english': translation.language === 'en' }"
+        >
+          {{ translation.translator }}
+        </span>
       </div>
     </div>
   </section>

@@ -101,5 +101,17 @@ export default class Verse extends Model {
       to_col: "id",
       cols: [["text", "en_shakir"]],
     },
+    {
+      to_table: "en_qarai",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "en_qarai"]],
+    },
+    {
+      to_table: "en_yusufali",
+      from_col: "id",
+      to_col: "id",
+      cols: [["text", "en_yusufali"]],
+    },
   ];
 }
