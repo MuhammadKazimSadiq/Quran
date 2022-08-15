@@ -56,6 +56,43 @@
             >
               <!-- combobox option -->
 
+              <!-- topics -->
+              <div
+                class="px-4 py-2 font-farsi text-sm font-bold text-black dark:text-white"
+              >
+                موضوع
+                <span class="text-xs text-gray-600 dark:text-gray-400">
+                  ({{ filteredTopics.length }} مورد)
+                </span>
+              </div>
+              <template v-if="filteredTopics.length">
+                <ComboboxOption
+                  v-for="topic in filteredTopics"
+                  v-slot="{ active, selected }"
+                  :value="topic"
+                  class="cursor-pointer"
+                >
+                  <div
+                    class="mx-2 space-x-1 rounded-lg p-4"
+                    :class="{ 'bg-gray-100 dark:bg-gray-700': active }"
+                  >
+                    <span
+                      class="font-farsi text-lg font-medium leading-relaxed dark:text-gray-200"
+                      v-html="topic.text"
+                    >
+                    </span>
+                  </div>
+                </ComboboxOption>
+              </template>
+              <template v-else>
+                <div
+                  class="px-4 py-2 text-center font-farsi text-sm text-gray-700 dark:text-gray-300"
+                >
+                  موردی یافت نشد!
+                </div>
+              </template>
+              <!-- topics end -->
+
               <!-- chapters -->
               <div
                 class="px-4 py-2 font-farsi text-sm font-bold text-black dark:text-white"
@@ -91,6 +128,7 @@
                   موردی یافت نشد!
                 </div>
               </template>
+              <!-- chapters end -->
 
               <!-- verses -->
               <div
@@ -128,6 +166,7 @@
                 </div>
               </template>
             </ComboboxOptions>
+            <!-- verses end -->
 
             <!-- available commands -->
             <div v-else class="p-4 font-farsi">
@@ -136,29 +175,19 @@
               >
                 دستورات موجود
               </div>
-              <div class="mt-4 mr-2 flex flex-col gap-6 text-lg">
+              <div
+                v-for="command in commands"
+                class="mt-4 mr-2 flex flex-col gap-6 text-lg"
+              >
                 <div class="flex gap-4">
-                  <div class="dark:text-gray-300">جستجوی سوره:</div>
+                  <div class="dark:text-gray-300">{{ command.name }}</div>
                   <div class="text-green-800 dark:text-green-300">
-                    `سوره بقره`
-                  </div>
-                </div>
-                <div class="flex gap-4">
-                  <div class="dark:text-gray-300">جستجوی آیه:</div>
-                  <div class="text-green-800 dark:text-green-300">
-                    `بسم الله...`
-                  </div>
-                </div>
-                <div class="flex gap-4">
-                  <div class="dark:text-gray-300">
-                    جستجوی شماره با شماره سوره و آیه:
-                  </div>
-                  <div class="text-green-800 dark:text-green-300">
-                    `سوره انسان: 10` یا `36:10`
+                    {{ command.value }}
                   </div>
                 </div>
               </div>
             </div>
+            <!-- available commands end -->
           </Combobox>
         </DialogPanel>
       </TransitionChild>
@@ -197,6 +226,19 @@ const store = useStore();
 // router
 const router = useRouter();
 
+const commands = [
+  { name: "جستجوی سوره:", value: "`سوره بقره`" },
+  { name: "جستجوی آیه:", value: "`بسم الله...`" },
+  {
+    name: "جستجوی شماره با شماره سوره و آیه:",
+    value: "`سوره انسان: 10` یا `36:10`",
+  },
+  {
+    name: "جستجوی موضوع:",
+    value: "`اخلاق`",
+  },
+];
+
 const search = ref("");
 const selectedOption = ref();
 let timeoutID = ref(null);
@@ -208,14 +250,15 @@ const onClose = () => {
 
 const onSelect = () => {
   const selected = selectedOption.value;
-  if (selected.verseId) {
-    store.$patch({
-      scrollTo: {
-        verse: selected.verseId,
-      },
-    });
+
+  if (selected.topicId) {
+    router.push(`/topics/${selected.topicId}`);
+  } else {
+    if (selected.verseId) {
+      store.$patch({ scrollTo: { verse: selected.verseId } });
+    }
+    router.push(`/read/${selected.chapterId}`);
   }
-  router.push(`/read/${selected.chapterId}`);
   store.commandPalette = false;
   onClose();
 };
@@ -224,6 +267,20 @@ const onSearch = (value) => {
   clearTimeout(timeoutID.value);
   timeoutID.value = setTimeout(() => (search.value = value.trim()), 500);
 };
+
+const filteredTopics = computed(() => {
+  if (search.value.length <= 2) return [];
+  // remove diacritics from query
+  const query = search.value.trim();
+  return store.topics
+    .filter((topic) => `${topic.topic_name}`.includes(query))
+    .map((topic) => {
+      return {
+        text: `# ${topic.topic_name}`,
+        topicId: topic.topic_id,
+      };
+    });
+});
 
 const filteredChapters = computed(() => {
   if (search.value.length <= 2) return [];
