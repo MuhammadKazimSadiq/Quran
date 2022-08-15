@@ -3,12 +3,19 @@ import { autoUpdater } from "electron-updater";
 import { join } from "path";
 import Database from "./database/Database";
 
+// set app name
 app.setName("Quran");
+
+// connect to database
+const pathToDbFile = join(
+  app.getPath("userData"),
+  process.env.NODE_ENV === "development" ? "quran_dev.sqlite" : "quran.sqlite"
+);
+
+const db = new Database(pathToDbFile);
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    // width: 800,
-    // height: 600,
     fullscreen: true,
     autoHideMenuBar: true,
     icon: join(__dirname, "./static/icon.ico"),
@@ -27,30 +34,33 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  // initialize database and run migrations
+  await db.init();
+
+  // create window
   createWindow();
 
+  // check for updates
   autoUpdater.checkForUpdates();
 
-  app.on("activate", function () {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
 autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
   const dialogOpts = {
     type: "info",
-    buttons: ["Ok"],
-    title: "Update Available",
+    buttons: ["باشد"],
+    title: "آپدیت جدید موجود است",
     message: process.platform === "win32" ? releaseNotes : releaseName,
     detail:
-      "A new version download started. The app will be restarted to install the update.",
+      "آپدیت جدید در حال دانلود است. بعد از دانلود، برنامه ری استارت خواهد شد.",
   };
   dialog.showMessageBox(dialogOpts);
 });
@@ -58,23 +68,16 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
 autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
   const dialogOpts = {
     type: "info",
-    buttons: ["Restart", "Later"],
-    title: "Application Update",
+    buttons: ["ری استارت", "بعداً"],
+    title: "آپدیت جدید",
     message: process.platform === "win32" ? releaseNotes : releaseName,
     detail:
-      "A new version has been downloaded. Restart the application to apply the updates.",
+      "آپدیت جدید دانلود شده است. برای نصب آپدیت، برنامه را ری استارت کنید.",
   };
   dialog.showMessageBox(dialogOpts).then((returnValue) => {
     if (returnValue.response === 0) autoUpdater.quitAndInstall();
   });
 });
-
-// connect to database
-const pathToDbFile = join(app.getPath("userData"), "database.sqlite");
-
-const db = new Database(pathToDbFile);
-// initialize database and run migrations
-db.init();
 
 // listen for db requests
 ipcMain.on("request", async (event, { query, type = "all" }) => {

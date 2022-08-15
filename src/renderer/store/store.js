@@ -143,8 +143,6 @@ export const useStore = defineStore("mainStore", {
     async updateVerseTopics({ verseId, oldTopics, newTopics }) {
       const { toAdd, toDelete } = Topic.sync(oldTopics, newTopics);
 
-      console.log(toAdd, toDelete);
-
       for (let topic of toDelete) {
         await VerseTopic.delete([
           ["verse_id", verseId],
@@ -176,19 +174,27 @@ export const useStore = defineStore("mainStore", {
       }
     },
 
-    async createTopic({ topic_name: name }) {
-      let topic = await Topic.insert({ name });
+    async createTopic({ name, parent_id }) {
+      let topic = await Topic.insert({ name, parent_id });
 
       topic = {
         topic_id: topic[0].id,
         topic_name: topic[0].name,
+        parent_id: topic[0].parent_id,
+        verses: [],
       };
 
       this.topics.push(topic);
     },
 
-    async updateTopic({ topic_id: id, topic_name: name }) {
-      await Topic.update([["id", id]], [["name", name]]);
+    async updateTopic({ id, name, parent_id }) {
+      await Topic.update(
+        [["id", id]],
+        [
+          ["name", name],
+          ["parent_id", parent_id],
+        ]
+      );
 
       await useReplace("topic", id, {
         group: true,
@@ -198,7 +204,39 @@ export const useStore = defineStore("mainStore", {
       });
     },
 
-    async deleteTopic({ topic_id: id }) {
+    async deleteTopic(
+      { topic_id: id, parent_id },
+      children = [],
+      deleteChildren = false
+    ) {
+      // if delete children --> get allChildren of topic and delete
+      if (deleteChildren) {
+        for (let child of children) {
+          await Topic.delete([["id", child.topic_id]]);
+        }
+      }
+
+      // else if has parent_id --> connect children to parent
+      else if (parent_id) {
+        let directChildren = children.filter((t) => t.parent_id === id);
+        console.log(directChildren);
+
+        for (let child of directChildren) {
+          await Topic.update(
+            [["id", child.topic_id]],
+            [["parent_id", parent_id]]
+          );
+        }
+      }
+
+      // else remove parent_id from children
+      else {
+        let directChildren = children.filter((t) => t.parent_id === id);
+        for (let child of directChildren) {
+          await Topic.update([["id", child.topic_id]], [["parent_id", 0]]);
+        }
+      }
+
       await Topic.delete([["id", id]]);
       const index = this.topics.findIndex((topic) => topic.topic_id === id);
       this.topics.splice(index, 1);

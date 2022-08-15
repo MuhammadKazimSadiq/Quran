@@ -1,7 +1,7 @@
 {
   "name": "quran",
   "productName": "Quran",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "description": "Quran App",
   "main": "build/main/main.js",
   "repository": {
@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "node scripts/dev-server.js",
     "build": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish never",
-    "deploy": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish always"
+    "publish": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish always"
   },
   "author": "md.kazimsadiq@gmail.com",
   "devDependencies": {
@@ -22,7 +22,8 @@
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "electron": "^19.0.0",
-    "electron-builder": "^23.0.3",
+    "electron-builder": "^23.3.3",
+    "electron-updater": "^5.2.1",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.12",
@@ -34,7 +35,6 @@
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^1.0.6",
     "@vueuse/core": "^8.9.4",
-    "electron-updater": "^5.2.1",
     "pinia": "^2.0.16",
     "sqlite3": "^5.0.9",
     "vue": "^3.2.36",
