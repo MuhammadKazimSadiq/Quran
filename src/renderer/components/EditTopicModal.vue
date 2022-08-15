@@ -5,22 +5,35 @@
     </template>
     <template v-slot:content>
       <div class="mt-6 flex flex-col gap-8">
-        <input
-          type="text"
-          placeholder="موضوع"
-          class="rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 placeholder-gray-700 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:border-gray-300/60"
-          v-model="topic.topic_name"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="موضوع"
+            class="w-full rounded-2xl border-2 border-gray-300/60 p-2 text-gray-600 placeholder-gray-700 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:border-gray-300/60"
+            v-model="topic.topic_name"
+          />
+        </div>
 
-        <select
-          v-model="parentTopic"
-          class="rounded-2xl border-2 border-gray-300/60 text-gray-600 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-gray-300/60"
-        >
-          <option :value="0">انتخاب موضوع كلی</option>
-          <option v-for="topic in topics" :value="topic.topic_id">
-            {{ topic.topic_name }}
-          </option>
-        </select>
+        <div>
+          <select
+            v-model="parentTopic"
+            @change="changeParentTopic"
+            class="w-full rounded-2xl border-2 border-gray-300/60 text-gray-600 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-gray-300/60"
+          >
+            <option :value="0">انتخاب موضوع كلی</option>
+            <option v-for="topic in topics" :value="topic.topic_id">
+              {{ topic.topic_name }}
+            </option>
+          </select>
+          <div
+            class="mt-4 mr-4 flex gap-2 text-right text-black dark:text-white"
+          >
+            <span>ساختار:</span>
+            <span class="text-yellow-800 dark:text-yellow-200">
+              {{ topicHierarchy }}
+            </span>
+          </div>
+        </div>
       </div>
     </template>
     <template v-slot:buttons>
@@ -48,6 +61,9 @@ import { ref, toRef, computed } from "vue";
 
 // store
 import { useStore } from "../store/store";
+
+// composables
+import { useGetParentTopics } from "../composables/getParentTopics";
 
 // components
 import Modal from "./Modal.vue";
@@ -82,9 +98,41 @@ const topic = toRef(props, "selectedTopic");
 
 // parent topic
 const topics = computed(() => {
-  return store.topics;
+  // remove children of current topic if edit mode = true;
+  return store.topics
+    .map((topic) => {
+      return {
+        ...topic,
+        parents: useGetParentTopics(store.topics, topic),
+      };
+    })
+    .filter(
+      (t) => !t.parents.some((parent) => parent.id === topic.value.topic_id)
+    );
 });
+
 // const parent = toRef(props, "parentTopic");
+
+const topicHierarchy = computed(() => {
+  const topicName = topic.value?.topic_name ?? "";
+  if (!props.parentTopic) return `${topicName}`;
+
+  const _topic = store.topics.find(
+    (topic) => props.parentTopic === topic.topic_id
+  );
+
+  const parents = {
+    ..._topic,
+    parents: useGetParentTopics(store.topics, _topic),
+  }?.parents
+    ?.reduce((acc, topic) => [...acc, topic.name], [])
+    ?.reverse()
+    ?.join(" . ");
+
+  return `${parents} . ${topicName}`;
+});
+
+const changeParentTopic = () => {};
 
 const createTopic = async () => {
   const newTopic = {
@@ -96,7 +144,12 @@ const createTopic = async () => {
 };
 
 const updateTopic = async () => {
-  await store.updateTopic(topic.value);
+  const newTopic = {
+    id: topic.value.topic_id,
+    name: topic.value.topic_name,
+    parent_id: props.parentTopic,
+  };
+  await store.updateTopic(newTopic);
   emit("close");
 };
 </script>

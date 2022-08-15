@@ -143,8 +143,6 @@ export const useStore = defineStore("mainStore", {
     async updateVerseTopics({ verseId, oldTopics, newTopics }) {
       const { toAdd, toDelete } = Topic.sync(oldTopics, newTopics);
 
-      console.log(toAdd, toDelete);
-
       for (let topic of toDelete) {
         await VerseTopic.delete([
           ["verse_id", verseId],
@@ -189,8 +187,14 @@ export const useStore = defineStore("mainStore", {
       this.topics.push(topic);
     },
 
-    async updateTopic({ topic_id: id, topic_name: name }) {
-      await Topic.update([["id", id]], [["name", name]]);
+    async updateTopic({ id, name, parent_id }) {
+      await Topic.update(
+        [["id", id]],
+        [
+          ["name", name],
+          ["parent_id", parent_id],
+        ]
+      );
 
       await useReplace("topic", id, {
         group: true,

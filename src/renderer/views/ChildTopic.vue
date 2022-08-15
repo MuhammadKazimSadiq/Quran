@@ -235,7 +235,7 @@ const openModal = (modal, topic) => {
   modals[modal] = true;
 };
 
-const closeModal = (modal) => {
+const closeModal = async (modal) => {
   modals[modal] = false;
   selectedTopic.value = {};
 };
