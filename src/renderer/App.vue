@@ -27,9 +27,9 @@
     <Notification />
     <!-- Notification End -->
 
-    <!-- Audio Panel -->
-    <!-- <AudioPanel /> -->
-    <!-- Audio Panel -->
+    <!-- Audio Player -->
+    <!-- <AudioPlayer /> -->
+    <!-- Audio Player -->
   </div>
   <!-- Root end -->
 </template>
@@ -46,7 +46,7 @@ import { useStore } from "./store/store";
 import Nav from "./components/Nav.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CommandPalette from "./components/CommandPalette.vue";
-import AudioPanel from "./components/AudioPanel.vue";
+import AudioPlayer from "./components/AudioPlayer.vue";
 import Notification from "./components/Notification.vue";
 
 // store
