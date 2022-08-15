@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Nazanin";
+  src: url("./assets/fonts/Nazanin.ttf");
+}
+
+@font-face {
+  font-family: "UsmanTaha";
+  src: url("./assets/fonts/UsmanTaha.ttf");
+}

@@ -6,8 +6,8 @@ module.exports = {
     extend: {
       fontFamily: {
         english: ["Calibri"],
-        farsi: ["B Nazanin"],
-        arabic: ["Usman_Taha"],
+        farsi: ["Nazanin"],
+        arabic: ["UsmanTaha"],
       },
     },
   },

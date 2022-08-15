@@ -82,7 +82,7 @@ import {
 } from "@heroicons/vue/outline";
 
 // images
-import QuranLogo from "../assets/Quran.png";
+import QuranLogo from "../assets/images/Quran.png";
 
 //store
 const store = useStore();

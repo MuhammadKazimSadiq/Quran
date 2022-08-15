@@ -37,8 +37,8 @@
 </template>
 
 <script setup>
-import MakkiImg from "../assets/Makki.png";
-import MadaniImg from "../assets/Madani.png";
+import MakkiImg from "../assets/images/Makki.png";
+import MadaniImg from "../assets/images/Madani.png";
 
 const revelationPlace = (place) => {
   return place === "makki" ? MakkiImg : MadaniImg;
