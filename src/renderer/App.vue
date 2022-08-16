@@ -28,7 +28,7 @@
     <!-- Notification End -->
 
     <!-- Audio Player -->
-    <!-- <AudioPlayer /> -->
+    <AudioPlayer />
     <!-- Audio Player -->
   </div>
   <!-- Root end -->
@@ -64,7 +64,7 @@ import { useFetch } from "./composables/fetch";
 // config
 import { versesConfig, topicsConfig } from "./config/groupConfig";
 
-// onMount --> fetch all chapters, verses, settings, translations, vocab, topics
+// onMount --> fetch data
 onMounted(async () => {
   await useFetch("setting", { toObject: true });
   await useFetch("chapter");
@@ -72,6 +72,7 @@ onMounted(async () => {
   await useFetch("translation");
   await useFetch("topic", { group: true, groupConfig: topicsConfig });
   await useFetch("vocabulary", { storeName: "vocabulary" });
+  await useFetch("reciter");
 });
 
 // keyboard shortcuts

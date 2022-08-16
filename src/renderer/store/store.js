@@ -9,6 +9,7 @@ import Translation from "../model/Translation";
 import Setting from "../model/Setting";
 import Topic from "../model/Topic";
 import VerseTopic from "../model/VerseTopic";
+import Reciter from "../model/Reciter";
 
 // composables
 import { useGroup } from "../composables/group";
@@ -26,6 +27,7 @@ export const useStore = defineStore("mainStore", {
     settings: [], // enabled_translations, theme
     translations: [],
     topics: [],
+    reciters: [],
 
     // theme
     theme: "light",
@@ -104,6 +106,13 @@ export const useStore = defineStore("mainStore", {
       if (bookmarked) await Bookmark.delete([["verse_id", id]]);
       else await Bookmark.insert({ verse_id: id });
       await useReplace("verse", id, { group: true, groupConfig: versesConfig });
+    },
+
+    changeSelectedReciter(reciter) {
+      Setting.update(
+        [["name", "selectedReciter"]],
+        [["value", `"${reciter}"`]]
+      );
     },
 
     changeTheme() {

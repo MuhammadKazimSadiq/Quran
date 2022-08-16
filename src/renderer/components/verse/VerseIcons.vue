@@ -1,9 +1,9 @@
 <template>
   <!-- play icon -->
   <div v-if="icons.includes('play')" @click="null">
-    <!-- <PlayIcon
+    <PlayIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-    /> -->
+    />
   </div>
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">

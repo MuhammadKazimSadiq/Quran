@@ -3,5 +3,7 @@ export default {
   type: "seeder",
   query: `INSERT INTO "settings" ("id", "name", "value") VALUES
           (1, 'enabled_translations', '["fa_makarem"]'),
-          (2, 'theme', '"light"');`,
+          (2, 'theme', '"light"'),
+          (3, 'selectedReciter', '"4"');
+        `,
 };

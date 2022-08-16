@@ -1,0 +1,25 @@
+export default {
+  name: "seed_reciters_table",
+  type: "seeder",
+  query: `INSERT INTO "reciters" ("id", "name", "url") VALUES
+          (1, 'منشاوی', 'http://everyayah.com/data/Menshawi_16kbps/'),
+          (2, 'الغامدي', 'http://everyayah.com/data/Ghamadi_40kbps/'),
+          (3, 'الشاطري', 'http://everyayah.com/data/Abu%20Bakr%20Ash-Shaatree_128kbps/'),
+          (4, 'العفاسي', 'http://everyayah.com/data/Alafasy_128kbps/'),
+          (5, 'الشریم', 'http://everyayah.com/data/Saood%20bin%20Ibraaheem%20Ash-Shuraym_128kbps/'),
+          (6, 'ایوب', 'http://everyayah.com/data/Muhammad_Ayyoub_128kbps/'),
+          (7, 'العجمي', 'http://everyayah.com/data/Ahmed_ibn_Ali_al-Ajamy_64kbps_QuranExplorer.Com/'),
+          (8, 'الحذیفي', 'http://everyayah.com/data/Hudhaify_32kbps/'),
+          (9, 'عبد الباسط', 'http://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/'),
+          (10, 'الحصري', 'http://everyayah.com/data/Husary_128kbps/'),
+          (11, 'عبد الله بصفر', 'http://everyayah.com/data/Abdullah_Basfar_192kbps/'),
+          (12, 'السدیس', 'http://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/'),
+          (13, 'المعيقلي', 'http://www.everyayah.com/data/MaherAlMuaiqly128kbps/'),
+          (14, 'الطبلاوي', 'http://www.everyayah.com/data/Mohammad_al_Tablaway_128kbps/'),
+          (15, 'الرفاعي', 'http://www.everyayah.com/data/Hani_Rifai_192kbps/'),
+          (16, 'الأخضر', 'http://www.everyayah.com/data/Ibrahim_Akhdar_32kbps/'),
+          (17, 'پرهیزگار', 'http://www.everyayah.com/data/Parhizgar_48kbps/'),
+          (18, 'کریم منصور', 'http://www.everyayah.com/data/Karim_Mansoori_40kbps/'),
+          (19, 'الطنیجی', 'http://www.everyayah.com/data/khalefa_al_tunaiji_64kbps/');
+          `,
+};

@@ -10,6 +10,7 @@ import Translation from "../model/Translation";
 import Setting from "../model/Setting";
 import Topic from "../model/Topic";
 import VerseTopic from "../model/VerseTopic";
+import Reciter from "../model/Reciter";
 
 // composables
 import { useStringManipulate } from "./stringManipulate";
@@ -24,6 +25,7 @@ const classes = {
   Setting,
   Topic,
   VerseTopic,
+  Reciter,
 };
 
 export function useFetch(
