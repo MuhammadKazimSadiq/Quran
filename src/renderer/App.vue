@@ -16,7 +16,7 @@
         <!-- navigation end -->
 
         <!-- main view -->
-        <main class="overflow-x-auto bg-white p-6 dark:bg-gray-900">
+        <main class="mb-20 overflow-x-auto bg-white p-6 dark:bg-gray-900">
           <router-view></router-view>
         </main>
         <!-- main view end -->

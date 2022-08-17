@@ -1,6 +1,6 @@
 <template>
   <!-- play icon -->
-  <div v-if="icons.includes('play')" @click="null">
+  <div v-if="icons.includes('play')" @click="play(verse)">
     <PlayIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
@@ -55,6 +55,8 @@
 </template>
 
 <script setup>
+// vue
+import { inject } from "vue";
 // router
 import { useRoute, useRouter } from "vue-router";
 
@@ -97,6 +99,11 @@ const route = useRoute();
 
 // store
 const store = useStore();
+
+// event emitter
+const emitter = inject("emitter");
+
+const play = (verse) => emitter.emit("play", verse);
 
 // go to verse
 const goToVerse = ({ id, chapter_id }) => {
