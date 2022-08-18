@@ -28,7 +28,7 @@
     <!-- Notification End -->
 
     <!-- Audio Player -->
-    <!-- <AudioPlayer /> -->
+    <AudioPlayer />
     <!-- Audio Player -->
   </div>
   <!-- Root end -->
