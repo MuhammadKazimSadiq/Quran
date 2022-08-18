@@ -10,6 +10,7 @@ import Setting from "../model/Setting";
 import Topic from "../model/Topic";
 import VerseTopic from "../model/VerseTopic";
 import Reciter from "../model/Reciter";
+import VerseWord from "../model/VerseWord";
 
 // composables
 import { useGroup } from "../composables/group";
@@ -24,10 +25,12 @@ export const useStore = defineStore("mainStore", {
     chapters: [],
     verses: [],
     vocabulary: [],
-    settings: [], // enabled_translations, theme
+    settings: [], // enabled_translations, theme, selectedReciter
     translations: [],
     topics: [],
     reciters: [],
+
+    words: [],
 
     // theme
     theme: "light",
@@ -284,6 +287,11 @@ export const useStore = defineStore("mainStore", {
       await Vocabulary.delete([["id", id]]);
       const index = this.vocabulary.findIndex((word) => word.vocab_id === id);
       this.vocabulary.splice(index, 1);
+    },
+
+    async getChapterWords(chapterId) {
+      const words = await VerseWord.find([], [["chapter", chapterId]]);
+      this.words[chapterId - 1] = words;
     },
   },
 });

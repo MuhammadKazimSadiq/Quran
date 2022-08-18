@@ -28,7 +28,7 @@
     <!-- Notification End -->
 
     <!-- Audio Player -->
-    <AudioPlayer />
+    <!-- <AudioPlayer /> -->
     <!-- Audio Player -->
   </div>
   <!-- Root end -->
@@ -63,6 +63,8 @@ import { useFetch } from "./composables/fetch";
 
 // config
 import { versesConfig, topicsConfig } from "./config/groupConfig";
+
+import VerseWord from "./model/VerseWord";
 
 // onMount --> fetch data
 onMounted(async () => {

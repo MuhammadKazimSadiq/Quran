@@ -11,3 +11,8 @@
   font-family: "UsmanTaha";
   src: url("./assets/fonts/UsmanTaha.ttf");
 }
+
+@font-face {
+  font-family: "QuranTaha";
+  src: url("./assets/fonts/QuranTaha.ttf");
+}

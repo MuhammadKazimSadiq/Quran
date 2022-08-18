@@ -1,7 +1,8 @@
 <template>
   <div
+    id="audio-player"
     dir="ltr"
-    class="fixed bottom-0 mr-[46px] flex-col bg-gray-50 dark:bg-gray-800"
+    class="fixed bottom-0 mr-[46px] flex-col bg-gray-50 transition-transform duration-500 dark:bg-gray-800"
     style="width: calc(100% - 46px)"
   >
     <!-- progress -->
@@ -52,7 +53,7 @@
         </div>
         <!-- current time end -->
 
-        <div class="ml-12 flex items-center gap-4">
+        <div class="ml-12 flex items-center justify-between gap-8">
           <!-- reciters -->
           <div>
             <select
@@ -67,6 +68,14 @@
             </select>
           </div>
           <!-- reciters end -->
+
+          <!-- chapter & verse -->
+          <div class="p-2">
+            <div class="font-farsi text-lg text-black dark:text-white">
+              {{ verse?.chapter_name }} : {{ verse?.verse_id }}
+            </div>
+          </div>
+          <!-- chapter & verse end -->
         </div>
       </div>
 

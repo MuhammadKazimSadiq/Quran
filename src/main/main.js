@@ -80,7 +80,7 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
 });
 
 // listen for db requests
-ipcMain.on("request", async (event, { query, type = "all" }) => {
+ipcMain.handle("request", async (event, { query, type = "all" }) => {
   const response = await db.query(query, type);
-  event.reply("response", response);
+  return response;
 });

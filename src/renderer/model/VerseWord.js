@@ -5,5 +5,12 @@ export default class VerseWord extends Model {
     super();
   }
 
-  static table = "verse_words";
+  static order = [
+    "verse_word.page",
+    "verse_word.verse_id",
+    "verse_word.line",
+    "verse_word.position",
+  ];
+
+  static table = "verse_word";
 }

@@ -3,7 +3,7 @@
     Test
   </div>
 
-  <div class="mt-12 flex justify-center"></div>
+  <div class="mt-12"></div>
 </template>
 
 <script setup>
@@ -12,14 +12,12 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "../store/store";
 const store = useStore();
 
-import VerseWord from "../model/VerseWord";
-
-const fetchWords = async ({ chapter_id, verse_id } = {}) => {
-  const url = `https://api.qurancdn.com/api/qdc/verses/by_key/${chapter_id}:${verse_id}?words=true&word_translation_language=fa&word_fields=verse_key%2Cverse_id%2Cpage_number%2Clocation`;
-  const response = await fetch(url);
-  const result = await response.json();
-  return result.verse;
-};
+// const fetchWords = async ({ chapter_id, verse_id } = {}) => {
+//   const url = `https://api.qurancdn.com/api/qdc/verses/by_key/${chapter_id}:${verse_id}?words=true&word_translation_language=en&word_fields=verse_key%2Cverse_id%2Cpage_number%2Clocation`;
+//   const response = await fetch(url);
+//   const result = await response.json();
+//   return result.verse;
+// };
 
 // onMounted(() => {
 //   setTimeout(async () => {

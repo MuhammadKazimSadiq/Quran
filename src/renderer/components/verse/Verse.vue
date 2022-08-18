@@ -79,7 +79,8 @@
       <!-- left side end -->
     </div>
     <!-- hr -->
-    <div class="h-px w-full bg-gray-100"></div>
+    <div class="h-[2px] w-full bg-gray-100 dark:bg-gray-700"></div>
+    <!-- hr end -->
   </div>
 </template>
 
