@@ -1,7 +1,7 @@
 export default {
   name: "create_verse_word_table",
   type: "migration",
-  query: `CREATE TABLE IF NOT EXISTS "verse_word" 
+  query: `CREATE TABLE "verse_word" 
           (
             "id" serial,
             "verse_id" integer
@@ -11,10 +11,12 @@ export default {
             "fa" varchar,
             "en" varchar,
             "position" integer,
-            "line_number" integer,
-            "page_number" integer,
+            "line" integer,
+            "page" integer,
+            "chapter" integer, 
+            "section" integer,
             "location" varchar,
-            "char_type_name" varchar,
+            "char_type_name" varchar, 
             PRIMARY KEY ("id")
           );`,
 };

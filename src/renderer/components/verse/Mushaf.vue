@@ -1,5 +1,12 @@
 <template>
   <div class="w-full">
+    <!-- Bismillah -->
+    <div
+      class="my-4 flex justify-center text-center text-black dark:text-white"
+    >
+      <Bismillah />
+    </div>
+    <!-- Bismillah end -->
     <div
       v-for="{ page, section, lines } in pages"
       class="page text-center"
@@ -25,6 +32,7 @@ import { useStore } from "../../store/store";
 import { useIntersectionObserver } from "../../composables/intersectionObserver";
 
 // components
+import Bismillah from "./Bismillah.vue";
 import MushafPage from "./MushafPage.vue";
 
 // store

@@ -61,7 +61,15 @@
 
 <script setup>
 // vue
-import { ref, toRefs, watch, computed, onMounted, onUnmounted } from "vue";
+import {
+  ref,
+  toRefs,
+  watch,
+  computed,
+  onMounted,
+  onUnmounted,
+  defineAsyncComponent,
+} from "vue";
 // router
 import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
 // pinia
@@ -77,7 +85,10 @@ import { useIntersectionObserver } from "../composables/intersectionObserver";
 // components
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import VerseList from "../components/verse/VerseList.vue";
-import Mushaf from "../components/verse/Mushaf.vue";
+
+const Mushaf = defineAsyncComponent(() =>
+  import("../components/verse/Mushaf.vue")
+);
 import NavigationButtons from "../components/NavigationButtons.vue";
 
 // route
