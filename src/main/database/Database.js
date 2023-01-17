@@ -1,4 +1,3 @@
-import { app } from "electron";
 import { join } from "path";
 import fs from "fs";
 
@@ -37,9 +36,11 @@ export default class Database {
 
   async query(command, method = "all") {
     return new Promise((resolve, reject) => {
-      this.db[method](command, (error, result) => {
-        if (error) reject(error);
-        else resolve(result);
+      this.db.serialize(() => {
+        this.db[method](command, (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        });
       });
     });
   }

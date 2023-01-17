@@ -35,6 +35,12 @@
 </template>
 
 <script setup>
+import { ipcRenderer } from "./electron";
+ipcRenderer
+  .subscribe("event")
+  .then((message) => console.log(message))
+  .catch((error) => console.error(error));
+
 // vue
 import { onMounted } from "vue";
 // router
