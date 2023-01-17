@@ -82,7 +82,7 @@
       <!-- icons -->
       <div class="flex shrink-0 grow-0 basis-1/3 flex-row justify-center gap-8">
         <div>
-          <RewindIcon
+          <BackwardIcon
             @click="prev()"
             class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
           />
@@ -104,7 +104,7 @@
           />
         </div>
         <div>
-          <FastForwardIcon
+          <ForwardIcon
             @click="next()"
             class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
           />
@@ -119,7 +119,7 @@
           <!-- volume -->
           <div class="flex gap-2">
             <component
-              :is="player?.muted ? VolumeOffIcon : VolumeUpIcon"
+              :is="player?.muted ? SpeakerXMarkIcon : SpeakerWaveIcon"
               class="w-6 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
               @click="toggleMute"
             />
@@ -186,11 +186,11 @@ import LoaderIcon from "../components/LoaderIcon.vue";
 import {
   PlayIcon,
   PauseIcon,
-  FastForwardIcon,
-  RewindIcon,
-  VolumeUpIcon,
-  VolumeOffIcon,
-} from "@heroicons/vue/outline";
+  ForwardIcon,
+  BackwardIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+} from "@heroicons/vue/24/outline";
 import Slider from "@vueform/slider";
 
 // store
@@ -274,6 +274,9 @@ const load = async () => {
 
 const play = async () => {
   if (!loaded.value) await load();
+
+  // change speed
+  player.value.playbackRate = speed.value;
 
   isPlaying.value = true;
   player.value.play();

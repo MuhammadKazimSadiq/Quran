@@ -8,11 +8,11 @@
           @click="store.commandPalette = true"
         >
           <div class="flex justify-start gap-3 text-xl text-gray-600">
-            <SearchIcon class="text-gray-400 dark:text-gray-100" />
+            <MagnifyingGlassIcon class="w-6 text-gray-400 dark:text-gray-100" />
             <div class="dark:text-gray-100">جستجو...</div>
           </div>
           <div class="rounded-md bg-gray-200 py-1 px-2 font-english text-xs">
-            ctrl K
+            <kbd>ctrl K</kbd>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ import { useStore } from "../store/store";
 
 // components
 import ChapterItem from "../components/ChapterItem.vue";
-import { SearchIcon } from "@heroicons/vue/outline";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 
 // store
 const store = useStore();

@@ -8,6 +8,7 @@ export default {
                 constraint verse_word_verses_id_fk
                 references verses (id),
             "text" varchar,
+            "code" varchar,
             "fa" varchar,
             "en" varchar,
             "position" integer,

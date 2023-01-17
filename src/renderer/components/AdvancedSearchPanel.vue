@@ -17,7 +17,7 @@
           type="text"
           placeholder="عبارت"
         />
-        <XIcon
+        <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchExact.length,
@@ -35,7 +35,7 @@
           type="text"
           placeholder="همه کلمات"
         />
-        <XIcon
+        <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchAllWords.length,
@@ -53,7 +53,7 @@
           type="text"
           placeholder="بعضی از کلمات"
         />
-        <XIcon
+        <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchAnyWord.length,
@@ -79,7 +79,7 @@
             type="text"
             placeholder="بدون کلمات/ عبارت"
           />
-          <XIcon
+          <XMarkIcon
             class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
             :class="{
               'opacity-100': searchNot.length,
@@ -98,7 +98,7 @@
           type="text"
           placeholder="ابتداء با"
         />
-        <XIcon
+        <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchStartWith.length,
@@ -116,7 +116,7 @@
           type="text"
           placeholder="انتهاء با"
         />
-        <XIcon
+        <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchEndWith.length,
@@ -155,7 +155,7 @@ import { useStore } from "../store/store";
 
 // components
 import LoaderIcon from "./LoaderIcon.vue";
-import { XIcon } from "@heroicons/vue/outline";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 
 // store
 const store = useStore();

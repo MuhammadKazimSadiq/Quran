@@ -36,6 +36,7 @@
         <TabPanel class="ring-0 focus:outline-none focus:ring-0">
           <VerseList
             :verses="getVersesByChapter(params.id)"
+            :useChapterName="false"
             :lazyLoad="['topics']"
             :icons="['play', 'copyToClipboard', 'bookmark']"
           />

@@ -38,7 +38,7 @@
           >
             <div class="flex items-center px-4">
               <!-- search icon -->
-              <SearchIcon class="h-6 w-6 text-gray-500" />
+              <MagnifyingGlassIcon class="w-6 text-gray-500" />
               <!-- combobox input -->
               <ComboboxInput
                 @change="onSearch($event.target.value)"
@@ -210,7 +210,7 @@ import {
   TransitionRoot,
   TransitionChild,
 } from "@headlessui/vue";
-import { SearchIcon } from "@heroicons/vue/outline";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 
 // store
 import { useStore } from "../store/store";

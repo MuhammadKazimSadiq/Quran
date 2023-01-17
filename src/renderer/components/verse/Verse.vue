@@ -69,7 +69,9 @@
       <div class="mt-8 flex flex-col gap-6">
         <!-- chapter:verse -->
         <div class="text-md text-gray-600 text-opacity-70 dark:text-gray-200">
-          {{ verse.chapter_id }}:{{ verse.verse_id }}
+          {{ useChapterName ? verse.chapter_name : verse.chapter_id }}:{{
+            verse.verse_id
+          }}
         </div>
 
         <!-- icons -->
@@ -107,6 +109,10 @@ const props = defineProps({
   verse: {
     type: Object,
     required: true,
+  },
+  useChapterName: {
+    type: Boolean,
+    default: true,
   },
   prevVerse: {
     type: Object,

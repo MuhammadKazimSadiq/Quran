@@ -10,7 +10,7 @@
 import { ref } from "vue";
 import { useStore } from "../store/store";
 
-import { SunIcon, MoonIcon } from "@heroicons/vue/outline";
+import { SunIcon, MoonIcon } from "@heroicons/vue/24/outline";
 
 const store = useStore();
 </script>

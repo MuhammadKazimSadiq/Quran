@@ -7,7 +7,7 @@
   </div>
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">
-    <ArrowNarrowLeftIcon
+    <ArrowLongLeftIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
@@ -15,7 +15,7 @@
 
   <!-- copy icon -->
   <div v-if="icons.includes('copyToClipboard')" @click="copyToClipboard(verse)">
-    <DuplicateIcon
+    <DocumentDuplicateIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     />
   </div>
@@ -38,7 +38,7 @@
 
   <!-- remove topic icon -->
   <div v-if="icons.includes('removeTopic')">
-    <XIcon
+    <XMarkIcon
       class="w-5 cursor-pointer text-red-600 text-opacity-70 hover:text-red-700 dark:text-red-700 dark:hover:text-red-600"
       @click="removeTopic(verse)"
     />
@@ -47,7 +47,7 @@
 
   <!-- options icon -->
   <!-- <div v-if="icons.includes('options')">
-    <DotsHorizontalIcon
+    <EllipsisHorizontalIcon
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900"
     />
   </div> -->
@@ -65,15 +65,15 @@ import { useStore } from "../../store/store";
 
 // components
 import {
-  ArrowNarrowLeftIcon,
+  ArrowLongLeftIcon,
   PlayIcon,
   BookmarkIcon,
-  XIcon,
-  DuplicateIcon,
-  DotsHorizontalIcon,
-} from "@heroicons/vue/outline";
+  XMarkIcon,
+  DocumentDuplicateIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/vue/24/outline";
 
-import { BookmarkIcon as BookmarkFillIcon } from "@heroicons/vue/solid";
+import { BookmarkIcon as BookmarkFillIcon } from "@heroicons/vue/24/solid";
 
 // composables
 import { useClipboard } from "@vueuse/core";

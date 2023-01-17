@@ -28,7 +28,7 @@
         to="/search"
         class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
       >
-        <SearchIcon
+        <MagnifyingGlassIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
@@ -44,7 +44,7 @@
         to="/topics"
         class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
       >
-        <CollectionIcon
+        <QueueListIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
@@ -52,16 +52,16 @@
         to="/vocabulary"
         class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
       >
-        <TableIcon
+        <TableCellsIcon
           class="h-5 w-6 dark:text-gray-100 dark:hover:text-gray-400"
         />
       </router-link>
-      <!-- <router-link
+      <router-link
         to="/test"
         class="rounded-md bg-red-300 p-2 focus:outline-gray-300 focus:ring-0"
       >
         <SparklesIcon />
-      </router-link> -->
+      </router-link>
     </div>
   </aside>
 </template>
@@ -74,12 +74,12 @@ import { useStore } from "../store/store";
 import {
   HomeIcon,
   BookOpenIcon,
-  SearchIcon,
+  MagnifyingGlassIcon,
   BookmarkIcon,
-  CollectionIcon,
-  TableIcon,
+  QueueListIcon,
+  TableCellsIcon,
   SparklesIcon,
-} from "@heroicons/vue/outline";
+} from "@heroicons/vue/24/outline";
 
 // images
 import QuranLogo from "../assets/images/Quran.png";

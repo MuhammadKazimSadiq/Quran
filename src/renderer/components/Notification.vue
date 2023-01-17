@@ -9,7 +9,7 @@
     leave-to="opacity-0"
   >
     <div
-      class="pointer-events-none fixed bottom-0 right-10 left-0 flex items-end justify-center px-4 py-6 sm:items-start sm:justify-start sm:p-6"
+      class="pointer-events-none fixed bottom-0 right-10 left-0 z-50 flex items-end justify-center px-4 py-6 sm:items-start sm:justify-start sm:p-6"
     >
       <div
         class="pointer-events-auto w-full max-w-sm rounded-lg shadow-lg"
@@ -35,7 +35,7 @@
                   @click="store.notification.show = false"
                   class="inline-flex text-gray-400 transition duration-150 ease-in-out focus:text-gray-500 focus:outline-none"
                 >
-                  <XIcon
+                  <XMarkIcon
                     class="w-6 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-300/40 dark:text-gray-100 dark:hover:bg-gray-100/20"
                   />
                 </button>
@@ -55,7 +55,7 @@ import { computed } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import { useStore } from "../store/store";
 
-import { XIcon } from "@heroicons/vue/outline";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 
 const store = useStore();
 

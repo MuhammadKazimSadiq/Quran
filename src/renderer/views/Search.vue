@@ -12,7 +12,7 @@
       <!-- right side -->
       <div class="flex flex-1 justify-start">
         <!-- search icon -->
-        <SearchIcon
+        <MagnifyingGlassIcon
           class="mr-2 w-5 text-gray-400 dark:text-gray-300 dark:hover:text-gray-400"
         />
         <!-- search icon end -->
@@ -35,7 +35,7 @@
           v-if="searching"
           class="w-6 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600"
         />
-        <XIcon
+        <XMarkIcon
           class="w-8 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchString.length,
@@ -122,7 +122,7 @@
 
             <div>
               <!-- clear icon -->
-              <XIcon
+              <XMarkIcon
                 @click="removeSearchResult(i)"
                 class="w-6 cursor-pointer rounded-full p-1 text-gray-600 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
               />
@@ -183,10 +183,10 @@ import { useRoute } from "vue-router";
 // components
 import {
   InformationCircleIcon,
-  SearchIcon,
-  XIcon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
   ChevronUpIcon,
-} from "@heroicons/vue/outline";
+} from "@heroicons/vue/24/outline";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import VerseList from "../components/verse/VerseList.vue";
 import LoaderIcon from "../components/LoaderIcon.vue";

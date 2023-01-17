@@ -8,7 +8,7 @@
     >
       <div class="flex flex-1 justify-start">
         <!-- search icon -->
-        <SearchIcon
+        <MagnifyingGlassIcon
           class="mr-2 w-5 text-gray-400 dark:text-gray-300 dark:hover:text-gray-400"
         />
         <!-- search icon end -->
@@ -170,7 +170,11 @@ import { useStore } from "../store/store";
 
 // components
 import Modal from "../components/Modal.vue";
-import { SearchIcon, PencilIcon, TrashIcon } from "@heroicons/vue/outline";
+import {
+  MagnifyingGlassIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/outline";
 
 // store
 const store = useStore();

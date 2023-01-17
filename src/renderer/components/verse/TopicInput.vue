@@ -23,7 +23,7 @@
               class="flex min-w-max gap-2 rounded-lg border border-gray-300 bg-inherit p-2 text-xs dark:border-gray-700 dark:text-gray-100"
             >
               <span>{{ topic.topic_name }}</span>
-              <XIcon
+              <XMarkIcon
                 @click.stop="selectedTopics.splice(i, 1) && onUpdate()"
                 class="w-3 cursor-pointer text-gray-700/60 dark:text-gray-300/60"
               />
@@ -43,11 +43,11 @@
 
         <!-- save & cancel icons -->
         <div v-if="showSaveIcon" class="flex gap-2">
-          <SaveIcon
+          <ArrowDownTrayIcon
             @click="updateTopics()"
             class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
           />
-          <XIcon
+          <XMarkIcon
             @click="cancel()"
             class="h-4 w-4 cursor-pointer text-gray-600/60 dark:text-gray-200/70"
           />
@@ -141,11 +141,11 @@ import {
 } from "@headlessui/vue";
 
 import {
-  XIcon,
+  XMarkIcon,
   CheckIcon,
   PlusCircleIcon,
-  SaveIcon,
-} from "@heroicons/vue/outline";
+  ArrowDownTrayIcon,
+} from "@heroicons/vue/24/outline";
 
 // store
 import { useStore } from "../../store/store";

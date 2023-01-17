@@ -9,6 +9,12 @@
 
       <!-- icons -->
       <div class="flex justify-center gap-4">
+        <!-- fullscreen icon -->
+        <ArrowsPointingOutIcon
+          class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
+        />
+        <!-- fullscreen icon end -->
+
         <!-- toggle theme switch -->
         <ToggleThemeSwitch />
         <!-- toggle theme switch end -->
@@ -18,7 +24,7 @@
           to="/settings"
           class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
         >
-          <CogIcon
+          <Cog8ToothIcon
             class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
           />
         </router-link>
@@ -67,7 +73,10 @@ import { useStore } from "../store/store";
 // components
 import ProgressIndicator from "../components/ProgressIndicator.vue";
 import ToggleThemeSwitch from "../components/ToggleThemeSwitch.vue";
-import { CogIcon } from "@heroicons/vue/outline";
+import {
+  Cog8ToothIcon,
+  ArrowsPointingOutIcon,
+} from "@heroicons/vue/24/outline";
 
 // route
 const route = useRoute();

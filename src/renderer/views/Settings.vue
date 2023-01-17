@@ -45,7 +45,7 @@
           dir="ltr"
           class="rounded-md bg-gray-200 py-1 px-2 font-english text-xs"
         >
-          {{ shortcut.keys }}
+          <kbd>{{ shortcut.keys }}</kbd>
         </div>
       </div>
     </div>

@@ -15,6 +15,7 @@
             v-if="!lazyLoadVerse || loadedVerses.includes(verse.id)"
             :prevVerse="verses[i - 1] ?? {}"
             :verse="verse"
+            :useChapterName="useChapterName"
             :lazyLoad="lazyLoad"
             :loadedVerses="loadedVerses"
             :icons="icons"
@@ -65,7 +66,7 @@
           <PlusIcon class="w-5 text-gray-700 dark:text-gray-300" />
         </div>
         <div class="cursor-pointer" @click="searchSelection()">
-          <SearchIcon class="w-5 text-gray-700 dark:text-gray-300" />
+          <MagnifyingGlassIcon class="w-5 text-gray-700 dark:text-gray-300" />
         </div>
       </div>
       <!-- icons end -->
@@ -124,7 +125,7 @@ import { useStore } from "../../store/store";
 import Verse from "./Verse.vue";
 import Popup from "../Popup.vue";
 
-import { SearchIcon, PlusIcon } from "@heroicons/vue/outline";
+import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/vue/24/outline";
 
 // route
 const route = useRoute();
@@ -142,6 +143,10 @@ const props = defineProps({
     type: Array,
     required: true,
     default: [],
+  },
+  useChapterName: {
+    type: Boolean,
+    default: true,
   },
   lazyLoad: {
     type: [Boolean, Array],

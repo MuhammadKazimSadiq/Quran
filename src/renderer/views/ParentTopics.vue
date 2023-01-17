@@ -8,7 +8,7 @@
     >
       <div class="flex flex-1 justify-start">
         <!-- search icon -->
-        <SearchIcon
+        <MagnifyingGlassIcon
           class="mr-2 w-5 text-gray-400 dark:text-gray-300 dark:hover:text-gray-400"
         />
         <!-- search icon end -->
@@ -112,12 +112,12 @@ import EditTopicModal from "../components/EditTopicModal.vue";
 import DeleteTopicModal from "../components/DeleteTopicModal.vue";
 
 import {
-  SearchIcon,
+  MagnifyingGlassIcon,
   PlusIcon,
   ChevronUpIcon,
   PencilIcon,
   TrashIcon,
-} from "@heroicons/vue/outline";
+} from "@heroicons/vue/24/outline";
 
 // composables
 import { useGetChildren } from "../composables/getChildren";
