@@ -1,9 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("ipcRenderer", {
-  invoke: (channel, args) => {
-    const validChannels = ["request"];
-    if (!validChannels.includes(channel)) return;
+  invoke: (channel, args = {}) => {
+    const validChannels = ["request", "export", "import"];
+    if (!validChannels.includes(channel)) {
+      return console.log("Not a valid channel!");
+    }
     return ipcRenderer.invoke(channel, args);
   },
   subscribe: (channel) => {

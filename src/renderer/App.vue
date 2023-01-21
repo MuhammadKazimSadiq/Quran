@@ -35,12 +35,8 @@
 </template>
 
 <script setup>
+// ipcRenderer
 import { ipcRenderer } from "./electron";
-ipcRenderer
-  .subscribe("event")
-  .then((message) => console.log(message))
-  .catch((error) => console.error(error));
-
 // vue
 import { onMounted } from "vue";
 // router
@@ -48,12 +44,24 @@ import { useRouter, useRoute } from "vue-router";
 // store
 import { useStore } from "./store/store";
 
+// composables
+import { useFetch } from "./composables/fetch";
+
+// config
+import { versesConfig, topicsConfig } from "./config/groupConfig";
+
 // components
 import Nav from "./components/Nav.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CommandPalette from "./components/CommandPalette.vue";
 import AudioPlayer from "./components/AudioPlayer.vue";
 import Notification from "./components/Notification.vue";
+
+// subscribe to main event events
+ipcRenderer
+  .subscribe("event")
+  .then((message) => console.log(message))
+  .catch((error) => console.error(error));
 
 // store
 const store = useStore();
@@ -63,14 +71,6 @@ const router = useRouter();
 
 // route
 const route = useRoute();
-
-// composables
-import { useFetch } from "./composables/fetch";
-
-// config
-import { versesConfig, topicsConfig } from "./config/groupConfig";
-
-import VerseWord from "./model/VerseWord";
 
 // onMount --> fetch data
 onMounted(async () => {

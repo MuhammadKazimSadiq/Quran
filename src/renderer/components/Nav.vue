@@ -8,7 +8,7 @@
       <!-- app name -->
 
       <!-- icons -->
-      <div class="flex justify-center gap-4">
+      <div class="flex justify-center gap-6 p-2">
         <!-- fullscreen icon -->
         <ArrowsPointingOutIcon
           class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"
@@ -22,7 +22,7 @@
         <!-- settings icon -->
         <router-link
           to="/settings"
-          class="rounded-md p-2 focus:outline-gray-300 focus:ring-0"
+          class="rounded-md focus:outline-gray-300 focus:ring-0"
         >
           <Cog8ToothIcon
             class="w-6 text-gray-600 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-400"

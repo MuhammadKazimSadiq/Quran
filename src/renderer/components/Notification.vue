@@ -49,9 +49,6 @@
 </template>
 
 <script setup>
-// vue
-import { computed } from "vue";
-
 import { TransitionRoot } from "@headlessui/vue";
 import { useStore } from "../store/store";
 

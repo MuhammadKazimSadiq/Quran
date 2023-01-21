@@ -3,16 +3,37 @@
     Test
   </div>
 
-  <div class="mt-12"></div>
+  <button @click="onExport">Export</button>
+
+  <form @submit.prevent="onImport">
+    <input
+      class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
+      type="file"
+    />
+    <button type="submit">Import</button>
+  </form>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ipcRenderer } from "../electron";
 
-import { useStore } from "../store/store";
-const store = useStore();
+const onExport = () => {
+  ipcRenderer.invoke("export").then((data) => {
+    // console.log(data);
+  });
+};
 
-import VerseWord from "../model/VerseWord";
+const onImport = (e) => {
+  const path = e.target[0].files[0].path;
+  ipcRenderer.invoke("import", { path }).then((data) => {
+    console.log(data);
+  });
+};
+// import { ref, computed, onMounted } from "vue";
+
+// import { useStore } from "../store/store";
+// import VerseWord from "../model/VerseWord";
+// const store = useStore();
 
 // const fetchWords = async ({ chapter_id, verse_id } = {}) => {
 //   const url = `https://api.qurancdn.com/api/qdc/verses/by_key/${chapter_id}:${verse_id}?words=true&word_translation_language=en&word_fields=verse_key%2Cverse_id%2Cpage_number%2Clocation%2Ccode_v1`;

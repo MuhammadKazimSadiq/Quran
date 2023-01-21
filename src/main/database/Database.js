@@ -16,6 +16,7 @@ export default class Database {
     // open database || create new database
     this.db = new sqlite3.Database(pathToDbFile, (err) => {
       if (err) console.error("Database opening error: ", err);
+      console.log("Successfully connected to database");
     });
   }
 
@@ -29,6 +30,7 @@ export default class Database {
 
       // run migrations
       await this.runMigrations();
+      console.log("Migrations completed successfully");
     } catch (err) {
       console.error("Migrations error: ", err);
     }
@@ -53,6 +55,8 @@ export default class Database {
       const seeders = this.migrations.filter(
         (migration) => migration.type === "seeder"
       );
+
+      //TODO: use serialize & remove 1000ms delay for seeders?
 
       // run migrations
       migrations.forEach(async (migration) => {

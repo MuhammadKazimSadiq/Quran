@@ -33,6 +33,7 @@
         <div
           class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
           @contextmenu="$emit('togglePopup', { event: $event, verse })"
+          @copy="onCopy"
           v-html="parseVerse(verse)"
         ></div>
 
@@ -212,5 +213,9 @@ const parseVerseNumber = (number) => {
       ${number}
     </span>
   `;
+};
+
+const onCopy = (e) => {
+  console.log(window.getSelection().toString());
 };
 </script>

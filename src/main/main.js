@@ -1,11 +1,10 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import { autoUpdater } from "electron-updater";
-import { join } from "path";
 import fs from "fs";
-import { parse } from "csv-parse";
+import { join } from "path";
 import Database from "./database/Database";
-
-const Json2csvParser = require("json2csv").Parser;
+import exportTables from "./database/ExportTables";
+import importTables from "./database/ImportTables";
 
 // set app name
 app.setName("Quran");
@@ -16,11 +15,13 @@ const pathToDbFile = join(
   process.env.NODE_ENV === "development" ? "quran_dev.sqlite" : "quran.sqlite"
 );
 
-// connect to database
 const DB = new Database(pathToDbFile);
 
+let mainWindow = null;
+
+// create window
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     fullscreen: true,
     autoHideMenuBar: true,
     icon: join(__dirname, "./static/icon.ico"),
@@ -41,6 +42,30 @@ function createWindow() {
   mainWindow.webContents.on("did-finish-load", () => {
     mainWindow.webContents.send("event", "Finished Loading");
   });
+
+  // after saving zip of exported tables, delete zip & export files
+  mainWindow.webContents.session.on(
+    "will-download",
+    (event, item, webContents) => {
+      item.once("done", (event, state) => {
+        // delete zip
+        const pathToZipFile = join(app.getPath("userData"), "quran.zip");
+        fs.unlink(pathToZipFile, (err) => {
+          if (err) throw err;
+        });
+        // delete export files
+        const folder = join(app.getPath("userData"), "exports");
+        fs.readdir(folder, (err, files) => {
+          if (err) throw err;
+
+          for (const file of files) {
+            fs.unlinkSync(`${folder}/${file}`);
+            console.log(file + " : File Deleted Successfully.");
+          }
+        });
+      });
+    }
+  );
 }
 
 app.whenReady().then(async () => {
@@ -95,49 +120,20 @@ ipcMain.handle("request", async (event, { query, type = "all" }) => {
   return response;
 });
 
-const pathToCSVFile = join(app.getPath("userData"), "test.csv");
+// listen for export requests
+ipcMain.handle("export", async (event, { tables }) => {
+  exportTables({
+    DB,
+    mainWindow,
+    tables: JSON.parse(tables),
+  });
+});
 
-// export to csv file
-// DB.query(`SELECT * FROM topics`)
-//   .then((data) => {
-//     const json2csvParser = new Json2csvParser({ header: true });
-//     const csv = json2csvParser.parse(data);
-
-//     // TODO: parse data
-
-//     fs.writeFile(pathToCSVFile, csv, (error) => {
-//       if (error) throw error;
-//       console.log("Process Successful!");
-//     });
-//   })
-//   .catch((e) => console.log(`Error: ${e}`));
-
-// import from csv
-// fs.createReadStream(pathToCSVFile)
-//   .pipe(parse({ delimiter: ",", from_line: 2 }))
-//   .on("data", (row) => {
-//     // DB.db.exec()
-
-//     DB.db.serialize(() => {
-//       DB.db.run(
-//         `INSERT INTO test VALUES (?, ?, ?)`,
-//         [row[0], row[1], row[2]],
-//         function (error) {
-//           if (error) return console.log(error.message);
-//           console.log(`Inserted a row with the id: ${this.lastID}`);
-//         }
-//       );
-//     });
-//   })
-//   .on("end", () => {
-//     console.log("finished");
-//   })
-//   .on("error", (error) => {
-//     console.log(error.message);
-//   });
-
-// TODO: splash screen
-// TODO: update verse_word migration file
-// TODO: format data before exporting
-// TODO: import dependent tables
-// TODO: show loading message when migrating tables
+// listen for import requests
+ipcMain.handle("import", async (event, { table, path }) => {
+  importTables({
+    DB,
+    table,
+    path,
+  });
+});
