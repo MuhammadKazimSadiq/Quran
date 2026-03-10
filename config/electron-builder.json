@@ -23,6 +23,10 @@
   "linux": {
     "target": ["snap"]
   },
+  "mac": {
+    "target": ["dmg", "zip"],
+    "icon": "icons/quran_512.png"
+  },
   "files": [
     "build/main/**/*",
     {

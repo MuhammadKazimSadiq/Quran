@@ -12,7 +12,7 @@ app.setName("Quran");
 // connect to database
 const pathToDbFile = join(
   app.getPath("userData"),
-  process.env.NODE_ENV === "development" ? "quran_dev.sqlite" : "quran.sqlite"
+  process.env.NODE_ENV === "development" ? "quran_dev.sqlite" : "quran.sqlite",
 );
 
 const DB = new Database(pathToDbFile);
@@ -22,7 +22,7 @@ let mainWindow = null;
 // create window
 function createWindow() {
   mainWindow = new BrowserWindow({
-    fullscreen: true,
+    fullscreen: false,
     autoHideMenuBar: true,
     icon: join(__dirname, "./static/icon.ico"),
     webPreferences: {
@@ -64,7 +64,7 @@ function createWindow() {
           }
         });
       });
-    }
+    },
   );
 }
 

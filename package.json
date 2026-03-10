@@ -10,8 +10,10 @@
   },
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish never",
-    "publish": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish always"
+    "build": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --mac --publish never",
+    "build:win": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --publish never",
+    "build:mac": "node scripts/build.js && electron-builder -c config/electron-builder.json --mac --publish never",
+    "publish": "node scripts/build.js && electron-builder -c config/electron-builder.json --win --mac --publish always"
   },
   "author": "md.kazimsadiq@gmail.com",
   "devDependencies": {
