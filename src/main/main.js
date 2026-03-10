@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, protocol, net } from "electron";
 import { autoUpdater } from "electron-updater";
 import fs from "fs";
 import { join } from "path";
@@ -9,13 +9,7 @@ import importTables from "./database/ImportTables";
 // set app name
 app.setName("Quran");
 
-// connect to database
-const pathToDbFile = join(
-  app.getPath("userData"),
-  process.env.NODE_ENV === "development" ? "quran_dev.sqlite" : "quran.sqlite",
-);
-
-const DB = new Database(pathToDbFile);
+const DB = new Database();
 
 let mainWindow = null;
 
@@ -69,6 +63,11 @@ function createWindow() {
 }
 
 app.whenReady().then(async () => {
+  protocol.handle('audio', (request) => {
+    const filePath = request.url.slice('audio://'.length);
+    return net.fetch('file://' + filePath);
+  });
+
   // initialize database and run migrations
   await DB.init();
 
@@ -120,6 +119,18 @@ ipcMain.handle("request", async (event, { query, type = "all" }) => {
   return response;
 });
 
+// secure prisma channel
+import prismaClient from "./prisma";
+ipcMain.handle("prisma", async (event, { model, operation, args }) => {
+  try {
+    const result = await prismaClient[model][operation](args);
+    return result;
+  } catch (err) {
+    console.error("Prisma IPC error:", err);
+    throw err;
+  }
+});
+
 // listen for export requests
 ipcMain.handle("export", async (event, { tables }) => {
   exportTables({
@@ -135,5 +146,35 @@ ipcMain.handle("import", async (event, { table, path }) => {
     DB,
     table,
     path,
+  });
+});
+
+import http from "http";
+import https from "https";
+
+ipcMain.handle("get-audio", async (event, { url }) => {
+  const urlParts = url.split('/');
+  const fileName = urlParts.slice(-4).join('_'); 
+  const dirPath = join(app.getPath("userData"), "audio");
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  const localPath = join(dirPath, fileName);
+  
+  if (fs.existsSync(localPath)) {
+    return `audio://${localPath}`;
+  }
+  
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(localPath);
+    const client = url.startsWith("https") ? https : http;
+    client.get(url, (response) => {
+      response.pipe(file);
+      file.on('finish', () => {
+        file.close();
+        resolve(`audio://${localPath}`);
+      });
+    }).on('error', (err) => {
+      fs.unlink(localPath, () => {});
+      reject(err.message);
+    });
   });
 });

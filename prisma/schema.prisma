@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model bookmarks {
+  id       Int     @id @default(autoincrement())
+  verse_id Int?
+  verses   verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([verse_id])
+}
+
+model chapters {
+  id               Int       @id @default(autoincrement())
+  name             String?
+  page             String?
+  section          String?
+  verses_count     Int?
+  translation      String?
+  revelation_place String?
+  verses           verses[]
+}
+
+model en_qarai {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model en_shakir {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model en_yusufali {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model fa_ansarian {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model fa_bahrampour {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model fa_makarem {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model fa_qaraati {
+  id     Int     @id
+  text   String?
+  verses verses? @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model migrations {
+  id        Int     @id @default(autoincrement())
+  migration String?
+}
+
+model reciters {
+  id   Int     @id
+  name String?
+  url  String?
+}
+
+model sections {
+  id     String   @id
+  joz    String?
+  page   String?
+  verses verses[]
+}
+
+model settings {
+  id    Int     @id @default(autoincrement())
+  name  String?
+  value String?
+}
+
+model topics {
+  id          Int           @id @default(autoincrement())
+  name        String
+  parent_id   Int?
+  verse_topic verse_topic[]
+}
+
+model translations {
+  name       String  @id
+  translator String?
+  language   String?
+}
+
+model verse_topic {
+  id       Int    @id @default(autoincrement())
+  verse_id Int
+  topic_id Int
+  topics   topics @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  verses   verses @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([verse_id])
+  @@index([topic_id])
+}
+
+model verse_word {
+  id             Int     @id
+  verse_id       Int?
+  text           String?
+  code           String?
+  fa             String?
+  en             String?
+  position       Int?
+  line           Int?
+  page           Int?
+  chapter        Int?
+  section        Int?
+  location       String?
+  char_type_name String?
+  verses         verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model verses {
+  id            Int             @id
+  section_id    String?
+  page_id       Int?
+  chapter_id    Int?
+  verse_id      Int?
+  text_original String?
+  text_clean    String?
+  bookmarks     bookmarks[]
+  en_qarai      en_qarai?
+  en_shakir     en_shakir?
+  en_yusufali   en_yusufali?
+  fa_ansarian   fa_ansarian?
+  fa_bahrampour fa_bahrampour?
+  fa_makarem    fa_makarem?
+  fa_qaraati    fa_qaraati?
+  verse_topic   verse_topic[]
+  verse_word    verse_word[]
+  chapters      chapters?       @relation(fields: [chapter_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sections      sections?       @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vocabulary    vocabulary[]
+
+  @@index([chapter_id])
+  @@index([section_id])
+}
+
+model vocabulary {
+  id       Int     @id @default(autoincrement())
+  verse_id Int?
+  word     String?
+  meaning  String?
+  verses   verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

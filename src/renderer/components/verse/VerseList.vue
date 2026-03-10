@@ -1,61 +1,14 @@
 <template>
   <div>
-    <div>
-      <ul v-if="verses.length">
-        <li
-          v-for="(verse, i) in verses"
-          :key="verse.id"
-          :class="`verse verse-${verse.id}`"
-          :data-id="verse.id"
-          :data-verse-id="verse.verse_id"
-          :data-page-id="verse.page_id"
-          :data-section-id="verse.section_id"
-        >
-          <Verse
-            v-if="!lazyLoadVerse || loadedVerses.includes(verse.id)"
-            :prevVerse="verses[i - 1] ?? {}"
-            :verse="verse"
-            :useChapterName="useChapterName"
-            :lazyLoad="lazyLoad"
-            :loadedVerses="loadedVerses"
-            :icons="icons"
-            :showTopics="showTopics"
-            :showVocabulary="showVocabulary"
-            :showBismillah="showBismillah"
-            :showSection="showSection"
-            :showPage="showPage"
-            :showTranslations="showTranslations"
-            :translations="enabledTranslations"
-            :canEditVocabulary="canEditVocabulary"
-            :highlightText="highlightText"
-            @toggle-popup="togglePopup"
-          />
-          <div v-else>
-            <div class="flex justify-between gap-4 px-8 py-12">
-              <div class="w-3/4 space-y-8">
-                <div
-                  class="h-3 w-full rounded-lg bg-gray-300 dark:bg-gray-700"
-                ></div>
-                <div
-                  class="h-3 w-full rounded-lg bg-gray-300 dark:bg-gray-700"
-                ></div>
-                <div
-                  class="h-3 w-3/4 rounded-lg bg-gray-300 dark:bg-gray-700"
-                ></div>
-              </div>
-              <div class="flex w-1/4 flex-col items-end space-y-4">
-                <div
-                  class="h-6 w-6 rounded-full bg-gray-300 dark:bg-gray-700"
-                ></div>
-                <div
-                  class="h-6 w-6 rounded-full bg-gray-300 dark:bg-gray-700"
-                ></div>
-              </div>
-            </div>
-            <hr />
-          </div>
-        </li>
-      </ul>
+    <div class="space-y-4">
+      <div v-for="(verse, i) in verses" :key="verse.id" :class="`verse verse-${verse.id}`" :data-id="verse.id"
+        :data-verse-id="verse.verse_id" :data-page-id="verse.page_id" :data-section-id="verse.section_id">
+        <Verse :prevVerse="verses[i - 1] ?? {}" :verse="verse" :useChapterName="useChapterName" :icons="icons"
+          :showTopics="showTopics" :showVocabulary="showVocabulary" :showBismillah="showBismillah"
+          :showSection="showSection" :showPage="showPage" :showTranslations="showTranslations"
+          :translations="enabledTranslations" :canEditVocabulary="canEditVocabulary" :highlightText="highlightText"
+          @toggle-popup="togglePopup" />
+      </div>
     </div>
 
     <!-- Popup -->
@@ -79,18 +32,12 @@
           </div>
         </div>
         <div>
-          <input
-            type="text"
-            class="placeholder-text-gray-500 w-full rounded-xl text-sm"
-            placeholder="معنا"
-            v-model="meaning"
-          />
+          <input type="text" class="placeholder-text-gray-500 w-full rounded-xl text-sm"
+            :placeholder="$t('meaning_placeholder')" v-model="meaning" />
         </div>
-        <button
-          @click="addToVocab()"
-          class="rounded-xl border border-yellow-800 bg-yellow-50 p-2 dark:border-yellow-50 dark:bg-yellow-800 dark:text-white"
-        >
-          افزودن به لیست کلمات
+        <button @click="addToVocab()"
+          class="rounded-xl border border-yellow-800 bg-yellow-50 p-2 dark:border-yellow-50 dark:bg-yellow-800 dark:text-white">
+          {{ $t('add_to_word_list') }}
         </button>
       </div>
       <!-- add panel end -->
@@ -105,7 +52,6 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 
 // composables
 import { onClickOutside } from "@vueuse/core";
-import { useIntersectionObserver } from "../../composables/intersectionObserver";
 
 // pinia
 import { storeToRefs } from "pinia";
@@ -147,10 +93,6 @@ const props = defineProps({
   useChapterName: {
     type: Boolean,
     default: true,
-  },
-  lazyLoad: {
-    type: [Boolean, Array],
-    default: false,
   },
   showBismillah: {
     type: Boolean,
@@ -197,64 +139,13 @@ const props = defineProps({
 // translations
 const enabledTranslations = computed(() => {
   return (
-    props.translations.length ? props.translations : store.translations
+    props.translations?.length ? props.translations : store.translations
   ).filter((translation) => {
-    return store.settings.enabled_translations.includes(translation.name);
+    return (store.settings.enabled_translations || []).includes(translation.name);
   });
 });
 
-// lazy load
-const lazyLoadVerse = computed(() => {
-  return typeof props.lazyLoad == "boolean" && props.lazyLoad;
-});
 
-// for lazy load
-onBeforeRouteUpdate(() => init());
-onMounted(() => init());
-
-const loadedVerses = ref([]);
-
-const init = () => {
-  setTimeout(() => {
-    // set initial loaded verses
-    const INITIAL_LOAD_COUNT = 25;
-    loadedVerses.value = props.verses
-      .slice(0, INITIAL_LOAD_COUNT)
-      .reduce((acc, v) => [...acc, v.id], []);
-
-    // add intersection observer
-    addIntersectionObservers();
-  }, 1000);
-};
-
-let loaderObserver = undefined;
-const addIntersectionObservers = () => {
-  loaderObserver = useIntersectionObserver({
-    elements: document.querySelectorAll(".verse"),
-    config: {
-      threshold: 0,
-      rootMargin: "0px 0px 100px 0px",
-    },
-    callback: (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const verseId = parseInt(entry.target.dataset.id);
-
-        if (loadedVerses.value.includes(verseId)) {
-          return loaderObserver.unobserve(entry.target);
-        }
-
-        loadedVerses.value.push(verseId);
-        loaderObserver.unobserve(entry.target);
-      });
-    },
-  });
-};
-
-onUnmounted(() => loaderObserver?.disconnect());
-
-// vocab
 const selectedText = ref(""); // selectedText
 const selectedVerse = ref(null); // selectedVerse
 

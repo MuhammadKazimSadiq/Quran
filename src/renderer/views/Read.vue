@@ -1,7 +1,7 @@
 <template>
   <!-- title -->
   <div class="text-center text-3xl font-bold dark:text-white">
-    سوره {{ getChapter(params.id)?.name }}
+    {{ $t('surah') }} {{ getChapter(params.id)?.name }}
   </div>
   <!-- title end -->
 
@@ -13,7 +13,7 @@
         class="mx-auto flex w-full justify-center space-x-1 rounded-3xl bg-gray-700/20 p-1 md:w-1/2"
       >
         <Tab
-          v-for="view in ['ترجمه', 'مصحف']"
+          v-for="view in [$t('translation'), $t('mushaf')]"
           as="template"
           :key="view"
           v-slot="{ selected }"

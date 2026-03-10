@@ -1,60 +1,38 @@
 <template>
   <div>
     <!-- new page and section -->
-    <div
-      v-if="(showPage || showSection) && (isNewPage || isNewSection)"
-      class="mt-4 flex flex-col gap-4 rounded-2xl bg-gray-100 p-4 text-center dark:bg-gray-800"
-    >
-      <div
-        v-if="showSection && isNewSection"
-        class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
-      >
-        جزء {{ verse.section_id }}
+    <div v-if="(showPage || showSection) && (isNewPage || isNewSection)"
+      class="mt-4 flex flex-col gap-4 rounded-2xl bg-gray-100 p-4 text-center dark:bg-gray-800">
+      <div v-if="showSection && isNewSection" class="right-16 text-xl text-yellow-800 dark:text-yellow-300">
+        {{ $t('section_label', { id: verse.section_id }) }}
       </div>
-      <div
-        v-if="showPage && isNewPage"
-        class="right-16 text-xl text-yellow-800 dark:text-yellow-300"
-      >
-        صفحه {{ verse.page_id }}
+      <div v-if="showPage && isNewPage" class="right-16 text-xl text-yellow-800 dark:text-yellow-300">
+        {{ $t('page_label', { id: verse.page_id }) }}
       </div>
     </div>
 
     <!-- bismillah (if first verse and not surah fatiha)  -->
-    <div
-      v-if="verse.verse_id === 1 && verse.chapter_id !== 1 && showBismillah"
-      class="my-4 flex justify-center text-center text-black dark:text-white"
-    >
+    <div v-if="verse.verse_id === 1 && verse.chapter_id !== 1 && showBismillah"
+      class="my-4 flex justify-center text-center text-black dark:text-white">
       <Bismillah />
     </div>
 
     <div class="flex justify-between gap-12 rounded-lg p-4 pb-8">
       <!-- verse -->
       <div class="flex-1 gap-2">
-        <div
-          class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
-          @contextmenu="$emit('togglePopup', { event: $event, verse })"
-          @copy="onCopy"
-          v-html="parseVerse(verse)"
-        ></div>
+        <div class="arabic-verse my-12 font-arabic text-3xl leading-loose dark:text-white"
+          @contextmenu="$emit('togglePopup', { event: $event, verse })" @copy="onCopy" v-html="parseVerse(verse)"
+          dir="rtl" lang="ar"></div>
 
         <!-- translations -->
         <div v-if="showTranslations">
-          <Translation
-            v-for="translation in translations"
-            :text="verse[translation.name]"
-            :translation="translation"
-          />
+          <Translation v-for="translation in translations" :text="verse[translation.name]" :translation="translation" />
         </div>
         <!-- translations end -->
 
         <!-- topics -->
         <div v-if="showTopics">
-          <VerseTopics
-            :verseId="verse.id"
-            :topics="verse.topics"
-            :lazyLoad="lazyLoad.includes('topics')"
-            :loaded="loadedVerses.includes(verse.id)"
-          />
+          <VerseTopics :verseId="verse.id" :topics="verse.topics" />
         </div>
         <!-- topics end -->
       </div>
@@ -118,14 +96,6 @@ const props = defineProps({
   prevVerse: {
     type: Object,
     default: {},
-  },
-  lazyLoad: {
-    type: [Array, Boolean],
-    default: [],
-  },
-  loadedVerses: {
-    type: Array,
-    default: [],
   },
   showBismillah: {
     type: Boolean,

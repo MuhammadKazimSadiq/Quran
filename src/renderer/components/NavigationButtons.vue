@@ -2,23 +2,20 @@
   <div class="flex justify-center gap-4">
     <router-link :to="`/read/${parseInt(index) - 1}`" v-if="index > 1">
       <div
-        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800"
-      >
-        <span>سوره قبلی</span>
+        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800">
+        <span>{{ $t('previous_surah') }}</span>
       </div>
     </router-link>
     <router-link to="/">
       <div
-        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800"
-      >
-        <span>فهرست سوره ها</span>
+        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800">
+        <span>{{ $t('surah_index') }}</span>
       </div>
     </router-link>
     <router-link :to="`/read/${parseInt(index) + 1}`" v-if="index < 114">
       <div
-        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800"
-      >
-        <span>سوره بعدی</span>
+        class="rounded-md border border-gray-500 border-opacity-20 px-4 py-2 hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800">
+        <span>{{ $t('next_surah') }}</span>
       </div>
     </router-link>
   </div>

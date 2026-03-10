@@ -1,52 +1,41 @@
 <template>
-  <div
-    id="audio-player"
-    dir="ltr"
+  <div id="audio-player" dir="ltr"
     class="fixed bottom-0 mr-[46px] flex-col bg-gray-50 transition-transform duration-500 dark:bg-gray-800"
-    style="width: calc(100% - 46px)"
-  >
+    style="width: calc(100% - 46px)">
     <!-- progress -->
     <div class="mx-1">
-      <Slider
-        v-model="currentTimeProgress"
-        @change="seek"
-        :tooltips="false"
-        :direction="'ltr'"
-        :classes="{
-          target:
-            'relative box-border select-none touch-none tap-highlight-transparent touch-callout-none disabled:cursor-not-allowed',
-          focused: 'slider-focused',
-          tooltipFocus: 'slider-tooltip-focus',
-          tooltipDrag: 'slider-tooltip-drag',
-          ltr: 'slider-ltr',
-          rtl: 'slider-rtl',
-          horizontal: 'slider-horizontal h-1.5',
-          textDirectionRtl: 'slider-txt-rtl',
-          textDirectionLtr: 'slider-txt-ltr',
-          base: 'w-full h-full relative z-1 bg-gray-300 dark:bg-gray-500 rounded',
-          connects: 'w-full h-full relative overflow-hidden z-0 rounded',
-          connect:
-            'absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full bg-gray-500  dark:bg-gray-300 cursor-pointer tap:duration-300 tap:transition-transform disabled:bg-gray-400 disabled:cursor-not-allowed',
-          origin:
-            'slider-origin absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full h:h-0 v:-top-full txt-rtl-h:left-0 txt-rtl-h:right-auto v:w-0 tap:duration-300 tap:transition-transform',
-          handle:
-            'absolute rounded-full bg-white border-0 shadow-slider cursor-grab focus:outline-none h:w-4 h:h-4 h:-top-1.5 h:-right-2 txt-rtl-h:-left-2 txt-rtl-h:right-auto v:w-4 v:h-4 v:-top-2 v:-right-1.25 disabled:cursor-not-allowed focus:ring focus:ring-gray-500 focus:ring-opacity-30',
-          handleLower: 'slider-hande-lower',
-          handleUpper: 'slider-hande-upper',
-          touchArea: 'h-full w-full',
-          active: 'slider-active shadow-slider-active cursor-grabbing',
-          draggable: 'cursor-ew-resize v:cursor-ns-resize',
-          tap: 'slider-state-tap',
-          drag: 'slider-state-drag',
-        }"
-      />
+      <Slider v-model="currentTimeProgress" @change="seek" :tooltips="false" :direction="'ltr'" :classes="{
+        target:
+          'relative box-border select-none touch-none tap-highlight-transparent touch-callout-none disabled:cursor-not-allowed',
+        focused: 'slider-focused',
+        tooltipFocus: 'slider-tooltip-focus',
+        tooltipDrag: 'slider-tooltip-drag',
+        ltr: 'slider-ltr',
+        rtl: 'slider-rtl',
+        horizontal: 'slider-horizontal h-1.5',
+        textDirectionRtl: 'slider-txt-rtl',
+        textDirectionLtr: 'slider-txt-ltr',
+        base: 'w-full h-full relative z-1 bg-gray-300 dark:bg-gray-500 rounded',
+        connects: 'w-full h-full relative overflow-hidden z-0 rounded',
+        connect:
+          'absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full bg-gray-500  dark:bg-gray-300 cursor-pointer tap:duration-300 tap:transition-transform disabled:bg-gray-400 disabled:cursor-not-allowed',
+        origin:
+          'slider-origin absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full h:h-0 v:-top-full txt-rtl-h:left-0 txt-rtl-h:right-auto v:w-0 tap:duration-300 tap:transition-transform',
+        handle:
+          'absolute rounded-full bg-white border-0 shadow-slider cursor-grab focus:outline-none h:w-4 h:h-4 h:-top-1.5 h:-right-2 txt-rtl-h:-left-2 txt-rtl-h:right-auto v:w-4 v:h-4 v:-top-2 v:-right-1.25 disabled:cursor-not-allowed focus:ring focus:ring-gray-500 focus:ring-opacity-30',
+        handleLower: 'slider-hande-lower',
+        handleUpper: 'slider-hande-upper',
+        touchArea: 'h-full w-full',
+        active: 'slider-active shadow-slider-active cursor-grabbing',
+        draggable: 'cursor-ew-resize v:cursor-ns-resize',
+        tap: 'slider-state-tap',
+        drag: 'slider-state-drag',
+      }" />
     </div>
     <!-- progress end -->
 
     <div class="flex flex-row items-center justify-between px-6 py-4">
-      <div
-        class="flex shrink-0 grow-0 basis-1/3 items-center justify-start gap-8"
-      >
+      <div class="flex shrink-0 grow-0 basis-1/3 items-center justify-start gap-8">
         <!-- current time -->
         <div class="text-black dark:text-white">
           {{ parseTime(currentTime) }}
@@ -56,12 +45,8 @@
         <div class="ml-12 flex items-center justify-between gap-8">
           <!-- reciters -->
           <div>
-            <select
-              dir="rtl"
-              v-model="settings.selectedReciter"
-              @change="changeReciter"
-              class="w-full rounded-2xl border-2 border-gray-300/60 text-gray-600 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-gray-300/60"
-            >
+            <select dir="rtl" lang="ar" v-model="settings.selectedReciter" @change="changeReciter"
+              class="w-full rounded-2xl border-2 border-gray-300/60 text-gray-600 focus:border-gray-700/60 focus:outline-0 focus:ring-0 dark:border-gray-500/60 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-gray-300/60">
               <option v-for="reciter in store.reciters" :value="reciter.id">
                 {{ reciter.name }}
               </option>
@@ -81,68 +66,52 @@
 
       <!-- icons -->
       <div class="flex shrink-0 grow-0 basis-1/3 flex-row justify-center gap-8">
-        <div>
+        <button @click="prev()" class="focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full p-1"
+          aria-label="Previous">
           <BackwardIcon
-            @click="prev()"
-            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
-          />
-        </div>
+            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white" />
+        </button>
         <div>
-          <LoaderIcon
-            v-if="loading"
-            class="w-8 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600"
-          />
-          <PauseIcon
-            v-else-if="isPlaying"
-            @click="pause()"
-            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
-          />
-          <PlayIcon
-            v-else
-            @click="play()"
-            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
-          />
+          <LoaderIcon v-if="loading" class="w-8 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600" />
+          <button v-else-if="isPlaying" @click="pause()"
+            class="focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full p-1" aria-label="Pause">
+            <PauseIcon
+              class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white" />
+          </button>
+          <button v-else @click="play()" class="focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full p-1"
+            aria-label="Play">
+            <PlayIcon
+              class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white" />
+          </button>
         </div>
-        <div>
+        <button @click="next()" class="focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full p-1"
+          aria-label="Next">
           <ForwardIcon
-            @click="next()"
-            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
-          />
-        </div>
+            class="w-8 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white" />
+        </button>
       </div>
       <!-- icons end -->
 
-      <div
-        class="flex shrink-0 grow-0 basis-1/3 items-center justify-end gap-8"
-      >
+      <div class="flex shrink-0 grow-0 basis-1/3 items-center justify-end gap-8">
         <div class="-ml-12 flex items-center gap-4">
           <!-- volume -->
           <div class="flex gap-2">
-            <component
-              :is="player?.muted ? SpeakerXMarkIcon : SpeakerWaveIcon"
-              class="w-6 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white"
-              @click="toggleMute"
-            />
-            <input
-              v-show="!player?.muted"
-              v-model="volume"
-              @input="changeVolume"
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-            />
+            <button @click="toggleMute" class="focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full p-1"
+              aria-label="Toggle Mute">
+              <component :is="player?.muted ? SpeakerXMarkIcon : SpeakerWaveIcon"
+                class="w-6 cursor-pointer text-gray-800 text-opacity-70 hover:text-black dark:text-gray-200 dark:hover:text-white" />
+            </button>
+            <input v-show="!player?.muted" v-model="volume" @input="changeVolume" type="range" min="0" max="1"
+              step="0.01" />
           </div>
           <!-- volume end -->
 
           <!-- speed -->
-          <div
-            @click="changeSpeed"
-            class="justify flex h-8 w-8 cursor-pointer select-none items-center justify-center rounded-full bg-gray-200 p-1 text-black dark:bg-gray-600 dark:text-white"
-          >
+          <button @click="changeSpeed" aria-label="Change Speed"
+            class="justify flex h-8 w-8 cursor-pointer select-none items-center justify-center rounded-full bg-gray-200 p-1 text-black focus:outline-none focus:ring-2 focus:ring-gray-500 dark:bg-gray-600 dark:text-white">
             <span class="text-xs">x</span>
             <span class="text-sm lowercase">{{ speed }}</span>
-          </div>
+          </button>
           <!-- speed end -->
         </div>
 
@@ -154,20 +123,14 @@
       </div>
     </div>
   </div>
-  <audio
-    @ended="onEnd"
-    @playing="onPlaying"
-    @timeupdate="onTimeUpdate"
-    @loadeddata="loaded = true"
-    ref="player"
-  >
-    <source :src="url" type="audio/mpeg" />
+  <audio @ended="onEnd" @playing="onPlaying" @timeupdate="onTimeUpdate" @loadeddata="loaded = true" ref="player"
+    :src="audioSrc">
   </audio>
 </template>
 
 <script setup>
 // vue
-import { ref, reactive, computed, onMounted, inject } from "vue";
+import { ref, reactive, computed, onMounted, inject, watch, nextTick } from "vue";
 
 // router
 import { useRoute, useRouter } from "vue-router";
@@ -233,7 +196,7 @@ const prevVerse = computed(() => {
   return store.verses.find((verse) => verse.id === prevVerseId.value);
 });
 
-const reciter = computed(() => {});
+const reciter = computed(() => { });
 
 // events
 
@@ -266,20 +229,68 @@ const onTimeUpdate = (e) => {
 };
 
 // methods
+const getAudioUrl = () => {
+  const reciter = store.reciters.find(
+    (r) => r.id === parseInt(settings.value.selectedReciter)
+  );
+  if (!verse.value || !reciter) return "";
+  return `${reciter.url}/${parse(verse.value.chapter_id)}${parse(
+    verse.value.verse_id
+  )}.mp3`;
+};
+
 const load = async () => {
-  await player.value.load();
-  // scroll to verse
+  const url = getAudioUrl();
+  if (!url) return;
+
+  loading.value = true;
+  loaded.value = false;
+
+  // Use the remote URL directly for playback
+  audioSrc.value = url;
+
+  // Cache in background silently (don't block playback)
+  window.ipcRenderer.invoke("get-audio", { url }).catch(() => { });
+
+  // Wait for Vue to update the DOM with the new src
+  await nextTick();
+
+  if (!player.value) {
+    console.error("Audio player element not available");
+    loading.value = false;
+    return;
+  }
+
+  // Wait for the audio element to load
+  await new Promise((resolve) => {
+    player.value.addEventListener('loadeddata', () => {
+      loaded.value = true;
+      resolve();
+    }, { once: true });
+    player.value.addEventListener('error', (e) => {
+      console.error("Audio load error:", e);
+      loading.value = false;
+      resolve();
+    }, { once: true });
+    player.value.load();
+  });
+
   scrollToVerse();
 };
 
 const play = async () => {
   if (!loaded.value) await load();
+  if (!audioSrc.value || !player.value) return;
 
-  // change speed
   player.value.playbackRate = speed.value;
-
   isPlaying.value = true;
-  player.value.play();
+  try {
+    await player.value.play();
+  } catch (e) {
+    console.error("Play error:", e);
+    isPlaying.value = false;
+    loading.value = false;
+  }
 };
 
 const pause = () => {
@@ -359,17 +370,7 @@ const highlight = () => {
   el?.classList?.add("bg-yellow-100", "dark:bg-yellow-800/60");
 };
 
-// helper functions
-const url = computed(() => {
-  const reciter = store.reciters.find(
-    (r) => r.id === parseInt(settings.value.selectedReciter)
-  );
-  return verse.value && reciter
-    ? `${reciter.url}/${parse(verse.value.chapter_id)}${parse(
-        verse.value.verse_id
-      )}.mp3`
-    : "";
-});
+const audioSrc = ref("");
 
 const parse = (number) => {
   return number < 10 ? `00${number}` : number < 100 ? `0${number}` : number;

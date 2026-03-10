@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center text-3xl dark:text-white">نشان شده ها</h1>
+  <h1 class="text-center text-3xl dark:text-white">{{ $t('bookmarks') }}</h1>
 
   <section class="mt-4">
     <VerseList
@@ -16,7 +16,7 @@
     />
     <div v-else>
       <p class="p-8 text-center text-2xl dark:text-white">
-        شما هیچ نشان شده ای ندارید.
+        {{ $t('no_bookmarks') }}
       </p>
     </div>
   </section>

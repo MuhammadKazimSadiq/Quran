@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("ipcRenderer", {
   invoke: (channel, args = {}) => {
-    const validChannels = ["request", "export", "import"];
+    const validChannels = ["request", "export", "import", "prisma", "get-audio"];
     if (!validChannels.includes(channel)) {
       return console.log("Not a valid channel!");
     }

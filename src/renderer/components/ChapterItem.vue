@@ -1,11 +1,9 @@
 <template>
   <div
-    class="group mt-2 flex items-center justify-between rounded-md border-2 border-gray-200 p-4 hover:border-teal-600"
-  >
+    class="group mt-2 flex items-center justify-between rounded-md border-2 border-gray-200 p-4 hover:border-teal-600">
     <div class="flex justify-start gap-8">
       <div
-        class="flex h-10 w-10 rotate-45 items-center justify-center bg-gray-100 group-hover:bg-teal-600 group-hover:text-white dark:bg-gray-700"
-      >
+        class="flex h-10 w-10 rotate-45 items-center justify-center bg-gray-100 group-hover:bg-teal-600 group-hover:text-white dark:bg-gray-700">
         <div class="-rotate-45 dark:text-white">{{ chapter.id }}</div>
       </div>
       <div class="flex flex-col gap-2">
@@ -22,15 +20,11 @@
     <div class="flex flex-col justify-between gap-3">
       <!-- revelation place image -->
       <div class="flex justify-center">
-        <img
-          class="w-4"
-          :src="revelationPlace(chapter.revelation_place)"
-          alt="Revelation place image"
-        />
+        <img class="w-4" :src="revelationPlace(chapter.revelation_place)" alt="Revelation place image" />
       </div>
       <!-- verse count -->
       <div class="text-sm dark:text-gray-200">
-        {{ chapter.verses_count }} آیه
+        {{ $t('verse_count_label', { count: chapter.verses_count }) }}
       </div>
     </div>
   </div>

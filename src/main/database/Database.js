@@ -1,23 +1,14 @@
 import { join } from "path";
 import fs from "fs";
-
-const sqlite3 = require("sqlite3").verbose();
+import DB from "../prisma";
 
 export default class Database {
-  pathToDbFile;
   pathToMigrationsDir = join(__dirname, "/migrations");
-  db;
-  migrations;
-  completedMigrations;
+  migrations = [];
+  completedMigrations = [];
 
-  constructor(pathToDbFile) {
-    this.pathToDbFile = pathToDbFile;
-
-    // open database || create new database
-    this.db = new sqlite3.Database(pathToDbFile, (err) => {
-      if (err) console.error("Database opening error: ", err);
-      console.log("Successfully connected to database");
-    });
+  constructor() {
+    console.log("Database initialized via Prisma.");
   }
 
   async init() {
@@ -30,59 +21,70 @@ export default class Database {
 
       // run migrations
       await this.runMigrations();
-      console.log("Migrations completed successfully");
+
+      // create FTS5 table
+      try {
+        await this.query(`CREATE VIRTUAL TABLE IF NOT EXISTS verses_fts USING fts5(id UNINDEXED, text_clean);`, 'run');
+        // populate it if empty
+        const count = await this.query(`SELECT count(*) as c FROM verses_fts;`, 'all');
+        if (Number(count[0].c) === 0) {
+           await this.query(`INSERT INTO verses_fts(id, text_clean) SELECT id, text_clean FROM verses;`, 'run');
+           console.log("Populated FTS5 table successfully.");
+        }
+      } catch(ftsError) {
+        console.error("FTS5 creation error:", ftsError);
+      }
+
+      console.log("Migrations and FTS5 completed successfully");
     } catch (err) {
       console.error("Migrations error: ", err);
     }
   }
 
   async query(command, method = "all") {
-    return new Promise((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db[method](command, (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        });
-      });
-    });
+    try {
+      if (method === "run") {
+        await DB.$executeRawUnsafe(command);
+        return [];
+      } else {
+        const result = await DB.$queryRawUnsafe(command);
+        return result;
+      }
+    } catch (err) {
+      throw err;
+    }
   }
 
-  runMigrations() {
-    this.db.serialize(() => {
-      const migrations = this.migrations.filter(
-        (migration) => migration.type === "migration"
-      );
-      const seeders = this.migrations.filter(
-        (migration) => migration.type === "seeder"
-      );
+  async runMigrations() {
+    const migrations = this.migrations.filter(
+      (migration) => migration.type === "migration"
+    );
+    const seeders = this.migrations.filter(
+      (migration) => migration.type === "seeder"
+    );
 
-      //TODO: use serialize & remove 1000ms delay for seeders?
+    for (const migration of migrations) {
+      if (this.completedMigrations.includes(migration.name)) continue;
+      for (const query of migration.query) {
+        if (query.trim()) await this.query(query, "run");
+      }
+      await this.addToMigrationsTable(migration.name);
+    }
 
-      // run migrations
-      migrations.forEach(async (migration) => {
-        if (this.completedMigrations.includes(migration.name)) return;
-        migration.query.forEach(async (query) => {
-          await this.query(query, "run");
-        });
-        this.addToMigrationsTable(migration.name);
-      });
-
-      // run seeders with 1000ms delay
-      setTimeout(() => {
-        seeders.forEach(async (migration) => {
-          if (this.completedMigrations.includes(migration.name)) return;
-          migration.query.forEach(async (query) => {
-            await this.query(query, "run");
-          });
-          this.addToMigrationsTable(migration.name);
-        });
-      }, 1000);
-    });
+    // run seeders with delay
+    setTimeout(async () => {
+      for (const migration of seeders) {
+        if (this.completedMigrations.includes(migration.name)) continue;
+        for (const query of migration.query) {
+          if (query.trim()) await this.query(query, "run");
+        }
+        await this.addToMigrationsTable(migration.name);
+      }
+    }, 1000);
   }
 
   async fetchMigrations() {
     const migrations = [];
-    // loop through migrations folder
     fs.readdirSync(this.pathToMigrationsDir).forEach((file) => {
       const { name, type, query } = require(`./migrations/${file}`).default;
       migrations.push({ name, type, query: query.split(/(?=INSERT)/g) });

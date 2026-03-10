@@ -1,43 +1,34 @@
 <template>
   <Modal :isOpen="show">
-    <template v-slot:title>حذف موضوع</template>
+    <template v-slot:title>{{ $t('delete_topic') }}</template>
     <template v-slot:content>
       <div>
-        <p
-          class="dark:gray-200 mt-4 text-right text-lg text-gray-800 dark:text-gray-200"
-        >
-          آیا مایل هستید موضوع
+        <p class="dark:gray-200 mt-4 text-right text-lg text-gray-800 dark:text-gray-200">
+          {{ $t('delete_topic_confirm') }}
           <span class="text-blue-700 dark:text-blue-300">
             `{{ topic.topic_name }}`
           </span>
-          را حذف کنید؟
+          ?
         </p>
         <div v-if="topic?.children?.length" class="mt-4 flex items-center">
-          <input
-            class="h-4 w-4 rounded border border-gray-400 text-gray-600"
-            type="checkbox"
-            v-model="deleteChildren"
-          />
+          <input class="h-4 w-4 rounded border border-gray-400 text-gray-600" type="checkbox"
+            v-model="deleteChildren" />
           <div class="text-md mr-3 text-gray-700 dark:text-gray-300">
-            حذف زیر موضوع ها
+            {{ $t('delete_sub_topics') }}
           </div>
         </div>
       </div>
     </template>
     <template v-slot:buttons>
-      <button
-        type="button"
+      <button type="button"
         class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-8 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-        @click="deleteTopic"
-      >
-        حذف
+        @click="deleteTopic">
+        {{ $t('delete') }}
       </button>
-      <button
-        type="button"
+      <button type="button"
         class="inline-flex justify-center rounded-md border border-gray-300 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:text-gray-100 dark:hover:bg-gray-900"
-        @click="closeModal()"
-      >
-        خیر
+        @click="closeModal()">
+        {{ $t('no') }}
       </button>
     </template>
   </Modal>

@@ -3,7 +3,7 @@ export default {
   type: "migration",
   query: `CREATE TABLE IF NOT EXISTS "sections"
           (
-            id,
+            id varchar primary key,
             joz,
             page
           );`,

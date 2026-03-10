@@ -38,7 +38,7 @@
 // ipcRenderer
 import { ipcRenderer } from "./electron";
 // vue
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 // router
 import { useRouter, useRoute } from "vue-router";
 // store
@@ -63,8 +63,11 @@ ipcRenderer
   .then((message) => console.log(message))
   .catch((error) => console.error(error));
 
+// i18n
+import { useI18n } from "vue-i18n";
 // store
 const store = useStore();
+const { locale } = useI18n();
 
 // router
 const router = useRouter();
@@ -75,6 +78,11 @@ const route = useRoute();
 // onMount --> fetch data
 onMounted(async () => {
   await useFetch("setting", { toObject: true });
+  if (store.settings.language) {
+    locale.value = store.settings.language;
+  }
+  // Set initial direction
+  updateDirection(locale.value);
   await useFetch("chapter");
   await useFetch("verse", { group: true, groupConfig: versesConfig });
   await useFetch("translation");
@@ -97,6 +105,20 @@ window.addEventListener("keydown", (e) => {
   if ((e.key === "t" || e.key === "ف") && (e.metaKey || e.ctrlKey)) {
     store.changeTheme();
   }
+});
+
+// Direction helper
+const rtlLanguages = ['ar', 'ur', 'fa'];
+const updateDirection = (lang) => {
+  const dir = rtlLanguages.includes(lang) ? 'rtl' : 'ltr';
+  document.documentElement.setAttribute('dir', dir);
+  document.documentElement.setAttribute('lang', lang);
+  document.body.setAttribute('dir', dir);
+};
+
+// Watch for locale changes
+watch(locale, (newLocale) => {
+  updateDirection(newLocale);
 });
 </script>
 

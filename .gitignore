@@ -10,3 +10,4 @@ build
 todo.md
 quran-root.txt
 zekr-search.js
+/src/generated/prisma

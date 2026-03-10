@@ -2,37 +2,30 @@
   <!-- play icon -->
   <div v-if="icons.includes('play')" @click="play(verse)">
     <PlayIcon
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-    />
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100" />
   </div>
   <!-- goTo icon -->
   <div v-if="icons.includes('goToVerse')" @click="goToVerse(verse)">
     <ArrowLongLeftIcon
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-    />
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100" />
   </div>
   <!-- goTo icon end -->
 
   <!-- copy icon -->
   <div v-if="icons.includes('copyToClipboard')" @click="copyToClipboard(verse)">
     <DocumentDuplicateIcon
-      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-    />
+      class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100" />
   </div>
   <!-- copy icon end -->
 
   <!-- bookmark icon -->
   <div v-if="icons.includes('bookmark')">
-    <BookmarkIcon
-      v-if="!verse.bookmarked"
+    <BookmarkIcon v-if="!verse.bookmarked"
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-      @click="store.toggleBookmark(verse)"
-    />
-    <BookmarkFillIcon
-      v-if="verse.bookmarked"
+      @click="store.toggleBookmark(verse)" />
+    <BookmarkFillIcon v-if="verse.bookmarked"
       class="w-5 cursor-pointer text-gray-600 text-opacity-70 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-      @click="store.toggleBookmark(verse)"
-    />
+      @click="store.toggleBookmark(verse)" />
   </div>
   <!-- bookmark icon end -->
 
@@ -40,8 +33,7 @@
   <div v-if="icons.includes('removeTopic')">
     <XMarkIcon
       class="w-5 cursor-pointer text-red-600 text-opacity-70 hover:text-red-700 dark:text-red-700 dark:hover:text-red-600"
-      @click="removeTopic(verse)"
-    />
+      @click="removeTopic(verse)" />
   </div>
   <!-- remove topic icon end -->
 
@@ -57,6 +49,7 @@
 <script setup>
 // vue
 import { inject } from "vue";
+import { useI18n } from "vue-i18n";
 // router
 import { useRoute, useRouter } from "vue-router";
 
@@ -102,6 +95,7 @@ const store = useStore();
 
 // event emitter
 const emitter = inject("emitter");
+const { t } = useI18n();
 
 const play = (verse) => emitter.emit("play", verse);
 
@@ -126,10 +120,10 @@ const copyToClipboard = ({
     source: `${text_original} (${chapter_name}:${verse_id})`,
   });
   copy();
-  useNotification("در کلیپبورد کپی شد");
+  useNotification(t('copied_to_clipboard'));
 };
 
 const removeTopic = (verse) => {
-  store.removeVerseTopic({ verse_id: verse.id, topic_id: route.params.id });
+  store.removeVerseTopic({ verse_id: verse.id, topic_id: Number(route.params.id) });
 };
 </script>

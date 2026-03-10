@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: "Outfit";
+  src: url("./assets/fonts/Outfit-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("./assets/fonts/Outfit-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("./assets/fonts/Outfit-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
   font-family: "Nazanin";
   src: url("./assets/fonts/Nazanin.ttf");
 }

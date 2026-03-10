@@ -9,7 +9,7 @@
         >
           <div class="flex justify-start gap-3 text-xl text-gray-600">
             <MagnifyingGlassIcon class="w-6 text-gray-400 dark:text-gray-100" />
-            <div class="dark:text-gray-100">جستجو...</div>
+            <div class="dark:text-gray-100">{{ $t('search') }}...</div>
           </div>
           <div class="rounded-md bg-gray-200 py-1 px-2 font-english text-xs">
             <kbd>ctrl K</kbd>
@@ -20,7 +20,7 @@
     <!-- search bar end -->
 
     <!-- chapters list -->
-    <h1 class="text-center text-2xl font-bold dark:text-white">سوره ها</h1>
+    <h1 class="text-center text-2xl font-bold dark:text-white">{{ $t('surahs') }}</h1>
     <div class="p-4">
       <ul
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"

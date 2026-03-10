@@ -11,6 +11,7 @@ import Topic from "../model/Topic";
 import VerseTopic from "../model/VerseTopic";
 import Reciter from "../model/Reciter";
 import VerseWord from "../model/VerseWord";
+import Database from "../model/Database";
 
 // composables
 import { useGroup } from "../composables/group";
@@ -25,7 +26,7 @@ export const useStore = defineStore("mainStore", {
     chapters: [],
     verses: [],
     vocabulary: [],
-    settings: [], // enabled_translations, theme, selectedReciter
+    settings: { enabled_translations: [], theme: 'light', selectedReciter: null }, // enabled_translations, theme, selectedReciter
     translations: [],
     topics: [],
     reciters: [],
@@ -82,20 +83,21 @@ export const useStore = defineStore("mainStore", {
   },
 
   actions: {
-    search(query) {
+    async search(query) {
       if (!query.length) return;
-      return new Promise((resolve) => {
-        // remove diacritics from query
-        const queryString = query.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
-
-        const verses = this.verses.filter((verse) => {
-          const regex = new RegExp(queryString, "g");
-          return verse.text_clean.match(regex);
-        });
-
+      
+      const queryString = query.replace(/َ|ُ|ِ|ّ|ً|ٌ|ٍ|ْ/g, "").trim();
+      const ftsQuery = `SELECT id FROM verses_fts WHERE text_clean MATCH '"${queryString}*"' LIMIT 200`;
+      
+      try {
+        const results = await Database.query({ query: ftsQuery, type: "all" });
+        const verseIds = results.map(row => Number(row.id));
+        const verses = this.verses.filter(v => verseIds.includes(v.id));
+        
         this.addToSearchResults({ query: queryString, verses });
-        resolve();
-      });
+      } catch (err) {
+        console.error("FTS search failed", err);
+      }
     },
 
     addToSearchResults({ query, verses }) {

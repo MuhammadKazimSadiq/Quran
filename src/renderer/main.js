@@ -61,10 +61,23 @@ const router = createRouter({
   },
 });
 
-const pinia = createPinia();
+import VueVirtualScroller from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import { useNotification } from "./composables/notification";
+import i18n from "./i18n";
 
+const pinia = createPinia();
 const app = createApp(App);
 app.use(router);
 app.use(pinia);
+
+// Global Error Handler
+app.config.errorHandler = (err, instance, info) => {
+  console.error("Global Error:", err, info);
+  let message = err?.message || "An unexpected error occurred.";
+  useNotification(message, { type: "error", timeout: 5000 });
+};
+app.use(VueVirtualScroller);
+app.use(i18n);
 app.provide("emitter", emitter);
 app.mount("#app");

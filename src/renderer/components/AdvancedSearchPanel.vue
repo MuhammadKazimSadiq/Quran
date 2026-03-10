@@ -2,144 +2,94 @@
   <div>
     <!-- title -->
     <div class="mb-6 text-center text-2xl text-black dark:text-white">
-      جستجوی پیشرفته
+      {{ $t('advanced_search') }}
     </div>
     <!-- title end -->
 
     <!-- fields -->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div
-        class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-      >
-        <input
-          v-model="searchExact"
+      <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+        <input v-model="searchExact"
           class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-          type="text"
-          placeholder="عبارت"
-        />
+          type="text" :placeholder="$t('exact_phrase')" />
         <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchExact.length,
             'opacity-0': !searchExact.length,
-          }"
-          @click="searchExact = ''"
-        />
+          }" @click="searchExact = ''" />
       </div>
-      <div
-        class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-      >
-        <input
-          v-model="searchAllWords"
+      <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+        <input v-model="searchAllWords"
           class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-          type="text"
-          placeholder="همه کلمات"
-        />
+          type="text" :placeholder="$t('all_words')" />
         <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchAllWords.length,
             'opacity-0': !searchAllWords.length,
-          }"
-          @click="searchAllWords = ''"
-        />
+          }" @click="searchAllWords = ''" />
       </div>
-      <div
-        class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-      >
-        <input
-          v-model="searchAnyWord"
+      <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+        <input v-model="searchAnyWord"
           class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-          type="text"
-          placeholder="بعضی از کلمات"
-        />
+          type="text" :placeholder="$t('some_words')" />
         <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchAnyWord.length,
             'opacity-0': !searchAnyWord.length,
-          }"
-          @click="searchAnyWord = ''"
-        />
+          }" @click="searchAnyWord = ''" />
       </div>
       <div class="flex gap-1">
-        <select
-          v-model="searchNotType"
-          class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
-        >
-          <option value="notExact">بدون عبارت</option>
-          <option value="notWords">بدون کلمات</option>
+        <select v-model="searchNotType"
+          class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+          <option value="notExact">{{ $t('without_phrase') }}</option>
+          <option value="notWords">{{ $t('without_words') }}</option>
         </select>
-        <div
-          class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-        >
-          <input
-            v-model="searchNot"
+        <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+          <input v-model="searchNot"
             class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-            type="text"
-            placeholder="بدون کلمات/ عبارت"
-          />
+            type="text" :placeholder="$t('without_words_phrase')" />
           <XMarkIcon
             class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
             :class="{
               'opacity-100': searchNot.length,
               'opacity-0': !searchNot.length,
-            }"
-            @click="searchNot = ''"
-          />
+            }" @click="searchNot = ''" />
         </div>
       </div>
-      <div
-        class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-      >
-        <input
-          v-model="searchStartWith"
+      <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+        <input v-model="searchStartWith"
           class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-          type="text"
-          placeholder="ابتداء با"
-        />
+          type="text" :placeholder="$t('starts_with')" />
         <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchStartWith.length,
             'opacity-0': !searchStartWith.length,
-          }"
-          @click="searchStartWith = ''"
-        />
+          }" @click="searchStartWith = ''" />
       </div>
-      <div
-        class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700"
-      >
-        <input
-          v-model="searchEndWith"
+      <div class="flex items-center rounded-2xl border-2 border-gray-300/60 p-1 text-gray-600 dark:bg-gray-700">
+        <input v-model="searchEndWith"
           class="w-full flex-1 border-0 text-lg focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
-          type="text"
-          placeholder="انتهاء با"
-        />
+          type="text" :placeholder="$t('ends_with')" />
         <XMarkIcon
           class="ml-2 h-6 w-6 cursor-pointer rounded-full p-1 text-gray-400 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-600"
           :class="{
             'opacity-100': searchEndWith.length,
             'opacity-0': !searchEndWith.length,
-          }"
-          @click="searchEndWith = ''"
-        />
+          }" @click="searchEndWith = ''" />
       </div>
     </div>
     <!-- fields end -->
 
     <!-- search button -->
     <div class="flex justify-center">
-      <button
-        :disabled="searching"
-        @click="search()"
-        class="mt-8 flex w-40 cursor-pointer justify-center rounded-md border-2 border-gray-500 border-opacity-20 px-4 py-2 text-center hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800"
-      >
-        <span v-if="!searching">جستجو</span>
-        <LoaderIcon
-          v-if="searching"
-          class="w-6 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600"
-        />
+      <button :disabled="searching" @click="search()"
+        class="mt-8 flex w-40 cursor-pointer justify-center rounded-md border-2 border-gray-500 border-opacity-20 px-4 py-2 text-center hover:border-opacity-100 dark:border-gray-500 dark:bg-gray-700 dark:text-white dark:hover:border-gray-800 dark:hover:bg-gray-800">
+        <span v-if="!searching">{{ $t('search') }}</span>
+        <LoaderIcon v-if="searching" class="w-6 animate-spin fill-gray-400 text-gray-200 dark:text-gray-600" />
       </button>
     </div>
     <!-- search button end -->

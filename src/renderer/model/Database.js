@@ -8,4 +8,10 @@ export default class Database {
       });
     });
   }
+
+  static prisma(model, operation, args = {}) {
+    return new Promise((resolve, reject) => {
+      ipcRenderer.invoke("prisma", { model, operation, args }).then(resolve).catch(reject);
+    });
+  }
 }

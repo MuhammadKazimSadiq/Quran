@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center text-3xl dark:text-white">معانی کلمات</h1>
+  <h1 class="text-center text-3xl dark:text-white">{{ $t('vocabulary') }}</h1>
 
   <!-- search -->
   <div class="mt-8 flex justify-center">
@@ -18,7 +18,7 @@
           class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
           type="text"
           v-model="searchString"
-          placeholder="جستجو"
+          :placeholder="$t('search_placeholder')"
         />
         <!-- input end -->
       </div>
@@ -33,17 +33,17 @@
           <th
             class="px-6 py-3 text-center text-lg font-medium uppercase tracking-wider text-gray-500 dark:text-white"
           >
-            کلمه
+            {{ $t('word') }}
           </th>
           <th
             class="px-6 py-3 text-center text-lg font-medium uppercase tracking-wider text-gray-500 dark:text-white"
           >
-            معنا
+            {{ $t('meaning') }}
           </th>
           <th
             class="px-6 py-3 text-center text-lg font-medium uppercase tracking-wider text-gray-500 dark:text-white"
           >
-            آیه
+            {{ $t('verse') }}
           </th>
 
           <th class="relative px-6 py-3"></th>
@@ -93,7 +93,7 @@
             colspan="4"
             class="py-4 text-center text-xl text-black dark:text-white"
           >
-            کلمه ای هنوز ثبت نشده است!
+            {{ $t('no_word_registered') }}
           </td>
         </tr>
       </tbody>
@@ -102,7 +102,7 @@
 
   <!-- edit modal -->
   <Modal :isOpen="editModal">
-    <template v-slot:title> ویرایش کلمه/ معنا </template>
+    <template v-slot:title> {{ $t('edit_word_meaning') }} </template>
     <template v-slot:content>
       <div
         class="mt-6 flex items-center justify-between gap-6 text-blue-800 dark:text-blue-200"
@@ -122,25 +122,25 @@
         class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-8 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         @click="updateWord"
       >
-        تایید
+        {{ $t('confirm') }}
       </button>
       <button
         type="button"
         class="inline-flex justify-center rounded-md border border-gray-300 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:text-gray-100 dark:hover:bg-gray-900"
         @click="closeEditModal"
       >
-        خیر
+        {{ $t('no') }}
       </button>
     </template>
   </Modal>
   <!-- delete modal -->
   <Modal :isOpen="deleteModal">
-    <template v-slot:title>حذف کلمه/ معنا</template>
+    <template v-slot:title>{{ $t('delete_word_meaning') }}</template>
     <template v-slot:content>
       <p
         class="dark:gray-200 mt-4 text-right text-lg text-gray-800 dark:text-gray-200"
       >
-        آیا مایل هستید این کلمه و معنا را حذف کنید؟
+        {{ $t('confirm_delete') }}
       </p>
     </template>
     <template v-slot:buttons>
@@ -149,14 +149,14 @@
         class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-8 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
         @click="deleteWord"
       >
-        حذف
+        {{ $t('delete') }}
       </button>
       <button
         type="button"
         class="inline-flex justify-center rounded-md border border-gray-300 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:text-gray-100 dark:hover:bg-gray-900"
         @click="closeDeleteModal"
       >
-        خیر
+        {{ $t('no') }}
       </button>
     </template>
   </Modal>

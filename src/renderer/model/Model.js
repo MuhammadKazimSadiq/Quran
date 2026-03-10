@@ -41,48 +41,47 @@ export default class Model {
   // data: {id: id, value: value}
   // return id of inserted row
   static async insert(data) {
-    return new Promise((resolve, reject) => {
-      const cols = Object.keys(data).join(" , ");
-      const values = Object.values(data)
-        .map((value) => `'${value}'`)
-        .join(" , ");
-      const querystring = `Insert into ${this.table} (${cols}) Values (${values})`;
-      Database.query({ query: querystring, table: this.table })
-        .then(() => {
-          const querystring = `SELECT *, max(id) from ${this.table}`;
-          Database.query({ query: querystring, table: this.table }).then((id) =>
-            resolve(id)
-          );
-        })
-        .catch((err) => reject(err));
-    });
+    try {
+      const res = await Database.prisma(this.table, "create", { data });
+      return [{ id: res.id }];
+    } catch (err) {
+      throw err;
+    }
   }
 
   // conditions: [ [id, 1], [name, ''] ]
   // values: [ [id, 1], [name, ''] ]
-  // TODO: return updated row
   static async update(conditions, values) {
-    return new Promise((resolve, reject) => {
-      const conditionString = this.formConditionString(conditions);
-      const valueString = values
-        .map((value) => ` ${value[0]} = '${value[1]}' `)
-        .join(" , ");
-      const querystring = `Update ${this.table} set ${valueString} ${conditionString}`;
-      Database.query({ query: querystring, table: this.table })
-        .then((res) => resolve(res))
-        .catch((err) => reject(err));
-    });
+    try {
+      const where = {};
+      conditions.forEach(cond => {
+        where[cond[0]] = cond[1];
+      });
+      
+      const data = {};
+      values.forEach(val => {
+        data[val[0]] = val[1].replace(/^'|'$/g, '').replace(/^"|"$/g, ''); // strip manual quotes
+      });
+      
+      const res = await Database.prisma(this.table, "updateMany", { where, data });
+      return res;
+    } catch (err) {
+      throw err;
+    }
   }
 
   // conditions: [ [id, 1], [name, ''] ]
   static async delete(conditions) {
-    return new Promise((resolve, reject) => {
-      const conditionString = this.formConditionString(conditions);
-      const querystring = `Delete from ${this.table} ${conditionString}`;
-      Database.query({ query: querystring, table: this.table })
-        .then((res) => resolve(res))
-        .catch((err) => reject(err));
-    });
+    try {
+      const where = {};
+      conditions.forEach(cond => {
+        where[cond[0]] = cond[1];
+      });
+      const res = await Database.prisma(this.table, "deleteMany", { where });
+      return res;
+    } catch (err) {
+      throw err;
+    }
   }
 
   static sync(oldRelations, newRelations) {

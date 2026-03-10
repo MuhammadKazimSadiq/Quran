@@ -42,7 +42,7 @@
           class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
           type="text"
           v-model="searchString"
-          placeholder="جستجو"
+          :placeholder="$t('search_placeholder')"
         />
         <!-- input end -->
       </div>
@@ -58,7 +58,7 @@
       @click="openModal('editModal', false)"
     >
       <PlusIcon class="w-4" />
-      <span> موضوع جدید </span>
+      <span> {{ $t('new_topic') }} </span>
     </button>
   </div>
   <!-- add button end -->
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="mr-2 self-end text-sm text-gray-700 dark:text-gray-300">
-            ({{ countVerses(topic) }} آیات)
+            ({{ countVerses(topic) }} {{ $t('verses_count') }})
           </div>
         </div>
         <div class="flex items-center gap-3">
@@ -108,7 +108,7 @@
     <div
       class="my-4 flex items-center justify-center rounded-lg bg-gray-100 p-4 text-lg text-black transition-colors dark:bg-gray-900 dark:text-white"
     >
-      هیچ موضوعی یافت نشد!
+      {{ $t('no_topic_found') }}
     </div>
   </section>
   <!-- child topics end -->
@@ -129,7 +129,7 @@
     />
     <div v-else>
       <p class="p-8 text-center text-2xl dark:text-white">
-        هیچ آیه ای زیر این موضوع ثبت نشده است.
+        {{ $t('no_verses_for_topic') }}
       </p>
     </div>
   </section>

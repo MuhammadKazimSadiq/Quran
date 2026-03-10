@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center text-3xl dark:text-white">جستجو</h1>
+  <h1 class="text-center text-3xl dark:text-white">{{ $t('search') }}</h1>
 
   <!-- Search Panel -->
   <section
@@ -23,7 +23,7 @@
           class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
           type="text"
           v-model="searchString"
-          placeholder="جستجو"
+          :placeholder="$t('search')"
         />
         <!-- input end -->
       </div>
@@ -65,7 +65,7 @@
           v-if="searchString.length"
           class="absolute top-[4.2rem] text-sm text-gray-600 dark:text-gray-400"
         >
-          برای جستجو <span class="font-english">Enter</span> بزنید
+          {{ $t('press_enter_to_search') }}
         </div>
       </transition>
     </div>
@@ -145,7 +145,7 @@
           <div class="p-12">
             <!-- search results count -->
             <p class="p-4 text-center text-2xl dark:text-white">
-              {{ searchResult.verses.length }} مورد
+              {{ searchResult.verses.length }} {{ $t('items') }}
             </p>
             <!-- search results count -->
 
@@ -177,6 +177,8 @@
 import { ref, computed } from "vue";
 // store
 import { useStore } from "../store/store";
+// i18n
+import { useI18n } from "vue-i18n";
 // router
 import { useRoute } from "vue-router";
 
@@ -197,6 +199,9 @@ import { useNotification } from "../composables/notification";
 
 // store
 const store = useStore();
+
+// i18n
+const { t } = useI18n();
 
 // router
 const route = useRoute();
@@ -221,7 +226,7 @@ const keypressed = (e) => {
     // check if search string is long enough
     if (searchString.value.length < MINIMUM_SEARCH_STRING_LENGTH) {
       return useNotification(
-        `عبارت جستجو باید حد اقل ${MINIMUM_SEARCH_STRING_LENGTH} حرف باشد`,
+        t('search_min_length', { length: MINIMUM_SEARCH_STRING_LENGTH }),
         {
           type: "warning",
         }
@@ -229,7 +234,7 @@ const keypressed = (e) => {
     }
     // check number of tabs allowed
     if (store.searchResults.length >= TABS_ALLOWED) {
-      return useNotification(`حداکثر ${TABS_ALLOWED} جستجو ممکن است`, {
+      return useNotification(t('max_search_tabs', { max: TABS_ALLOWED }), {
         type: "warning",
       });
     }

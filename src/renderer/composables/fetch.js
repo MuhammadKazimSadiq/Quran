@@ -67,7 +67,11 @@ export function useFetch(
             let name = toObjectConfig?.name ?? row.name;
             let value = toObjectConfig?.value ?? row.value;
 
-            acc[name] = JSON.parse(value);
+            try {
+              acc[name] = JSON.parse(value);
+            } catch {
+              acc[name] = value;
+            }
             return acc;
           }, {});
         } else {

@@ -5,7 +5,7 @@ export default {
           (
             id int
               primary key,
-            section_id int
+            section_id varchar
               constraint verses_sections_id_fk
                 references sections (id),
             page_id int,

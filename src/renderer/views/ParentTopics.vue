@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center text-3xl dark:text-white">موضوعات</h1>
+  <h1 class="text-center text-3xl dark:text-white">{{ $t('topics') }}</h1>
 
   <!-- search -->
   <div class="mt-8 flex justify-center">
@@ -18,7 +18,7 @@
           class="flex-1 border-0 text-xl focus:border-0 focus:outline-0 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
           type="text"
           v-model="searchString"
-          placeholder="جستجو"
+          :placeholder="$t('search_placeholder')"
         />
         <!-- input end -->
       </div>
@@ -34,7 +34,7 @@
       @click="openModal('editModal', false)"
     >
       <PlusIcon class="w-4" />
-      <span> موضوع جدید </span>
+      <span> {{ $t('new_topic') }} </span>
     </button>
   </div>
   <!-- add button end -->
@@ -49,7 +49,7 @@
           <div class="p-2 text-2xl text-black dark:text-white">
             <span>{{ topic.topic_name }}</span>
             <span class="mr-2 text-sm text-gray-700 dark:text-gray-300">
-              ({{ topic?.versesCount }} آیات)
+              ({{ topic?.versesCount }} {{ $t('verses_count') }})
             </span>
           </div>
           <div class="flex items-center gap-3">
@@ -78,7 +78,7 @@
     </template>
     <div v-else>
       <div class="text-center text-xl text-gray-600 dark:text-gray-400">
-        موضوعی یافت نشد!
+        {{ $t('no_topic_found') }}
       </div>
     </div>
   </div>

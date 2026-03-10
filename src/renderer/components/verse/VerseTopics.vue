@@ -1,9 +1,6 @@
 <template>
-  <div v-if="!lazyLoad || loaded">
+  <div>
     <TopicInput :verseId="verseId" :topics="topics" />
-  </div>
-  <div v-else class="py-4">
-    <div class="h-2 w-3/4 rounded-md bg-gray-300 dark:bg-gray-700"></div>
   </div>
 </template>
 
@@ -20,14 +17,6 @@ const props = defineProps({
   topics: {
     type: Array,
     default: [],
-  },
-  lazyLoad: {
-    type: Boolean,
-    default: false,
-  },
-  loaded: {
-    type: Boolean,
-    default: true,
   },
 });
 </script>
